@@ -93,17 +93,19 @@ export function PullQuote() {
             const delay = wordIdx * 0.07;
             wordIdx++;
             return (
-              <span
-                key={i}
-                style={{
-                  display: "inline-block",
-                  opacity: visible ? 1 : 0,
-                  transform: visible ? "translateY(0)" : "translateY(12px)",
-                  transition: `opacity 0.7s ${EASE} ${delay}s, transform 0.7s ${EASE} ${delay}s`,
-                  color: w.red ? "#6F2530" : "inherit",
-                }}
-              >
-                {w.text}
+              <span key={i} style={{ display: "inline" }}>
+                <span
+                  style={{
+                    display: "inline-block",
+                    opacity: visible ? 1 : 0,
+                    transform: visible ? "translateY(0)" : "translateY(12px)",
+                    transition: `opacity 0.7s ${EASE} ${delay}s, transform 0.7s ${EASE} ${delay}s`,
+                    color: w.red ? "#6F2530" : "inherit",
+                  }}
+                >
+                  {w.text.trimEnd()}
+                </span>
+                {" "}
               </span>
             );
           })}
