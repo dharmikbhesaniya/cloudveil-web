@@ -1,32 +1,21 @@
 import type { Metadata } from "next";
-import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
-import { organizationSchema, softwareSchema } from "@/content/schema";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
-
+const geistSans = Geist({ variable: "--font-sans", subsets: ["latin"] });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument-serif",
+  variable: "--font-display",
   subsets: ["latin"],
-  weight: "400",
+  weight: ["400"],
   style: ["normal", "italic"],
   display: "swap",
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
-
 export const metadata: Metadata = {
-  title: "CloudVeil — Private Cloud Browser | Browse Without a Trace",
+  title: { default: "CloudVeil — Your Private Space in the Cloud", template: "%s | CloudVeil" },
   description:
-    "Launch isolated cloud browser sessions with zero logs. Your IP, fingerprint, and browsing history stay invisible. Free plan available — no credit card required.",
+    "A cloud-based privacy platform where you launch and interact with a fully isolated browser — entirely through a web-based interface. Nothing stored. Nothing tracked. Nothing traced.",
   metadataBase: new URL("https://cloudveil.app"),
   alternates: { canonical: "/" },
   openGraph: {
@@ -61,37 +50,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased`}
     >
-      <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationSchema),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(softwareSchema),
-          }}
-        />
-      </head>
-      <body className="antialiased">
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:rounded focus:bg-[var(--cv-indigo)] focus:text-white"
-        >
-          Skip to main content
-        </a>
+      <body
+        suppressHydrationWarning
+        className="noise-overlay bg-background text-foreground flex min-h-full flex-col"
+      >
         {children}
       </body>
     </html>

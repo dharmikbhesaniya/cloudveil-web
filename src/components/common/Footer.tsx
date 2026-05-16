@@ -1,204 +1,225 @@
+"use client";
+
 import Link from "next/link";
 
-const PRODUCT_LINKS = [
+const COL_PRODUCT = [
   { label: "Features", href: "#features" },
+  { label: "Method", href: "#how-it-works" },
   { label: "Pricing", href: "#pricing" },
-  { label: "How It Works", href: "#how-it-works" },
+  { label: "Questions", href: "#faq" },
 ];
 
-const COMPANY_LINKS = [
-  { label: "About", href: "#" },
+const COL_HOUSE = [
+  { label: "The room", href: "#" },
   { label: "Contact", href: "/contact" },
-  { label: "Blog", href: "#" },
+  { label: "Journal", href: "#" },
+  { label: "Working with us", href: "#" },
 ];
 
-const LEGAL_LINKS = [
-  { label: "Privacy Policy", href: "/privacy-policy" },
-  { label: "Terms of Service", href: "/terms-of-service" },
-  { label: "Refund Policy", href: "/refund-policy" },
-  { label: "Data Deletion", href: "/data-deletion" },
+const COL_LEGAL = [
+  { label: "Privacy", href: "/privacy-policy" },
+  { label: "Terms", href: "/terms-of-service" },
+  { label: "Cookies", href: "/privacy-policy#cookies" },
+  { label: "DPA", href: "/data-deletion" },
 ];
 
-const CONNECT_LINKS = [
-  {
-    label: "Twitter / X",
-    href: "https://twitter.com/cloudveil",
-    external: true,
-  },
-  {
-    label: "LinkedIn",
-    href: "https://linkedin.com/company/cloudveil",
-    external: true,
-  },
-];
-
-function FooterLogo() {
-  return (
-    <div className="flex items-center gap-2">
-      <span className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[var(--cv-indigo)] to-[var(--cv-magenta)] shadow-sm">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-          <path
-            d="M9 2C5.5 2 3 4.5 3 7.5c0 1.2.4 2.3 1 3.2L9 16l5-5.3c.6-.9 1-2 1-3.2C15 4.5 12.5 2 9 2z"
-            fill="rgba(255,255,255,0.9)"
-          />
-          <circle cx="9" cy="7.5" r="2" fill="rgba(107,76,255,0.6)" />
-        </svg>
-      </span>
-      <span className="text-lg font-semibold tracking-tight text-[var(--cv-ink)]">
-        Cloud
-        <span className="bg-gradient-to-r from-[var(--cv-indigo)] to-[var(--cv-magenta)] bg-clip-text text-transparent">
-          Veil
-        </span>
-      </span>
-    </div>
-  );
-}
-
-function FooterColumn({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div>
-      <h3 className="mb-3 text-xs font-semibold uppercase tracking-widest text-[var(--cv-ink-subtle)]">
-        {title}
-      </h3>
-      {children}
-    </div>
-  );
-}
-
-export default function Footer() {
+export function Footer() {
   return (
     <footer
-      aria-label="Site footer"
-      className="border-t border-[var(--cv-border)] bg-[var(--cv-paper)]"
+      style={{
+        background: "var(--secondary)",
+        padding: "60px 0 40px",
+        marginTop: "80px",
+        borderTop: "1px solid var(--border)",
+      }}
+      id="site-footer"
     >
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        {/* Top grid */}
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5">
-          {/* Brand column — takes 2 cols on lg */}
-          <div className="lg:col-span-2">
-            <FooterLogo />
-            <p className="mt-3 max-w-xs text-sm leading-relaxed text-[var(--cv-ink-subtle)]">
-              Browse the web without leaving a trace. Fully isolated cloud
-              browser sessions, destroyed the moment you close them.
-            </p>
-            <a
-              href="https://app.cloudveil.app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-5 inline-flex items-center rounded-lg bg-[var(--cv-indigo)] px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+      <div
+        className="mx-auto max-w-7xl"
+        style={{ padding: "0 clamp(24px, 5vw, 40px)" }}
+      >
+        {/* 4-column grid */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1.6fr 1fr 1fr 1fr",
+            gap: "40px",
+          }}
+          className="footer-grid"
+        >
+          {/* Colophon */}
+          <div>
+            <div
+              style={{
+                fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
+                fontStyle: "italic",
+                fontSize: "36px",
+                lineHeight: 1,
+                color: "var(--foreground)",
+              }}
             >
-              Launch Free Session →
-            </a>
+              Cloudveil
+            </div>
+            <p
+              style={{
+                fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
+                fontStyle: "italic",
+                fontSize: "16px",
+                color: "var(--muted-foreground)",
+                margin: "14px 0 0",
+                maxWidth: "320px",
+                lineHeight: 1.4,
+              }}
+            >
+              A private space in the cloud, built fresh, lived in once, and demolished as you leave.
+            </p>
+            <div
+              style={{
+                fontFamily: "var(--font-mono, monospace)",
+                fontSize: "10px",
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "var(--muted-foreground)",
+                marginTop: "24px",
+              }}
+            >
+              — Est. 2025 · Mumbai &amp; Bengaluru
+            </div>
           </div>
 
           {/* Product */}
-          <FooterColumn title="Product">
-            <ul className="space-y-2.5" role="list">
-              {PRODUCT_LINKS.map((link) => (
-                <li key={link.href}>
+          <div>
+            <h4
+              style={{
+                fontFamily: "var(--font-mono, monospace)",
+                fontSize: "10px",
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "var(--muted-foreground)",
+                margin: "0 0 14px",
+              }}
+            >
+              — Product
+            </h4>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+              {COL_PRODUCT.map((item) => (
+                <li key={item.label} style={{ padding: "4px 0" }}>
                   <a
-                    href={link.href}
-                    className="text-sm text-[var(--cv-ink-muted)] transition-colors hover:text-[var(--cv-ink)]"
+                    href={item.href}
+                    style={{
+                      fontSize: "14px",
+                      color: "var(--foreground)",
+                      textDecoration: "none",
+                      transition: "color 0.25s",
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "var(--primary)")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "var(--foreground)")}
                   >
-                    {link.label}
+                    {item.label}
                   </a>
                 </li>
               ))}
             </ul>
-          </FooterColumn>
+          </div>
 
-          {/* Company */}
-          <FooterColumn title="Company">
-            <ul className="space-y-2.5" role="list">
-              {COMPANY_LINKS.map((link) => (
-                <li key={link.label}>
-                  {link.href.startsWith("/") ? (
-                    <Link
-                      href={link.href}
-                      className="text-sm text-[var(--cv-ink-muted)] transition-colors hover:text-[var(--cv-ink)]"
-                    >
-                      {link.label}
-                    </Link>
-                  ) : (
-                    <a
-                      href={link.href}
-                      className="text-sm text-[var(--cv-ink-muted)] transition-colors hover:text-[var(--cv-ink)]"
-                    >
-                      {link.label}
-                    </a>
-                  )}
+          {/* House */}
+          <div>
+            <h4
+              style={{
+                fontFamily: "var(--font-mono, monospace)",
+                fontSize: "10px",
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "var(--muted-foreground)",
+                margin: "0 0 14px",
+              }}
+            >
+              — House
+            </h4>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+              {COL_HOUSE.map((item) => (
+                <li key={item.label} style={{ padding: "4px 0" }}>
+                  <Link
+                    href={item.href}
+                    style={{
+                      fontSize: "14px",
+                      color: "var(--foreground)",
+                      textDecoration: "none",
+                      transition: "color 0.25s",
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "var(--primary)")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "var(--foreground)")}
+                  >
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
-          </FooterColumn>
+          </div>
 
-          {/* Legal + Connect stacked */}
-          <div className="space-y-8">
-            <FooterColumn title="Legal">
-              <ul className="space-y-2.5" role="list">
-                {LEGAL_LINKS.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-[var(--cv-ink-muted)] transition-colors hover:text-[var(--cv-ink)]"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </FooterColumn>
-
-            <FooterColumn title="Connect">
-              <ul className="space-y-2.5" role="list">
-                {CONNECT_LINKS.map((link) => (
-                  <li key={link.href}>
-                    <a
-                      href={link.href}
-                      target={link.external ? "_blank" : undefined}
-                      rel={link.external ? "noopener noreferrer" : undefined}
-                      className="text-sm text-[var(--cv-ink-muted)] transition-colors hover:text-[var(--cv-ink)]"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </FooterColumn>
+          {/* Quietly stated (legal) */}
+          <div>
+            <h4
+              style={{
+                fontFamily: "var(--font-mono, monospace)",
+                fontSize: "10px",
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "var(--muted-foreground)",
+                margin: "0 0 14px",
+              }}
+            >
+              — Quietly stated
+            </h4>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+              {COL_LEGAL.map((item) => (
+                <li key={item.label} style={{ padding: "4px 0" }}>
+                  <Link
+                    href={item.href}
+                    style={{
+                      fontSize: "14px",
+                      color: "var(--foreground)",
+                      textDecoration: "none",
+                      transition: "color 0.25s",
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "var(--primary)")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "var(--foreground)")}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-[var(--cv-border)] pt-8 sm:flex-row sm:items-center">
-          <p className="text-sm text-[var(--cv-ink-subtle)]">
-            © 2025 CloudVeil. All rights reserved.
-          </p>
-
-          {/* Trust badges */}
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="flex items-center gap-1.5 rounded-full border border-[var(--cv-border)] bg-[var(--cv-glass)] px-3 py-1 text-xs font-medium text-[var(--cv-ink-muted)]">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                <path d="M6 1L1 3.5v3C1 9.25 3.2 11.2 6 12c2.8-.8 5-2.75 5-5.5v-3L6 1z" fill="var(--cv-indigo)" opacity="0.7" />
-              </svg>
-              No logs policy
-            </span>
-            <span className="flex items-center gap-1.5 rounded-full border border-[var(--cv-border)] bg-[var(--cv-glass)] px-3 py-1 text-xs font-medium text-[var(--cv-ink-muted)]">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                <rect x="1.5" y="5.5" width="9" height="6" rx="1" stroke="var(--cv-indigo)" strokeWidth="1.2" fill="none" opacity="0.7" />
-                <path d="M3.5 5.5V4a2.5 2.5 0 015 0v1.5" stroke="var(--cv-indigo)" strokeWidth="1.2" strokeLinecap="round" opacity="0.7" />
-              </svg>
-              End-to-end encrypted sessions
-            </span>
-            <span className="text-xs text-[var(--cv-ink-subtle)]">
-              Servers in US, EU, India, Singapore
-            </span>
-          </div>
+        <div
+          style={{
+            marginTop: "40px",
+            paddingTop: "24px",
+            borderTop: "1px solid var(--border)",
+            display: "flex",
+            justifyContent: "space-between",
+            fontFamily: "var(--font-mono, monospace)",
+            fontSize: "10px",
+            letterSpacing: "0.14em",
+            textTransform: "uppercase",
+            color: "var(--muted-foreground)",
+            flexWrap: "wrap",
+            gap: "8px",
+          }}
+        >
+          <span>© Cloudveil Systems Inc. {new Date().getFullYear()} · All quietly reserved.</span>
+          <span>
+            <a href="#" style={{ color: "inherit", textDecoration: "none" }}>Status</a>
+            {" · "}
+            <a href="#" style={{ color: "inherit", textDecoration: "none" }}>Twitter</a>
+            {" · "}
+            <a href="#" style={{ color: "inherit", textDecoration: "none" }}>GitHub</a>
+            {" · "}
+            <a href="#" style={{ color: "inherit", textDecoration: "none" }}>System map</a>
+          </span>
         </div>
       </div>
     </footer>

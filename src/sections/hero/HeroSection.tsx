@@ -1,411 +1,550 @@
-import { HERO } from "@/content/hero";
+"use client";
 
-function BrowserMockup() {
+import { useEffect, useRef, useState } from "react";
+import { Shield } from "lucide-react";
+
+const URL_TARGET = "cv-session.cloudveil.app/s/8f4a2c1e";
+const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
+
+function useUrlTypewriter(target: string, startDelay = 2600) {
+  const [text, setText] = useState("");
+  useEffect(() => {
+    let i = 0;
+    const t = setTimeout(() => {
+      const iv = setInterval(() => {
+        i++;
+        setText(target.slice(0, i));
+        if (i >= target.length) clearInterval(iv);
+      }, 55);
+      return () => clearInterval(iv);
+    }, startDelay);
+    return () => clearTimeout(t);
+  }, [target, startDelay]);
+  return text;
+}
+
+function useCountdown(initialMin: number, initialSec: number) {
+  const [time, setTime] = useState({ m: initialMin, s: initialSec });
+  useEffect(() => {
+    const iv = setInterval(() => {
+      setTime((prev) => {
+        if (prev.s > 0) return { m: prev.m, s: prev.s - 1 };
+        if (prev.m > 0) return { m: prev.m - 1, s: 59 };
+        return prev;
+      });
+    }, 1000);
+    return () => clearInterval(iv);
+  }, []);
+  return `${time.m}:${String(time.s).padStart(2, "0")} left`;
+}
+
+function useCounter(target: number, decimals: number, active: boolean) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (!active) return;
+    const dur = 1800;
+    const start = performance.now();
+    const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+    const raf = (now: number) => {
+      const p = Math.min((now - start) / dur, 1);
+      setVal(parseFloat((ease(p) * target).toFixed(decimals)));
+      if (p < 1) requestAnimationFrame(raf);
+    };
+    requestAnimationFrame(raf);
+  }, [active, target, decimals]);
+  return val;
+}
+
+const WORDS: Array<{ text: string; italic?: boolean; break?: boolean }> = [
+  { text: "Your" },
+  { text: "private", italic: true },
+  { break: true, text: "" },
+  { text: "space," },
+  { text: "kept" },
+  { break: true, text: "" },
+  { text: "elsewhere.", italic: true },
+];
+
+const META = [
+  { target: 4.2, unit: "s", decimals: 1, label: "boot to live" },
+  { target: 14, unit: "", decimals: 0, label: "exit regions" },
+  { target: 0, unit: "", decimals: 0, label: "bytes kept" },
+];
+
+function MetaNum({
+  target,
+  unit,
+  decimals,
+  label,
+  active,
+}: (typeof META)[0] & { active: boolean }) {
+  const val = useCounter(target, decimals, active);
   return (
-    <div
-      className="relative"
-      style={{
-        perspective: "1200px",
-      }}
-    >
-      {/* Aurora glow behind mockup */}
-      <div
-        className="animate-aurora-pulse pointer-events-none absolute inset-0 -z-10 scale-110"
+    <span>
+      <b
         style={{
-          background:
-            "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(107,76,255,0.18) 0%, rgba(224,71,155,0.10) 60%, transparent 100%)",
-          filter: "blur(32px)",
+          color: "var(--foreground)",
+          fontWeight: 500,
+          fontFamily: "var(--font-mono, monospace)",
         }}
-        aria-hidden="true"
-      />
-
-      {/* Browser window */}
-      <div
-        className="animate-aurora-float w-full max-w-[480px] overflow-hidden rounded-2xl shadow-2xl"
-        style={{
-          transform: "rotateY(-8deg) rotateX(3deg)",
-          transformStyle: "preserve-3d",
-          boxShadow:
-            "0 40px 80px rgba(20,17,13,0.18), 0 0 0 1px rgba(20,17,13,0.08)",
-        }}
-        role="img"
-        aria-label="CloudVeil browser session interface mockup"
       >
-        {/* Browser chrome bar */}
-        <div
-          className="flex items-center gap-3 px-4 py-3"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(255,253,243,0.98) 0%, rgba(255,253,243,0.95) 100%)",
-            borderBottom: "1px solid rgba(20,17,13,0.08)",
-          }}
-        >
-          {/* Traffic light dots */}
-          <div className="flex items-center gap-1.5" aria-hidden="true">
-            <span className="h-3 w-3 rounded-full bg-[#FF5F57]" />
-            <span className="h-3 w-3 rounded-full bg-[#FFBD2E]" />
-            <span className="h-3 w-3 rounded-full bg-[#27C93F]" />
-          </div>
-
-          {/* URL bar */}
-          <div
-            className="flex flex-1 items-center gap-2 rounded-md px-3 py-1.5"
-            style={{
-              background: "rgba(20,17,13,0.05)",
-              border: "1px solid rgba(20,17,13,0.08)",
-            }}
-          >
-            {/* Lock icon */}
-            <svg
-              width="10"
-              height="12"
-              viewBox="0 0 10 12"
-              fill="none"
-              aria-hidden="true"
-            >
-              <rect
-                x="0.5"
-                y="5.5"
-                width="9"
-                height="6"
-                rx="1"
-                stroke="#27C93F"
-                strokeWidth="1"
-                fill="none"
-              />
-              <path
-                d="M2.5 5.5V4a2.5 2.5 0 015 0v1.5"
-                stroke="#27C93F"
-                strokeWidth="1"
-                strokeLinecap="round"
-              />
-            </svg>
-            <span
-              className="flex-1 truncate text-xs"
-              style={{
-                fontFamily: "var(--font-jetbrains-mono)",
-                color: "var(--cv-ink-muted)",
-              }}
-            >
-              session-a3f8b2.cloudveil.app
-            </span>
-          </div>
-
-          {/* Tab indicator */}
-          <div
-            className="hidden items-center gap-1 rounded px-2 py-1 sm:flex"
-            style={{
-              background: "rgba(107,76,255,0.08)",
-              border: "1px solid rgba(107,76,255,0.15)",
-            }}
-            aria-hidden="true"
-          >
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-              <path
-                d="M5 1L1 3.5v2.5C1 8.05 2.75 9.7 5 10.5c2.25-.8 4-2.45 4-4.5V3.5L5 1z"
-                fill="var(--cv-indigo)"
-                opacity="0.6"
-              />
-            </svg>
-            <span
-              className="text-xs text-[var(--cv-indigo)]"
-              style={{ fontSize: "10px" }}
-            >
-              Private
-            </span>
-          </div>
-        </div>
-
-        {/* Browser content area */}
-        <div
-          className="relative overflow-hidden"
-          style={{
-            background:
-              "linear-gradient(180deg, #F8F7F0 0%, #F2F1E8 100%)",
-            minHeight: "280px",
-          }}
-          aria-hidden="true"
-        >
-          {/* Simulated page header */}
-          <div className="px-5 py-4">
-            <div
-              className="h-4 w-32 rounded-full"
-              style={{ background: "rgba(107,76,255,0.15)" }}
-            />
-            <div className="mt-3 flex items-center gap-3">
-              <div
-                className="h-3 w-48 rounded-full"
-                style={{ background: "rgba(20,17,13,0.08)" }}
-              />
-              <div
-                className="h-3 w-20 rounded-full"
-                style={{ background: "rgba(20,17,13,0.05)" }}
-              />
-            </div>
-          </div>
-
-          {/* Simulated content blocks */}
-          <div className="grid grid-cols-3 gap-3 px-5 pb-4">
-            {[0.18, 0.12, 0.14].map((opacity, i) => (
-              <div
-                key={i}
-                className="h-24 rounded-lg"
-                style={{
-                  background: `rgba(107,76,255,${opacity})`,
-                  backdropFilter: "blur(4px)",
-                }}
-              />
-            ))}
-          </div>
-
-          {/* Simulated text lines */}
-          <div className="space-y-2 px-5 pb-5">
-            {[1, 0.7, 0.9, 0.6].map((w, i) => (
-              <div
-                key={i}
-                className="h-2.5 rounded-full"
-                style={{
-                  width: `${w * 100}%`,
-                  background: "rgba(20,17,13,0.07)",
-                }}
-              />
-            ))}
-          </div>
-
-          {/* Privacy shield overlay */}
-          <div
-            className="absolute inset-0 flex items-end justify-end p-4"
-            aria-hidden="true"
-          >
-            <div
-              className="flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium"
-              style={{
-                background: "rgba(39,201,63,0.12)",
-                border: "1px solid rgba(39,201,63,0.25)",
-                color: "#1a7a28",
-              }}
-            >
-              <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
-                <path
-                  d="M5 0.5L0.5 2.75v3C0.5 9.25 2.5 11.5 5 12.5c2.5-1 4.5-3.25 4.5-6.75v-3L5 0.5z"
-                  fill="#27C93F"
-                  opacity="0.8"
-                />
-              </svg>
-              Session protected
-            </div>
-          </div>
-
-          {/* Blur overlay at top to simulate privacy */}
-          <div
-            className="pointer-events-none absolute inset-x-0 top-0 h-8"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(248,247,240,0.8) 0%, transparent 100%)",
-            }}
-          />
-        </div>
-
-        {/* Status bar */}
-        <div
-          className="flex items-center justify-between px-4 py-2"
-          style={{
-            background: "rgba(255,253,243,0.96)",
-            borderTop: "1px solid rgba(20,17,13,0.06)",
-          }}
-          aria-hidden="true"
-        >
-          <span
-            className="text-xs"
-            style={{
-              color: "var(--cv-ink-subtle)",
-              fontFamily: "var(--font-jetbrains-mono)",
-              fontSize: "10px",
-            }}
-          >
-            🟢 Isolated · Zero logs
-          </span>
-          <span
-            className="text-xs"
-            style={{
-              color: "var(--cv-ink-subtle)",
-              fontFamily: "var(--font-jetbrains-mono)",
-              fontSize: "10px",
-            }}
-          >
-            US-EAST-1 · Chromium
-          </span>
-        </div>
-      </div>
-
-      {/* Decorative dots */}
-      <div
-        className="pointer-events-none absolute -bottom-6 -right-6 grid grid-cols-5 gap-1.5"
-        aria-hidden="true"
-      >
-        {Array.from({ length: 25 }).map((_, i) => (
-          <span
-            key={i}
-            className="h-1.5 w-1.5 rounded-full"
-            style={{ background: "rgba(107,76,255,0.2)" }}
-          />
-        ))}
-      </div>
-    </div>
+        {val}
+        {unit}
+      </b>{" "}
+      · {label}
+    </span>
   );
 }
 
-export default function HeroSection() {
+export function Hero() {
+  const [metaActive, setMetaActive] = useState(false);
+  const metaRef = useRef<HTMLDivElement>(null);
+  const urlText = useUrlTypewriter(URL_TARGET);
+  const timer = useCountdown(12, 48);
+
+  useEffect(() => {
+    const t = setTimeout(() => setMetaActive(true), 2100);
+    return () => clearTimeout(t);
+  }, []);
+
+  const wordDelay = [0.35, 0.5, 0.85, 1.0, 1.15];
+  let wordIdx = 0;
+
   return (
     <section
+      className="relative overflow-hidden"
+      style={{ padding: "80px 0 100px" }}
       id="hero"
-      aria-labelledby="hero-heading"
-      className="relative flex min-h-screen items-center overflow-hidden pt-20"
-      style={{ backgroundColor: "var(--cv-bg)" }}
     >
-      {/* Background orbs */}
-      <div aria-hidden="true" className="pointer-events-none">
+      <div
+        className="relative z-10 mx-auto max-w-7xl"
+        style={{ padding: "0 clamp(24px, 5vw, 40px)" }}
+      >
         <div
-          className="animate-aurora-pulse absolute -top-32 -left-32 h-[600px] w-[600px] rounded-full"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(107,76,255,0.12) 0%, transparent 70%)",
-            filter: "blur(60px)",
-          }}
-        />
-        <div
-          className="animate-aurora-pulse absolute -bottom-20 -right-20 h-[500px] w-[500px] rounded-full"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(224,71,155,0.10) 0%, transparent 70%)",
-            filter: "blur(60px)",
-            animationDelay: "1.5s",
-          }}
-        />
-      </div>
-
-      <div className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
-          {/* Left — copy */}
-          <div className="order-2 lg:order-1">
-            {/* Eyebrow badge */}
-            <div className="animate-fade-in-up mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--cv-border)] bg-[var(--cv-glass)] px-4 py-1.5 backdrop-blur-sm">
-              <span
-                className="h-1.5 w-1.5 animate-aurora-pulse rounded-full"
-                style={{ background: "var(--cv-indigo)" }}
-                aria-hidden="true"
-              />
-              <span className="text-xs font-medium text-[var(--cv-ink-muted)]">
-                {HERO.eyebrow}
-              </span>
-            </div>
-
-            {/* Headline */}
-            <h1
-              id="hero-heading"
-              className="animate-fade-in-up mb-6 text-5xl leading-tight tracking-tight text-[var(--cv-ink)] sm:text-6xl"
+          className="grid items-center gap-16 hero-two-col"
+          style={{ gridTemplateColumns: "1.1fr 0.9fr" }}
+        >
+          {/* Left column */}
+          <div>
+            {/* Eyebrow */}
+            <div
               style={{
-                fontFamily: "var(--font-instrument-serif)",
-                fontStyle: "italic",
-                animationDelay: "0.1s",
-                whiteSpace: "pre-line",
+                fontFamily: "var(--font-mono, monospace)",
+                fontSize: "11px",
+                letterSpacing: "0.20em",
+                textTransform: "uppercase",
+                color: "var(--muted-foreground)",
+                marginBottom: "28px",
+                opacity: 0,
+                animation: `fade-up 0.9s ${EASE} 0.1s forwards`,
               }}
             >
-              {HERO.headline}
+              — N° 01 / Cloud privacy / Est. 2025
+            </div>
+
+            {/* Staggered headline */}
+            <h1
+              style={{
+                fontFamily: "var(--font-sans, ui-sans-serif, sans-serif)",
+                fontWeight: 500,
+                fontSize: "clamp(48px, 7vw, 88px)",
+                lineHeight: 0.98,
+                letterSpacing: "-0.035em",
+                margin: 0,
+                color: "var(--foreground)",
+              }}
+            >
+              {WORDS.map((w, i) => {
+                if (w.break) return <br key={`br-${i}`} />;
+                const delay = wordDelay[wordIdx++] ?? 0.35;
+                if (w.italic) {
+                  return (
+                    <span
+                      key={i}
+                      className="hero-word"
+                      style={{
+                        animationDelay: `${delay}s`,
+                        fontFamily:
+                          "var(--font-display, 'Instrument Serif', Georgia, serif)",
+                        fontStyle: "italic",
+                        fontWeight: 400,
+                        color: "var(--primary)",
+                        position: "relative",
+                        marginRight: "0.25em",
+                      }}
+                    >
+                      {w.text}
+                      <span
+                        aria-hidden="true"
+                        style={{
+                          position: "absolute",
+                          left: "4%",
+                          right: "8%",
+                          bottom: "8%",
+                          height: "2px",
+                          background: "var(--primary)",
+                          transform: "scaleX(0)",
+                          transformOrigin: "left",
+                          animation: `underline-draw 1.2s ${EASE} 1.6s forwards`,
+                        }}
+                      />
+                    </span>
+                  );
+                }
+                return (
+                  <span
+                    key={i}
+                    className="hero-word"
+                    style={{ animationDelay: `${delay}s`, marginRight: "0.25em" }}
+                  >
+                    {w.text}
+                  </span>
+                );
+              })}
             </h1>
 
-            {/* Subheadline */}
+            {/* Lede */}
             <p
-              className="animate-fade-in-up mb-8 max-w-lg text-lg leading-relaxed text-[var(--cv-ink-muted)]"
-              style={{ animationDelay: "0.2s" }}
+              style={{
+                fontFamily: "var(--font-sans)",
+                color: "var(--muted-foreground)",
+                fontSize: "16.5px",
+                lineHeight: 1.55,
+                maxWidth: "460px",
+                margin: "28px 0 0",
+                opacity: 0,
+                animation: `fade-up 1s ${EASE} 1.7s forwards`,
+              }}
             >
-              {HERO.subheadline}
+              A complete browser, lent to you in the cloud for a session, then taken apart. No
+              cookies survive. No history is written. No record returns.
             </p>
 
-            {/* CTAs */}
+            {/* Actions */}
             <div
-              className="animate-fade-in-up mb-8 flex flex-col gap-3 sm:flex-row"
-              style={{ animationDelay: "0.3s" }}
+              style={{
+                display: "flex",
+                gap: "22px",
+                alignItems: "baseline",
+                marginTop: "36px",
+                opacity: 0,
+                animation: `fade-up 1s ${EASE} 1.9s forwards`,
+              }}
             >
               <a
-                href={HERO.primaryCTAHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-base font-semibold text-white shadow-lg transition-all hover:shadow-xl hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cv-indigo)] focus-visible:ring-offset-2"
-                style={{
-                  background:
-                    "linear-gradient(135deg, var(--cv-indigo) 0%, #8B5CF6 100%)",
-                }}
+                href="https://app.cloudveil.app/sign-up"
+                className="btn-ink"
+                id="hero-cta-primary"
               >
-                {HERO.primaryCTA}
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M8.22 2.97a.75.75 0 011.06 0l4.25 4.25a.75.75 0 010 1.06l-4.25 4.25a.75.75 0 01-1.06-1.06l2.97-2.97H3.75a.75.75 0 010-1.5h7.44L8.22 4.03a.75.75 0 010-1.06z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                Launch a browser <span>→</span>
               </a>
-
-              <a
-                href={HERO.secondaryCTAHref}
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-[var(--cv-border)] bg-[var(--cv-glass)] px-6 py-3.5 text-base font-semibold text-[var(--cv-ink)] backdrop-blur-sm transition-all hover:border-[var(--cv-indigo)] hover:text-[var(--cv-indigo)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cv-indigo)] focus-visible:ring-offset-2"
-              >
-                {HERO.secondaryCTA}
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M8 15A7 7 0 108 1a7 7 0 000 14zm3.25-7.5a.75.75 0 000-1.5H7.56l1.22-1.22a.75.75 0 10-1.06-1.06l-2.5 2.5a.75.75 0 000 1.06l2.5 2.5a.75.75 0 101.06-1.06L7.56 7.5h3.69z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+              <a className="serif-link" href="#features" id="hero-cta-secondary">
+                read the method
               </a>
             </div>
 
-            {/* Social proof */}
-            <p
-              className="animate-fade-in-up flex items-center gap-2 text-sm text-[var(--cv-ink-subtle)]"
-              style={{ animationDelay: "0.4s" }}
+            {/* Meta row */}
+            <div
+              ref={metaRef}
+              style={{
+                marginTop: "48px",
+                paddingTop: "18px",
+                borderTop: "1px solid var(--border)",
+                display: "flex",
+                gap: "40px",
+                fontFamily: "var(--font-mono, monospace)",
+                fontSize: "11.5px",
+                color: "var(--muted-foreground)",
+                opacity: 0,
+                animation: `fade-up 1s ${EASE} 2.1s forwards`,
+              }}
             >
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 14 14"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M7 0.5L1 3.5v4C1 10.75 3.6 13.1 7 14c3.4-.9 6-3.25 6-6.5v-4L7 0.5z"
-                  fill="var(--cv-indigo)"
-                  opacity="0.5"
-                />
-                <path
-                  d="M4.5 7l1.8 1.8L9.5 5.5"
-                  stroke="var(--cv-indigo)"
-                  strokeWidth="1.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              {HERO.socialProof}
-            </p>
+              {META.map((m) => (
+                <MetaNum key={m.label} {...m} active={metaActive} />
+              ))}
+            </div>
           </div>
 
-          {/* Right — browser mockup */}
-          <div className="order-1 flex justify-center lg:order-2 lg:justify-end">
-            <BrowserMockup />
+          {/* Right column: browser preview */}
+          <div
+            className="preview-in hidden lg:block"
+            style={{ perspective: "1200px" }}
+          >
+            <div
+              style={{
+                background: "var(--cv-card-bg)",
+                border: "1px solid var(--border)",
+                borderRadius: "6px",
+                boxShadow: "0 1px 0 #00000008, 0 30px 60px -30px #15161A1A",
+              }}
+            >
+              {/* Chrome bar */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  padding: "10px 14px",
+                  borderBottom: "1px solid var(--border)",
+                  background: "var(--cv-preview-chrome)",
+                }}
+              >
+                <div style={{ display: "flex", gap: "5px", flexShrink: 0 }}>
+                  <span
+                    style={{
+                      width: "9px",
+                      height: "9px",
+                      borderRadius: "50%",
+                      background: "var(--border)",
+                      display: "block",
+                    }}
+                  />
+                  <span
+                    style={{
+                      width: "9px",
+                      height: "9px",
+                      borderRadius: "50%",
+                      background: "var(--border)",
+                      display: "block",
+                    }}
+                  />
+                  <span
+                    style={{
+                      width: "9px",
+                      height: "9px",
+                      borderRadius: "50%",
+                      background: "var(--border)",
+                      display: "block",
+                    }}
+                  />
+                </div>
+
+                {/* URL bar */}
+                <div
+                  style={{
+                    flex: 1,
+                    background: "var(--background)",
+                    border: "1px solid var(--border)",
+                    padding: "5px 12px",
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "10.5px",
+                    color: "var(--muted-foreground)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    overflow: "hidden",
+                  }}
+                >
+                  <span
+                    className="animate-pulse-dot"
+                    style={{
+                      width: "6px",
+                      height: "6px",
+                      borderRadius: "50%",
+                      background: "#4B5C3A",
+                      flexShrink: 0,
+                    }}
+                  />
+                  <span style={{ flex: 1, overflow: "hidden", whiteSpace: "nowrap" }}>
+                    {urlText || " "}
+                  </span>
+                  <span
+                    style={{
+                      width: "7px",
+                      height: "13px",
+                      background: "var(--foreground)",
+                      flexShrink: 0,
+                      animation: "caret-blink 1.1s steps(2) infinite",
+                      animationDelay: "2.6s",
+                      opacity: 0,
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Body */}
+              <div
+                style={{
+                  padding: "28px 22px",
+                  minHeight: "280px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "14px",
+                }}
+              >
+                <div
+                  className="animate-floaty"
+                  style={{
+                    width: "56px",
+                    height: "56px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--primary)",
+                  }}
+                >
+                  <Shield style={{ width: "56px", height: "56px" }} strokeWidth={1.2} />
+                </div>
+
+                <div
+                  style={{
+                    fontFamily:
+                      "var(--font-display, 'Instrument Serif', Georgia, serif)",
+                    fontStyle: "italic",
+                    fontSize: "22px",
+                    color: "var(--foreground)",
+                    textAlign: "center",
+                  }}
+                >
+                  Isolated · session running
+                </div>
+
+                <div
+                  style={{
+                    width: "240px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                  }}
+                >
+                  <div className="skeleton-line" style={{ width: "78%" }} />
+                  <div
+                    className="skeleton-line"
+                    style={{ width: "55%", animationDelay: "0.4s" }}
+                  />
+                  <div
+                    className="skeleton-line"
+                    style={{ width: "70%", animationDelay: "0.8s" }}
+                  />
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div
+                style={{
+                  borderTop: "1px solid var(--border)",
+                  padding: "10px 14px",
+                  display: "flex",
+                  gap: "14px",
+                  alignItems: "center",
+                  fontFamily: "var(--font-mono, monospace)",
+                  fontSize: "10.5px",
+                  color: "var(--muted-foreground)",
+                }}
+              >
+                <span>1 vCPU · 2 GB</span>
+                <span style={{ color: "var(--foreground)" }}>{timer}</span>
+                <span style={{ marginLeft: "auto", color: "var(--muted-foreground)" }}>
+                  us-east-1
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile browser preview */}
+        <div className="mt-12 lg:hidden">
+          <div
+            style={{
+              background: "var(--cv-card-bg)",
+              border: "1px solid var(--border)",
+              borderRadius: "6px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "8px 12px",
+                borderBottom: "1px solid var(--border)",
+                background: "var(--cv-preview-chrome)",
+              }}
+            >
+              <div style={{ display: "flex", gap: "4px" }}>
+                {[0, 1, 2].map((i) => (
+                  <span
+                    key={i}
+                    style={{
+                      width: "8px",
+                      height: "8px",
+                      borderRadius: "50%",
+                      background: "var(--border)",
+                      display: "block",
+                    }}
+                  />
+                ))}
+              </div>
+              <div
+                style={{
+                  flex: 1,
+                  background: "var(--background)",
+                  border: "1px solid var(--border)",
+                  padding: "4px 10px",
+                  fontFamily: "var(--font-mono, monospace)",
+                  fontSize: "10px",
+                  color: "var(--muted-foreground)",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                cv-session.cloudveil.app/s/8f4a2c1e
+              </div>
+            </div>
+            <div
+              style={{
+                padding: "24px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "12px",
+              }}
+            >
+              <Shield
+                style={{ width: "48px", height: "48px", color: "var(--primary)" }}
+                strokeWidth={1.2}
+              />
+              <p
+                style={{
+                  fontFamily: "var(--font-display, Georgia, serif)",
+                  fontStyle: "italic",
+                  fontSize: "18px",
+                  color: "var(--foreground)",
+                  margin: 0,
+                  textAlign: "center",
+                }}
+              >
+                Isolated · session running
+              </p>
+              <div
+                style={{
+                  width: "200px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "6px",
+                }}
+              >
+                <div className="skeleton-line" style={{ width: "78%" }} />
+                <div className="skeleton-line" style={{ width: "55%" }} />
+                <div className="skeleton-line" style={{ width: "70%" }} />
+              </div>
+            </div>
+            <div
+              style={{
+                borderTop: "1px solid var(--border)",
+                padding: "8px 12px",
+                display: "flex",
+                justifyContent: "space-between",
+                fontFamily: "var(--font-mono, monospace)",
+                fontSize: "10px",
+                color: "var(--muted-foreground)",
+              }}
+            >
+              <span>1 vCPU · 2 GB</span>
+              <span style={{ color: "var(--foreground)" }}>{timer}</span>
+            </div>
           </div>
         </div>
       </div>

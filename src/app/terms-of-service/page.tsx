@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { termsOfServiceMeta } from "@/content/meta";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
+import { Navbar } from "@/components/common/Navbar";
+import { Footer } from "@/components/common/Footer";
 
-export const metadata: Metadata = termsOfServiceMeta;
+export const metadata: Metadata = {
+  title: "Terms of Service | CloudVeil",
+  description: "CloudVeil terms and conditions of use.",
+};
 
 export default function TermsOfServicePage() {
   return (

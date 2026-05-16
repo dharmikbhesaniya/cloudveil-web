@@ -1,134 +1,103 @@
 "use client";
 
 import { useState } from "react";
-import { FAQ } from "@/content/faq";
-import { faqSchema } from "@/content/schema";
+import { FAQ_DATA } from "@/lib/constants";
 
-export default function FAQSection() {
-  const [openId, setOpenId] = useState<string | null>(null);
-
-  const toggle = (id: string) => {
-    setOpenId((prev) => (prev === id ? null : id));
-  };
+export function FAQSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section
-      id="faq"
-      aria-labelledby="faq-heading"
-      className="relative py-24"
-      style={{ backgroundColor: "var(--cv-bg)" }}
-    >
-      {/* Inject FAQ JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema()) }}
-      />
-
+    <section className="py-24" id="faq">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        {/* Section header */}
+        {/* Header */}
         <div className="mb-12 text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--cv-border)] bg-[var(--cv-glass)] px-4 py-1.5 backdrop-blur-sm">
-            <span className="text-xs font-medium text-[var(--cv-ink-muted)]">
-              Got questions? We have answers.
-            </span>
-          </div>
-          <h2
-            id="faq-heading"
-            className="text-4xl font-bold tracking-tight text-[var(--cv-ink)] sm:text-5xl"
-            style={{
-              fontFamily: "var(--font-instrument-serif)",
-              fontStyle: "italic",
-            }}
-          >
-            Frequently Asked Questions
-          </h2>
+          <span className="cv-eyebrow mb-4 block">FAQ</span>
+          <h2 className="font-bold">Honest answers.</h2>
+          <p className="text-muted-foreground mt-4 text-base sm:text-lg">
+            Common questions about the platform, privacy, and how sessions work.
+          </p>
         </div>
 
         {/* Accordion */}
-        <div className="space-y-3">
-          {FAQ.map((item) => {
-            const isOpen = openId === item.id;
+        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+          {FAQ_DATA.map((faq, index) => {
+            const isOpen = openIndex === index;
             return (
               <div
-                key={item.id}
-                className="rounded-2xl transition-all duration-200"
+                key={index}
                 style={{
-                  border: isOpen
-                    ? "1px solid rgba(107,76,255,0.25)"
-                    : "1px solid var(--cv-border)",
-                  background: isOpen
-                    ? "rgba(107,76,255,0.03)"
-                    : "var(--cv-glass)",
-                  backdropFilter: "blur(8px)",
+                  background: isOpen ? "var(--cv-card-bg)" : "oklch(0.97 0.005 265 / 30%)",
+                  border: "1px solid var(--border)",
+                  borderRadius: "12px",
+                  overflow: "hidden",
+                  transition: "background 0.25s",
                 }}
               >
                 <button
-                  id={`faq-btn-${item.id}`}
-                  aria-expanded={isOpen}
-                  aria-controls={`faq-panel-${item.id}`}
-                  onClick={() => toggle(item.id)}
-                  className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cv-indigo)] focus-visible:ring-inset rounded-2xl"
+                  onClick={() => setOpenIndex(isOpen ? null : index)}
+                  style={{
+                    width: "100%",
+                    textAlign: "left",
+                    padding: "20px 24px",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    gap: "16px",
+                    color: "var(--foreground)",
+                  }}
                 >
-                  <span className="text-base font-medium text-[var(--cv-ink)]">
-                    {item.question}
+                  <span
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: 500,
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    {faq.question}
                   </span>
                   <span
-                    className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full transition-all duration-200"
                     style={{
-                      background: isOpen
-                        ? "rgba(107,76,255,0.12)"
-                        : "rgba(20,17,13,0.05)",
+                      flexShrink: 0,
+                      width: "20px",
+                      height: "20px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      transition: "transform 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
                       transform: isOpen ? "rotate(45deg)" : "rotate(0deg)",
+                      color: "var(--muted-foreground)",
+                      fontSize: "20px",
+                      lineHeight: 1,
                     }}
-                    aria-hidden="true"
                   >
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 14 14"
-                      fill="none"
-                    >
-                      <path
-                        d="M7 2v10M2 7h10"
-                        stroke={isOpen ? "var(--cv-indigo)" : "var(--cv-ink-muted)"}
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                    </svg>
+                    +
                   </span>
                 </button>
 
-                {/* Answer panel */}
                 <div
-                  id={`faq-panel-${item.id}`}
-                  role="region"
-                  aria-labelledby={`faq-btn-${item.id}`}
                   style={{
-                    maxHeight: isOpen ? "400px" : "0",
+                    maxHeight: isOpen ? "800px" : "0",
                     overflow: "hidden",
-                    transition: "max-height 0.3s ease",
+                    transition: "max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
                   }}
                 >
-                  <p className="px-6 pb-5 text-sm leading-relaxed text-[var(--cv-ink-muted)]">
-                    {item.answer}
-                  </p>
+                  <div
+                    style={{
+                      padding: "0 24px 20px",
+                      fontSize: "13.5px",
+                      lineHeight: 1.65,
+                      color: "var(--muted-foreground)",
+                    }}
+                  >
+                    {faq.answer}
+                  </div>
                 </div>
               </div>
             );
           })}
-        </div>
-
-        {/* CTA */}
-        <div className="mt-12 text-center">
-          <p className="text-sm text-[var(--cv-ink-subtle)]">
-            Still have questions?{" "}
-            <a
-              href="/contact"
-              className="font-medium text-[var(--cv-indigo)] underline-offset-2 hover:underline"
-            >
-              Contact our support team →
-            </a>
-          </p>
         </div>
       </div>
     </section>

@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { privacyPolicyMeta } from "@/content/meta";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
+import { Navbar } from "@/components/common/Navbar";
+import { Footer } from "@/components/common/Footer";
 import Link from "next/link";
 
-export const metadata: Metadata = privacyPolicyMeta;
+export const metadata: Metadata = {
+  title: "Privacy Policy | CloudVeil",
+  description: "How CloudVeil collects, uses, and protects your data.",
+};
 
 export default function PrivacyPolicyPage() {
   return (

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { refundPolicyMeta } from "@/content/meta";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
+import { Navbar } from "@/components/common/Navbar";
+import { Footer } from "@/components/common/Footer";
 
-export const metadata: Metadata = refundPolicyMeta;
+export const metadata: Metadata = {
+  title: "Refund & Cancellation Policy | CloudVeil",
+  description: "CloudVeil refund and cancellation policy for subscriptions.",
+};
 
 export default function RefundPolicyPage() {
   return (

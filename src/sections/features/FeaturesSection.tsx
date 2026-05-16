@@ -1,109 +1,329 @@
-import { FEATURES } from "@/content/features";
+"use client";
 
-export default function FeaturesSection() {
+import { useRef, useEffect, useState } from "react";
+
+const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
+
+const FEATURES = [
+  {
+    num: "i.",
+    title: "Container isolation",
+    tech: "ECS task · own kernel namespace",
+    body: (
+      <>
+        Every browser runs in a dedicated ECS task — its own kernel namespace, its own filesystem,
+        its own network. <i>No shared state between sessions</i>, no cross-tenant leakage by
+        construction.
+      </>
+    ),
+  },
+  {
+    num: "ii.",
+    title: "Anti-fingerprint",
+    tech: "canvas · WebGL · audio · fonts",
+    body: (
+      <>
+        Canvas, WebGL, audio, fonts and timing are randomised per session.{" "}
+        <i>The browser presents a different identity every time</i> — the same person never appears
+        twice.
+      </>
+    ),
+  },
+  {
+    num: "iii.",
+    title: "Ephemeral by design",
+    tech: "no persistent volume",
+    body: (
+      <>
+        Cookies, history, cache, downloads — destroyed when the container terminates.{" "}
+        <i>There is no delete, because there is nothing to keep.</i>
+      </>
+    ),
+  },
+  {
+    num: "iv.",
+    title: "Sub-5s boot",
+    tech: "pre-warmed pools · stripped Chromium",
+    body: (
+      <>
+        Pre-warmed task pools and a stripped Chromium image bring a fresh session live in under five
+        seconds. <i>No spinning, no warm-up screen.</i>
+      </>
+    ),
+  },
+  {
+    num: "v.",
+    title: "Routed exit IPs",
+    tech: "14 regions · residential or datacenter",
+    body: (
+      <>
+        Pick from rotating residential or datacenter exits in 14 regions.{" "}
+        <i>Your real address never touches the public internet</i> — only the gateway sees it, and
+        the gateway forgets.
+      </>
+    ),
+  },
+  {
+    num: "vi.",
+    title: "Auto-terminate",
+    tech: "launched → running → idle → ended → ∅",
+    body: null,
+    lifecycle: true,
+  },
+];
+
+const LIFECYCLE = ["launched", "running", "idle", "ended", "∅ 0 bytes"];
+
+function useReveal(threshold = 0.18) {
+  const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setVisible(true);
+          io.disconnect();
+        }
+      },
+      { threshold }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [threshold]);
+  return { ref, visible };
+}
+
+function FeatureRow({
+  feature,
+  delay = 0,
+}: {
+  feature: (typeof FEATURES)[0];
+  delay?: number;
+}) {
+  const { ref, visible } = useReveal();
+
   return (
-    <section
-      id="features"
-      aria-labelledby="features-heading"
-      className="relative py-24"
-      style={{ backgroundColor: "var(--cv-bg)" }}
+    <div
+      ref={ref}
+      style={{
+        display: "grid",
+        gridTemplateColumns: "80px 1fr 2fr",
+        gap: "40px",
+        padding: "32px 0",
+        borderBottom: "1px solid var(--border)",
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(24px)",
+        transition: `opacity 0.9s ${EASE} ${delay}s, transform 0.9s ${EASE} ${delay}s`,
+      }}
+      className="group"
     >
-      {/* Background orb */}
+      {/* Number */}
       <div
-        className="animate-aurora-pulse pointer-events-none absolute top-0 right-0 h-[400px] w-[400px]"
         style={{
-          background:
-            "radial-gradient(circle, rgba(240,138,62,0.07) 0%, transparent 70%)",
-          filter: "blur(60px)",
+          fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
+          fontStyle: "italic",
+          fontSize: "36px",
+          lineHeight: 1,
+          color: "var(--muted-foreground)",
+          transition: "color 0.3s, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
         }}
-        aria-hidden="true"
-      />
+        onMouseEnter={(e) => {
+          const el = e.currentTarget as HTMLElement;
+          el.style.color = "var(--primary)";
+          el.style.transform = "translateX(4px)";
+        }}
+        onMouseLeave={(e) => {
+          const el = e.currentTarget as HTMLElement;
+          el.style.color = "var(--muted-foreground)";
+          el.style.transform = "translateX(0)";
+        }}
+      >
+        {feature.num}
+      </div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Section header */}
-        <div className="mb-16 text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--cv-border)] bg-[var(--cv-glass)] px-4 py-1.5 backdrop-blur-sm">
-            <span className="text-xs font-medium text-[var(--cv-ink-muted)]">
-              Privacy by architecture · Not just policy
-            </span>
-          </div>
-          <h2
-            id="features-heading"
-            className="text-4xl font-bold tracking-tight text-[var(--cv-ink)] sm:text-5xl"
+      {/* Title + tech */}
+      <div>
+        <h3
+          style={{
+            fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
+            fontStyle: "italic",
+            fontWeight: 400,
+            fontSize: "28px",
+            lineHeight: 1.1,
+            letterSpacing: "-0.02em",
+            margin: "0 0 6px",
+            color: "var(--foreground)",
+          }}
+        >
+          {feature.title}
+        </h3>
+        <div
+          style={{
+            fontFamily: "var(--font-mono, monospace)",
+            fontSize: "10.5px",
+            color: "var(--muted-foreground)",
+            letterSpacing: "0.04em",
+          }}
+        >
+          {feature.tech}
+        </div>
+      </div>
+
+      {/* Body */}
+      <div>
+        {feature.body ? (
+          <p
             style={{
-              fontFamily: "var(--font-instrument-serif)",
-              fontStyle: "italic",
+              fontSize: "14.5px",
+              lineHeight: 1.55,
+              color: "var(--muted-foreground)",
+              margin: 0,
             }}
           >
-            Everything you need to browse
-            <br />
-            without a trace
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-[var(--cv-ink-muted)]">
-            CloudVeil is built from the ground up for privacy — not retrofitted.
-            Every feature exists to eliminate your digital footprint.
+            {feature.body}
           </p>
+        ) : (
+          <>
+            <p
+              style={{
+                fontSize: "14.5px",
+                lineHeight: 1.55,
+                color: "var(--muted-foreground)",
+                margin: 0,
+              }}
+            >
+              Sessions end on idle, on tab close, or at a hard cap you set.{" "}
+              <i style={{ color: "var(--foreground)", fontStyle: "italic" }}>
+                No forgotten browser leaking overnight.
+              </i>
+            </p>
+            {/* Lifecycle bar */}
+            <div
+              style={{
+                marginTop: "16px",
+                display: "flex",
+                alignItems: "center",
+                fontFamily: "var(--font-mono, monospace)",
+                fontSize: "11px",
+                color: "var(--muted-foreground)",
+              }}
+            >
+              {LIFECYCLE.map((step, i) => (
+                <span key={step} style={{ display: "contents" }}>
+                  <span
+                    style={{
+                      whiteSpace: "nowrap",
+                      color:
+                        i === LIFECYCLE.length - 1
+                          ? "var(--muted-foreground)"
+                          : "inherit",
+                    }}
+                  >
+                    {step}
+                  </span>
+                  {i < LIFECYCLE.length - 1 && (
+                    <span
+                      className="lifecycle-rule"
+                      style={
+                        { animationDelay: `${i * 1.75}s` } as React.CSSProperties
+                      }
+                    />
+                  )}
+                </span>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export function Features() {
+  const headerRef = useRef<HTMLDivElement>(null);
+  const [headerVisible, setHeaderVisible] = useState(false);
+
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setHeaderVisible(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <section
+      style={{
+        padding: "100px 0",
+        background: "var(--secondary)",
+        borderTop: "1px solid var(--border)",
+        borderBottom: "1px solid var(--border)",
+      }}
+      id="features"
+    >
+      <div
+        className="mx-auto max-w-7xl"
+        style={{ padding: "0 clamp(24px, 5vw, 40px)" }}
+      >
+        {/* Section stamp */}
+        <div
+          style={{
+            color: "var(--muted-foreground)",
+            fontFamily: "var(--font-mono, monospace)",
+            fontSize: "10px",
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            marginBottom: "18px",
+          }}
+        >
+          — Built for privacy
         </div>
 
-        {/* Features grid */}
-        <ul
-          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
-          role="list"
-        >
-          {FEATURES.map((feature) => (
-            <li key={feature.id}>
-              <div
-                className="group relative h-full overflow-hidden rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-                style={{
-                  background: "var(--cv-glass)",
-                  border: "1px solid var(--cv-border)",
-                  backdropFilter: "blur(8px)",
-                }}
-              >
-                {/* Spotlight hover effect */}
-                <div
-                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                  style={{
-                    background:
-                      "radial-gradient(circle at 50% 0%, rgba(107,76,255,0.08) 0%, transparent 60%)",
-                  }}
-                  aria-hidden="true"
-                />
+        {/* Section heading */}
+        <div ref={headerRef}>
+          <h2
+            style={{
+              fontFamily: "var(--font-sans, ui-sans-serif, sans-serif)",
+              fontWeight: 500,
+              fontSize: "clamp(36px, 4.5vw, 56px)",
+              lineHeight: 1,
+              letterSpacing: "-0.03em",
+              margin: "0 0 56px",
+              maxWidth: "720px",
+              color: "var(--foreground)",
+              opacity: headerVisible ? 1 : 0,
+              transform: headerVisible ? "translateY(0)" : "translateY(20px)",
+              transition: `opacity 0.9s ${EASE}, transform 0.9s ${EASE}`,
+            }}
+          >
+            Six layers of{" "}
+            <span
+              style={{
+                fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
+                fontStyle: "italic",
+                fontWeight: 400,
+              }}
+            >
+              isolation
+            </span>
+            , in sequence.
+          </h2>
+        </div>
 
-                {/* Icon */}
-                <div
-                  className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl text-2xl"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, rgba(107,76,255,0.12) 0%, rgba(224,71,155,0.08) 100%)",
-                    border: "1px solid rgba(107,76,255,0.15)",
-                  }}
-                  aria-hidden="true"
-                >
-                  {feature.icon}
-                </div>
-
-                {/* Content */}
-                <h3 className="mb-2 text-base font-semibold text-[var(--cv-ink)]">
-                  {feature.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-[var(--cv-ink-muted)]">
-                  {feature.description}
-                </p>
-
-                {/* Bottom accent line */}
-                <div
-                  className="absolute inset-x-0 bottom-0 h-0.5 translate-y-full opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100"
-                  style={{
-                    background:
-                      "linear-gradient(90deg, var(--cv-indigo), var(--cv-magenta))",
-                  }}
-                  aria-hidden="true"
-                />
-              </div>
-            </li>
-          ))}
-        </ul>
+        {/* Feature rows */}
+        {FEATURES.map((f, i) => (
+          <FeatureRow key={f.num} feature={f} delay={i * 0.05} />
+        ))}
       </div>
     </section>
   );

@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { contactMeta } from "@/content/meta";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
+import { Navbar } from "@/components/common/Navbar";
+import { Footer } from "@/components/common/Footer";
 import Link from "next/link";
 
-export const metadata: Metadata = contactMeta;
+export const metadata: Metadata = {
+  title: "Contact | CloudVeil",
+  description: "Get in touch with the CloudVeil team for support, billing, or privacy inquiries.",
+};
 
 const CONTACT_METHODS = [
   {
