@@ -58,7 +58,7 @@ export function Footer() {
                 color: "var(--foreground)",
               }}
             >
-              Cloudveil
+              Intractify
             </div>
             <p
               style={{
@@ -210,7 +210,7 @@ export function Footer() {
             gap: "8px",
           }}
         >
-          <span>© Cloudveil Systems Inc. {new Date().getFullYear()} · All quietly reserved.</span>
+          <span>© Intractify Systems Inc. {new Date().getFullYear()} · All quietly reserved.</span>
           <span>
             <a href="#" style={{ color: "inherit", textDecoration: "none" }}>Status</a>
             {" · "}

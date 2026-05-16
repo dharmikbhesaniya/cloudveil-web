@@ -207,8 +207,8 @@ export function PricingSection() {
                 <a
                   href={
                     plan.price === -1
-                      ? "mailto:billing@cloudveil.app"
-                      : "https://app.cloudveil.app/sign-up"
+                      ? "mailto:billing@intractify.com"
+                      : "https://app.intractify.com/sign-up"
                   }
                   style={{
                     display: "flex",

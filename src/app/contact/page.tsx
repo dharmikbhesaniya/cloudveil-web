@@ -4,29 +4,29 @@ import { Footer } from "@/components/common/Footer";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Contact | CloudVeil",
-  description: "Get in touch with the CloudVeil team for support, billing, or privacy inquiries.",
+  title: "Contact | Intractify",
+  description: "Get in touch with the Intractify team for support, billing, or privacy inquiries.",
 };
 
 const CONTACT_METHODS = [
   {
     label: "General Support",
-    email: "support@cloudveil.app",
+    email: "support@intractify.com",
     description: "Account issues, technical problems, general questions",
   },
   {
     label: "Billing",
-    email: "billing@cloudveil.app",
+    email: "billing@intractify.com",
     description: "Payment issues, refund requests, invoice queries",
   },
   {
     label: "Privacy",
-    email: "privacy@cloudveil.app",
+    email: "privacy@intractify.com",
     description: "Data requests, GDPR/CCPA rights, privacy concerns",
   },
   {
     label: "Legal",
-    email: "legal@cloudveil.app",
+    email: "legal@intractify.com",
     description: "Terms of service, legal notices, compliance",
   },
 ];
@@ -58,7 +58,7 @@ export default function ContactPage() {
               fontStyle: "italic",
             }}
           >
-            Contact CloudVeil
+            Contact Intractify
           </h1>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-[var(--cv-ink-muted)]">
             We&apos;re here to help. Our support team responds within 24 hours on
@@ -73,7 +73,7 @@ export default function ContactPage() {
               Send Us a Message
             </h2>
             <form
-              action="mailto:support@cloudveil.app"
+              action="mailto:support@intractify.com"
               method="get"
               encType="text/plain"
               className="space-y-5"
@@ -222,7 +222,7 @@ export default function ContactPage() {
                     Company name
                   </dt>
                   <dd className="mt-0.5 text-[var(--cv-ink-subtle)]">
-                    CloudVeil Technologies
+                    Intractify Technologies
                   </dd>
                 </div>
                 <div>
@@ -230,7 +230,7 @@ export default function ContactPage() {
                     Registered address
                   </dt>
                   <dd className="mt-0.5 text-[var(--cv-ink-subtle)]">
-                    CloudVeil Technologies, India
+                    Intractify Technologies, India
                   </dd>
                 </div>
                 <div>

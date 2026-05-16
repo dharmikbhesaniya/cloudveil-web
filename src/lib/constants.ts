@@ -1,4 +1,4 @@
-export const APP_NAME = "CloudVeil";
+export const APP_NAME = "Intractify";
 
 export const PUBLIC_NAV = [
   { title: "Features", href: "#features" },
@@ -82,12 +82,12 @@ export const PLANS = [
 
 export const FAQ_DATA = [
   {
-    question: "What is CloudVeil?",
+    question: "What is Intractify?",
     answer:
-      "CloudVeil is a cloud-based privacy platform where you launch and use a fully isolated browser through your web browser. The browser runs on secure cloud infrastructure — your device is only a viewer. No browsing data, history, or activity is ever stored.",
+      "Intractify is a cloud-based privacy platform where you launch and use a fully isolated browser through your web browser. The browser runs on secure cloud infrastructure — your device is only a viewer. No browsing data, history, or activity is ever stored.",
   },
   {
-    question: "How does CloudVeil protect my privacy?",
+    question: "How does Intractify protect my privacy?",
     answer:
       "Each session runs in its own isolated container with a fresh Chromium browser. The container has no persistent storage — when your session ends, the entire container is destroyed, including all cookies, history, cache, and downloaded files. Anti-fingerprinting protections are applied automatically.",
   },
@@ -97,9 +97,9 @@ export const FAQ_DATA = [
       "Personal mode provides a dedicated container with guaranteed resources (1 vCPU, 2 GB RAM) — ideal for banking, email, and sensitive work. Shared mode uses lightweight containers on shared infrastructure — ideal for casual browsing and quick searches.",
   },
   {
-    question: "Can websites detect that I am using CloudVeil?",
+    question: "Can websites detect that I am using Intractify?",
     answer:
-      "CloudVeil applies anti-fingerprinting protections including user-agent rotation, canvas fingerprint masking, WebGL spoofing, and font normalization. These measures make it difficult for websites to distinguish your CloudVeil session from a regular browser.",
+      "Intractify applies anti-fingerprinting protections including user-agent rotation, canvas fingerprint masking, WebGL spoofing, and font normalization. These measures make it difficult for websites to distinguish your Intractify session from a regular browser.",
   },
   {
     question: "What happens when my session ends?",
@@ -109,7 +109,7 @@ export const FAQ_DATA = [
   {
     question: "Is my browsing activity logged?",
     answer:
-      "CloudVeil logs only basic session metadata for billing: session start time, end time, and duration. We never log URLs visited, passwords typed, screen content, keyboard input, mouse movements, cookies, or any browsing activity.",
+      "Intractify logs only basic session metadata for billing: session start time, end time, and duration. We never log URLs visited, passwords typed, screen content, keyboard input, mouse movements, cookies, or any browsing activity.",
   },
   {
     question: "How fast does a session start?",
@@ -124,6 +124,6 @@ export const FAQ_DATA = [
   {
     question: "What is your refund policy?",
     answer:
-      "We offer a 7-day refund window for new subscriptions. If you are not satisfied within 7 days of your first payment and have not used the service significantly, contact billing@cloudveil.app with your order ID for a full refund. Annual plans qualify for pro-rated refunds for unused months.",
+      "We offer a 7-day refund window for new subscriptions. If you are not satisfied within 7 days of your first payment and have not used the service significantly, contact billing@intractify.com with your order ID for a full refund. Annual plans qualify for pro-rated refunds for unused months.",
   },
 ];

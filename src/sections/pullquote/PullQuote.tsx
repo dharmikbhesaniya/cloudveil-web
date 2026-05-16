@@ -10,7 +10,7 @@ const LINES: QuoteWord[] = [
   { text: "A " }, { text: "private " }, { text: "browser " },
   { text: "tab " }, { text: "is " }, { text: "a " }, { text: "curtain." },
   { br: true, text: "" },
-  { text: "Cloudveil ", red: true }, { text: "is ", red: true },
+  { text: "Intractify ", red: true }, { text: "is ", red: true },
   { text: "a ", red: true }, { text: "different ", red: true },
   { text: "room ", red: true }, { text: "—" },
   { br: true, text: "" },

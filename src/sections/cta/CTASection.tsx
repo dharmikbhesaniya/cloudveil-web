@@ -96,7 +96,7 @@ export function CTASection() {
           }}
         >
           <a
-            href="https://app.cloudveil.app/sign-up"
+            href="https://app.intractify.com/sign-up"
             className="btn-ink"
             id="cta-primary"
           >

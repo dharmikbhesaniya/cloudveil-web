@@ -4,8 +4,8 @@ import { Footer } from "@/components/common/Footer";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | CloudVeil",
-  description: "How CloudVeil collects, uses, and protects your data.",
+  title: "Privacy Policy | Intractify",
+  description: "How Intractify collects, uses, and protects your data.",
 };
 
 export default function PrivacyPolicyPage() {
@@ -45,30 +45,30 @@ export default function PrivacyPolicyPage() {
               1. Who We Are
             </h2>
             <p className="text-sm leading-relaxed">
-              CloudVeil Technologies (&ldquo;CloudVeil&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) operates the
-              CloudVeil cloud browser platform at{" "}
+              Intractify Technologies (&ldquo;Intractify&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) operates the
+              Intractify cloud browser platform at{" "}
               <a
-                href="https://cloudveil.app"
+                href="https://intractify.com"
                 className="text-[var(--cv-indigo)] hover:underline"
               >
-                cloudveil.app
+                intractify.com
               </a>{" "}
               and the web application at{" "}
               <a
-                href="https://app.cloudveil.app"
+                href="https://app.intractify.com"
                 className="text-[var(--cv-indigo)] hover:underline"
               >
-                app.cloudveil.app
+                app.intractify.com
               </a>
               . We are the data controller for personal data collected through
-              our website and services. Our registered address is CloudVeil
+              our website and services. Our registered address is Intractify
               Technologies, India. For privacy matters, you may contact our Data
               Protection Officer at{" "}
               <a
-                href="mailto:privacy@cloudveil.app"
+                href="mailto:privacy@intractify.com"
                 className="text-[var(--cv-indigo)] hover:underline"
               >
-                privacy@cloudveil.app
+                privacy@intractify.com
               </a>
               .
             </p>
@@ -83,7 +83,7 @@ export default function PrivacyPolicyPage() {
               2. What Data We Collect
             </h2>
             <p className="mb-3 text-sm leading-relaxed">
-              CloudVeil collects only the minimum data necessary to provide the
+              Intractify collects only the minimum data necessary to provide the
               service. We collect:
             </p>
             <ul className="ml-5 list-disc space-y-2 text-sm leading-relaxed">
@@ -120,7 +120,7 @@ export default function PrivacyPolicyPage() {
             <p className="mt-3 text-sm font-medium leading-relaxed text-[var(--cv-ink)]">
               We never collect, store, or have access to your browsing activity,
               visited URLs, search queries, cookies set during sessions, or any
-              content you view inside a CloudVeil browser session.
+              content you view inside a Intractify browser session.
             </p>
           </section>
 
@@ -133,13 +133,13 @@ export default function PrivacyPolicyPage() {
               3. App Permissions (Google Play / Mobile Clients)
             </h2>
             <p className="mb-3 text-sm leading-relaxed">
-              If you access CloudVeil through a mobile application distributed
+              If you access Intractify through a mobile application distributed
               via Google Play, the app may request the following permissions:
             </p>
             <ul className="ml-5 list-disc space-y-2 text-sm leading-relaxed">
               <li>
                 <strong>Internet access:</strong> Required to establish encrypted
-                WebSocket connections to CloudVeil session servers and stream
+                WebSocket connections to Intractify session servers and stream
                 your browser session to your device.
               </li>
               <li>
@@ -151,7 +151,7 @@ export default function PrivacyPolicyPage() {
                 <strong>Camera / Microphone (optional, user-granted):</strong>{" "}
                 Only requested if you enable media passthrough features in a
                 session. These streams are sent to the cloud container and are
-                never stored by CloudVeil.
+                never stored by Intractify.
               </li>
             </ul>
             <p className="mt-3 text-sm leading-relaxed">
@@ -172,7 +172,7 @@ export default function PrivacyPolicyPage() {
               We use the data we collect for the following purposes:
             </p>
             <ul className="ml-5 list-disc space-y-2 text-sm leading-relaxed">
-              <li>Providing and maintaining the CloudVeil service</li>
+              <li>Providing and maintaining the Intractify service</li>
               <li>
                 Enforcing plan quotas (session count and duration limits)
               </li>
@@ -257,7 +257,7 @@ export default function PrivacyPolicyPage() {
               <li>
                 <strong>Cashfree (cashfree.com):</strong> Payment processing and
                 subscription management. PCI-DSS Level 1 certified. Processes
-                payment card data — CloudVeil never sees raw card numbers.
+                payment card data — Intractify never sees raw card numbers.
               </li>
               <li>
                 <strong>Cloud infrastructure providers (AWS, GCP, Azure):</strong>{" "}
@@ -316,10 +316,10 @@ export default function PrivacyPolicyPage() {
                 <strong>Right to opt-out of sale (CCPA):</strong> We do not sell
                 personal data. California residents may submit requests to{" "}
                 <a
-                  href="mailto:privacy@cloudveil.app"
+                  href="mailto:privacy@intractify.com"
                   className="text-[var(--cv-indigo)] hover:underline"
                 >
-                  privacy@cloudveil.app
+                  privacy@intractify.com
                 </a>
                 .
               </li>
@@ -327,10 +327,10 @@ export default function PrivacyPolicyPage() {
             <p className="mt-3 text-sm leading-relaxed">
               To exercise any of these rights, contact us at{" "}
               <a
-                href="mailto:privacy@cloudveil.app"
+                href="mailto:privacy@intractify.com"
                 className="text-[var(--cv-indigo)] hover:underline"
               >
-                privacy@cloudveil.app
+                privacy@intractify.com
               </a>
               . We will respond within 30 days.
             </p>
@@ -345,7 +345,7 @@ export default function PrivacyPolicyPage() {
               8. Cookies
             </h2>
             <p className="mb-3 text-sm leading-relaxed">
-              The CloudVeil marketing website uses minimal cookies:
+              The Intractify marketing website uses minimal cookies:
             </p>
             <ul className="ml-5 list-disc space-y-2 text-sm leading-relaxed">
               <li>
@@ -386,10 +386,10 @@ export default function PrivacyPolicyPage() {
               </Link>{" "}
               or email{" "}
               <a
-                href="mailto:privacy@cloudveil.app"
+                href="mailto:privacy@intractify.com"
                 className="text-[var(--cv-indigo)] hover:underline"
               >
-                privacy@cloudveil.app
+                privacy@intractify.com
               </a>{" "}
               with subject &ldquo;Data Deletion Request&rdquo;.
             </p>
@@ -404,16 +404,16 @@ export default function PrivacyPolicyPage() {
               10. Security
             </h2>
             <p className="text-sm leading-relaxed">
-              CloudVeil uses TLS 1.3 for all data in transit. Session streams are
+              Intractify uses TLS 1.3 for all data in transit. Session streams are
               end-to-end encrypted. Data at rest (account information and
               subscription records in our PostgreSQL database) is encrypted using
               AES-256. We conduct regular security reviews and follow responsible
               disclosure principles. To report a security vulnerability, email{" "}
               <a
-                href="mailto:security@cloudveil.app"
+                href="mailto:security@intractify.com"
                 className="text-[var(--cv-indigo)] hover:underline"
               >
-                security@cloudveil.app
+                security@intractify.com
               </a>
               .
             </p>
@@ -447,10 +447,10 @@ export default function PrivacyPolicyPage() {
               For all privacy-related inquiries, contact our Data Protection
               Officer at{" "}
               <a
-                href="mailto:privacy@cloudveil.app"
+                href="mailto:privacy@intractify.com"
                 className="text-[var(--cv-indigo)] hover:underline"
               >
-                privacy@cloudveil.app
+                privacy@intractify.com
               </a>
               . If you are in the EU and believe we have not adequately addressed
               your privacy concern, you have the right to lodge a complaint with

@@ -13,34 +13,34 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: { default: "CloudVeil — Your Private Space in the Cloud", template: "%s | CloudVeil" },
+  title: { default: "Intractify — Your Private Space in the Cloud", template: "%s | Intractify" },
   description:
     "A cloud-based privacy platform where you launch and interact with a fully isolated browser — entirely through a web-based interface. Nothing stored. Nothing tracked. Nothing traced.",
-  metadataBase: new URL("https://cloudveil.app"),
+  metadataBase: new URL("https://intractify.com"),
   alternates: { canonical: "/" },
   openGraph: {
-    title: "CloudVeil — Private Cloud Browser | Browse Without a Trace",
+    title: "Intractify — Private Cloud Browser | Browse Without a Trace",
     description:
       "Launch isolated cloud browser sessions with zero logs. Your IP, fingerprint, and browsing history stay invisible.",
-    url: "https://cloudveil.app",
-    siteName: "CloudVeil",
+    url: "https://intractify.com",
+    siteName: "Intractify",
     type: "website",
     locale: "en_US",
     images: [
       {
-        url: "https://cloudveil.app/og-image.png",
+        url: "https://intractify.com/og-image.png",
         width: 1200,
         height: 630,
-        alt: "CloudVeil — Private Cloud Browser",
+        alt: "Intractify — Private Cloud Browser",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "CloudVeil — Private Cloud Browser | Browse Without a Trace",
+    title: "Intractify — Private Cloud Browser | Browse Without a Trace",
     description:
       "Launch isolated cloud browser sessions with zero logs. No trace, no fingerprint, no leaks.",
-    images: ["https://cloudveil.app/og-image.png"],
+    images: ["https://intractify.com/og-image.png"],
     site: "@cloudveil",
   },
   robots: {

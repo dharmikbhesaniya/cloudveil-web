@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const DOMAIN = "https://cloudveil.app";
+const DOMAIN = "https://intractify.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [

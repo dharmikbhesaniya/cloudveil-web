@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Shield } from "lucide-react";
 
-const URL_TARGET = "cv-session.cloudveil.app/s/8f4a2c1e";
+const URL_TARGET = "session.intractify.com/s/8f4a2c1e";
 const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 
 function useUrlTypewriter(target: string, startDelay = 2600) {
@@ -232,7 +232,7 @@ export function Hero() {
               }}
             >
               <a
-                href="https://app.cloudveil.app/sign-up"
+                href="https://app.intractify.com/sign-up"
                 className="btn-ink"
                 id="hero-cta-primary"
               >
@@ -490,7 +490,7 @@ export function Hero() {
                   whiteSpace: "nowrap",
                 }}
               >
-                cv-session.cloudveil.app/s/8f4a2c1e
+                session.intractify.com/s/8f4a2c1e
               </div>
             </div>
             <div

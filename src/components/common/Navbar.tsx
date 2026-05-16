@@ -42,7 +42,7 @@ export function Navbar() {
                 color: "var(--foreground)",
               }}
             >
-              Cloudveil
+              Intractify
               <span
                 className="animate-pulse-dot"
                 aria-hidden="true"
@@ -76,14 +76,14 @@ export function Navbar() {
           {/* Auth CTA */}
           <div className="flex items-center gap-[18px]">
             <a
-              href="https://app.cloudveil.app/sign-in"
+              href="https://app.intractify.com/sign-in"
               className="serif-link hidden md:inline"
               id="navbar-sign-in"
             >
               sign in
             </a>
             <a
-              href="https://app.cloudveil.app/sign-up"
+              href="https://app.intractify.com/sign-up"
               className="btn-ink hidden md:inline-flex"
               id="navbar-get-started"
             >
@@ -140,7 +140,7 @@ export function Navbar() {
             </nav>
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               <a
-                href="https://app.cloudveil.app/sign-in"
+                href="https://app.intractify.com/sign-in"
                 style={{
                   display: "block",
                   padding: "10px 16px",
@@ -156,7 +156,7 @@ export function Navbar() {
                 Sign in
               </a>
               <a
-                href="https://app.cloudveil.app/sign-up"
+                href="https://app.intractify.com/sign-up"
                 className="btn-ink"
                 style={{ justifyContent: "center" }}
               >

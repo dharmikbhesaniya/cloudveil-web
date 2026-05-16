@@ -3,8 +3,8 @@ import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 
 export const metadata: Metadata = {
-  title: "Refund & Cancellation Policy | CloudVeil",
-  description: "CloudVeil refund and cancellation policy for subscriptions.",
+  title: "Refund & Cancellation Policy | Intractify",
+  description: "Intractify refund and cancellation policy for subscriptions.",
 };
 
 export default function RefundPolicyPage() {
@@ -47,10 +47,10 @@ export default function RefundPolicyPage() {
             service has not been significantly used. Refunds are processed within
             5–7 business days. For questions, email{" "}
             <a
-              href="mailto:billing@cloudveil.app"
+              href="mailto:billing@intractify.com"
               className="text-[var(--cv-indigo)] hover:underline"
             >
-              billing@cloudveil.app
+              billing@intractify.com
             </a>
             .
           </p>
@@ -67,7 +67,7 @@ export default function RefundPolicyPage() {
               1. Nature of the Service
             </h2>
             <p className="text-sm leading-relaxed">
-              CloudVeil is a digital Software-as-a-Service (SaaS) product. No
+              Intractify is a digital Software-as-a-Service (SaaS) product. No
               physical goods are shipped. Upon successful payment, you receive
               immediate access to the features of your chosen plan. All
               transactions are processed by Cashfree Payments India Pvt. Ltd.
@@ -86,7 +86,7 @@ export default function RefundPolicyPage() {
               2. Subscription Cancellation
             </h2>
             <p className="text-sm leading-relaxed">
-              You may cancel your CloudVeil subscription at any time by visiting
+              You may cancel your Intractify subscription at any time by visiting
               the Billing section of your account dashboard and clicking
               &ldquo;Cancel Subscription&rdquo;. Upon cancellation:
             </p>
@@ -139,7 +139,7 @@ export default function RefundPolicyPage() {
                 non-refundable.
               </li>
               <li>
-                <strong>Service outages:</strong> If CloudVeil experiences a
+                <strong>Service outages:</strong> If Intractify experiences a
                 verified service outage affecting your ability to use the service
                 for more than 24 continuous hours within a billing period, you
                 may request a pro-rated credit for the affected period.
@@ -196,10 +196,10 @@ export default function RefundPolicyPage() {
             <p className="mb-3 text-sm leading-relaxed">
               To request a refund, email{" "}
               <a
-                href="mailto:billing@cloudveil.app"
+                href="mailto:billing@intractify.com"
                 className="text-[var(--cv-indigo)] hover:underline"
               >
-                billing@cloudveil.app
+                billing@intractify.com
               </a>{" "}
               with:
             </p>
@@ -243,10 +243,10 @@ export default function RefundPolicyPage() {
               7. Payment Processor
             </h2>
             <p className="text-sm leading-relaxed">
-              All payments for CloudVeil subscriptions are processed by Cashfree
+              All payments for Intractify subscriptions are processed by Cashfree
               Payments India Pvt. Ltd. (CIN: U74999KA2015PTC082912), a licensed
               payment aggregator regulated by the Reserve Bank of India.
-              CloudVeil does not store payment card information. If you have a
+              Intractify does not store payment card information. If you have a
               dispute regarding a charge processed by Cashfree, you may also
               contact your card issuer directly. For Cashfree-related payment
               issues, you can reach Cashfree support at cashfree.com/contact.
@@ -264,10 +264,10 @@ export default function RefundPolicyPage() {
             <p className="text-sm leading-relaxed">
               For any billing or refund questions, contact us at{" "}
               <a
-                href="mailto:billing@cloudveil.app"
+                href="mailto:billing@intractify.com"
                 className="text-[var(--cv-indigo)] hover:underline"
               >
-                billing@cloudveil.app
+                billing@intractify.com
               </a>
               . We aim to respond within 1 business day (Monday–Friday, 9am–6pm
               IST).

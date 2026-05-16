@@ -3,8 +3,8 @@ import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 
 export const metadata: Metadata = {
-  title: "Data Deletion Request | CloudVeil",
-  description: "Request deletion of your CloudVeil account and associated data.",
+  title: "Data Deletion Request | Intractify",
+  description: "Request deletion of your Intractify account and associated data.",
 };
 
 export default function DataDeletionPage() {
@@ -45,7 +45,7 @@ export default function DataDeletionPage() {
           <p className="text-sm font-medium text-[var(--cv-ink-muted)]">
             This page exists to comply with Google Play Console data safety
             requirements and app store data deletion policies. If you installed
-            CloudVeil from the Google Play Store, this is the official page to
+            Intractify from the Google Play Store, this is the official page to
             request deletion of your account and associated data.
           </p>
         </div>
@@ -58,11 +58,11 @@ export default function DataDeletionPage() {
               id="deletion-what-we-store"
               className="mb-3 text-xl font-semibold text-[var(--cv-ink)]"
             >
-              1. What Data CloudVeil Stores About You
+              1. What Data Intractify Stores About You
             </h2>
             <p className="mb-3 text-sm leading-relaxed">
               Before requesting deletion, it is important to understand what data
-              we actually hold. CloudVeil is designed to minimise data collection:
+              we actually hold. Intractify is designed to minimise data collection:
             </p>
             <ul className="ml-5 list-disc space-y-2 text-sm leading-relaxed">
               <li>
@@ -81,7 +81,7 @@ export default function DataDeletionPage() {
                 is a number only — it does not contain any browsing data.
               </li>
               <li>
-                <strong>What we do NOT store:</strong> CloudVeil does not store
+                <strong>What we do NOT store:</strong> Intractify does not store
                 your browsing history, URLs visited, search queries, cookies,
                 page content, screenshots, or any content from inside a browser
                 session. This data is architecturally impossible for us to
@@ -100,7 +100,7 @@ export default function DataDeletionPage() {
               2. How to Request Data Deletion
             </h2>
             <p className="mb-4 text-sm leading-relaxed">
-              You can request deletion of your CloudVeil account and all
+              You can request deletion of your Intractify account and all
               associated personal data through two methods:
             </p>
 
@@ -111,17 +111,17 @@ export default function DataDeletionPage() {
               <p className="mb-3 text-sm leading-relaxed">
                 Send an email to{" "}
                 <a
-                  href="mailto:privacy@cloudveil.app"
+                  href="mailto:privacy@intractify.com"
                   className="text-[var(--cv-indigo)] hover:underline"
                 >
-                  privacy@cloudveil.app
+                  privacy@intractify.com
                 </a>{" "}
                 with the subject line <strong>&ldquo;Data Deletion Request&rdquo;</strong>
                 and include:
               </p>
               <ul className="ml-5 list-disc space-y-1 text-sm leading-relaxed">
                 <li>Your full name</li>
-                <li>The email address associated with your CloudVeil account</li>
+                <li>The email address associated with your Intractify account</li>
                 <li>A brief reason for the request (optional)</li>
               </ul>
             </div>
@@ -131,7 +131,7 @@ export default function DataDeletionPage() {
                 Option B: Use the Request Form Below
               </h3>
               <form
-                action="mailto:privacy@cloudveil.app"
+                action="mailto:privacy@intractify.com"
                 method="get"
                 encType="text/plain"
                 className="space-y-4"
@@ -173,7 +173,7 @@ export default function DataDeletionPage() {
                     type="email"
                     required
                     autoComplete="email"
-                    placeholder="The email on your CloudVeil account"
+                    placeholder="The email on your Intractify account"
                     className="w-full rounded-xl px-4 py-3 text-sm text-[var(--cv-ink)] placeholder:text-[var(--cv-ink-subtle)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cv-indigo)]"
                     style={{
                       background: "var(--cv-glass)",
@@ -294,7 +294,7 @@ export default function DataDeletionPage() {
               5. Deletion Timeframe
             </h2>
             <p className="text-sm leading-relaxed">
-              CloudVeil commits to processing all verified data deletion requests
+              Intractify commits to processing all verified data deletion requests
               within <strong>30 calendar days</strong> of identity verification.
               This timeframe complies with GDPR Article 17, CCPA Section 1798.105,
               and Google Play Store data safety requirements. If we are unable to
@@ -312,13 +312,13 @@ export default function DataDeletionPage() {
               6. Google Play Store &amp; App Data Safety Compliance
             </h2>
             <p className="text-sm leading-relaxed">
-              This page serves as the official data deletion URL for CloudVeil
+              This page serves as the official data deletion URL for Intractify
               applications distributed through the Google Play Store, in
               compliance with Google Play&apos;s data safety section requirements.
-              Users who installed CloudVeil via Google Play can use this page to
+              Users who installed Intractify via Google Play can use this page to
               request deletion of their account and all associated data,
               regardless of whether the account was created on a mobile device
-              or via the web. The data types collected by CloudVeil mobile apps
+              or via the web. The data types collected by Intractify mobile apps
               (account info, app activity) are described in our{" "}
               <a
                 href="/privacy-policy#privacy-app-permissions"
@@ -342,10 +342,10 @@ export default function DataDeletionPage() {
               For any questions about data deletion or your privacy rights,
               contact us at{" "}
               <a
-                href="mailto:privacy@cloudveil.app"
+                href="mailto:privacy@intractify.com"
                 className="text-[var(--cv-indigo)] hover:underline"
               >
-                privacy@cloudveil.app
+                privacy@intractify.com
               </a>
               . We respond within 2 business days.
             </p>
