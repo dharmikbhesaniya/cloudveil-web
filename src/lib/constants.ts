@@ -126,4 +126,19 @@ export const FAQ_DATA = [
     answer:
       "We offer a 7-day refund window for new subscriptions. If you are not satisfied within 7 days of your first payment and have not used the service significantly, contact billing@intractify.com with your order ID for a full refund. Annual plans qualify for pro-rated refunds for unused months.",
   },
+  {
+    question: "How is Intractify different from a VPN or Incognito mode?",
+    answer:
+      "A VPN hides your IP address but your browser still runs on your device — websites can still fingerprint you using canvas, WebGL, audio, and font rendering. Incognito mode runs locally too, just without saving history after the session. Intractify runs the entire browser in the cloud: your device is only a screen. No browser code runs on your machine, no fingerprint originates from your device, and nothing is stored anywhere when your session ends.",
+  },
+  {
+    question: "What is browser fingerprinting and how does Intractify prevent it?",
+    answer:
+      "Browser fingerprinting is a tracking technique that identifies you by combining attributes like your screen resolution, installed fonts, canvas rendering, WebGL output, and audio processing — creating a unique 'fingerprint' even without cookies. Intractify randomizes all of these per session: canvas, WebGL, audio, fonts, and timing are all spoofed fresh for each session, so each session presents a completely different identity to any website.",
+  },
+  {
+    question: "Is Intractify available on mobile?",
+    answer:
+      "Yes. Intractify runs in any modern web browser — desktop or mobile. Because the browser session runs in the cloud and streams to your screen via WebRTC, there is nothing to install. Open intractify.com on your phone, launch a session, and the cloud browser appears in your mobile browser window.",
+  },
 ];

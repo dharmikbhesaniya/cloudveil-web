@@ -1,44 +1,45 @@
 import type { MetadataRoute } from "next";
 
 const DOMAIN = "https://intractify.com";
+const LAST_MODIFIED = new Date("2026-05-21");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: DOMAIN,
-      lastModified: new Date("2025-05-16"),
+      lastModified: LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 1,
     },
     {
-      url: `${DOMAIN}/privacy-policy`,
-      lastModified: new Date("2025-05-16"),
+      url: `${DOMAIN}/contact`,
+      lastModified: LAST_MODIFIED,
       changeFrequency: "monthly",
-      priority: 0.6,
+      priority: 0.8,
+    },
+    {
+      url: `${DOMAIN}/privacy-policy`,
+      lastModified: LAST_MODIFIED,
+      changeFrequency: "yearly",
+      priority: 0.5,
     },
     {
       url: `${DOMAIN}/terms-of-service`,
-      lastModified: new Date("2025-05-16"),
-      changeFrequency: "monthly",
-      priority: 0.6,
+      lastModified: LAST_MODIFIED,
+      changeFrequency: "yearly",
+      priority: 0.5,
     },
     {
       url: `${DOMAIN}/refund-policy`,
-      lastModified: new Date("2025-05-16"),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${DOMAIN}/contact`,
-      lastModified: new Date("2025-05-16"),
-      changeFrequency: "monthly",
-      priority: 0.7,
+      lastModified: LAST_MODIFIED,
+      changeFrequency: "yearly",
+      priority: 0.5,
     },
     {
       url: `${DOMAIN}/data-deletion`,
-      lastModified: new Date("2025-05-16"),
-      changeFrequency: "monthly",
-      priority: 0.5,
+      lastModified: LAST_MODIFIED,
+      changeFrequency: "yearly",
+      priority: 0.4,
     },
   ];
 }

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
+import { StructuredData } from "@/lib/seo/structured-data";
+import { organizationSchema, websiteSchema } from "@/lib/seo/schema";
 
 const geistSans = Geist({ variable: "--font-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -13,15 +15,34 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: { default: "Intractify — Your Private Space in the Cloud", template: "%s | Intractify" },
+  title: {
+    default: "Intractify — Private Cloud Browser | Browse Without a Trace",
+    template: "%s | Intractify",
+  },
   description:
-    "A cloud-based privacy platform where you launch and interact with a fully isolated browser — entirely through a web-based interface. Nothing stored. Nothing tracked. Nothing traced.",
+    "Launch a fully isolated cloud browser in under 5 seconds. Container-level isolation, zero fingerprint, zero logs — browser destroyed when your session ends. Free to start.",
   metadataBase: new URL("https://intractify.com"),
-  alternates: { canonical: "/" },
+  alternates: { canonical: "https://intractify.com" },
+  keywords: [
+    "cloud browser",
+    "private browser",
+    "isolated browser",
+    "browser fingerprint protection",
+    "ephemeral browser",
+    "zero-log browsing",
+    "anonymous browser cloud",
+    "browser isolation service",
+    "remote browser isolation",
+    "private browsing cloud",
+    "anti-fingerprint browser",
+    "cloud-based browser",
+    "disposable browser",
+    "Intractify",
+  ],
   openGraph: {
     title: "Intractify — Private Cloud Browser | Browse Without a Trace",
     description:
-      "Launch isolated cloud browser sessions with zero logs. Your IP, fingerprint, and browsing history stay invisible.",
+      "Launch isolated cloud browser sessions with zero logs. Container destroyed when your session ends — your IP, fingerprint, and history stay invisible.",
     url: "https://intractify.com",
     siteName: "Intractify",
     type: "website",
@@ -31,7 +52,7 @@ export const metadata: Metadata = {
         url: "https://intractify.com/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Intractify — Private Cloud Browser",
+        alt: "Intractify — Private Cloud Browser. Launch a session. Disappear when done.",
       },
     ],
   },
@@ -41,13 +62,17 @@ export const metadata: Metadata = {
     description:
       "Launch isolated cloud browser sessions with zero logs. No trace, no fingerprint, no leaks.",
     images: ["https://intractify.com/og-image.png"],
-    site: "@cloudveil",
+    site: "@intractify",
   },
   robots: {
     index: true,
     follow: true,
     googleBot: { index: true, follow: true },
   },
+  authors: [{ name: "Intractify Technologies", url: "https://intractify.com" }],
+  creator: "Intractify Technologies",
+  publisher: "Intractify Technologies",
+  category: "technology",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -61,6 +86,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         suppressHydrationWarning
         className="noise-overlay bg-background text-foreground flex min-h-full flex-col"
       >
+        <StructuredData data={[organizationSchema, websiteSchema]} />
         {children}
       </body>
     </html>

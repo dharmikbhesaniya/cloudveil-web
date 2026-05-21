@@ -3,8 +3,17 @@ import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 
 export const metadata: Metadata = {
-  title: "Data Deletion Request | Intractify",
-  description: "Request deletion of your Intractify account and associated data.",
+  title: "Data Deletion Request — GDPR & Google Play Compliant | Intractify",
+  description:
+    "Request deletion of your Intractify account and associated data. GDPR/CCPA/Google Play compliant. Verified and completed within 30 days. Email privacy@intractify.com.",
+  alternates: { canonical: "https://intractify.com/data-deletion" },
+  openGraph: {
+    title: "Data Deletion Request — GDPR & Google Play Compliant | Intractify",
+    description:
+      "Request deletion of your Intractify account and data. Completed within 30 days. GDPR/CCPA/Google Play compliant.",
+    url: "https://intractify.com/data-deletion",
+    type: "website",
+  },
 };
 
 export default function DataDeletionPage() {

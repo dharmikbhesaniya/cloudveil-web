@@ -4,8 +4,17 @@ import { Footer } from "@/components/common/Footer";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Intractify",
-  description: "How Intractify collects, uses, and protects your data.",
+  title: "Privacy Policy — What Data Intractify Collects & Retains",
+  description:
+    "Intractify never logs browsing activity. Session metadata kept 90 days for billing only. Full GDPR/CCPA compliance. Read how we protect your data and your rights.",
+  alternates: { canonical: "https://intractify.com/privacy-policy" },
+  openGraph: {
+    title: "Privacy Policy — What Data Intractify Collects & Retains",
+    description:
+      "Intractify never logs browsing activity. Session metadata kept 90 days for billing only. Full GDPR/CCPA compliance.",
+    url: "https://intractify.com/privacy-policy",
+    type: "website",
+  },
 };
 
 export default function PrivacyPolicyPage() {

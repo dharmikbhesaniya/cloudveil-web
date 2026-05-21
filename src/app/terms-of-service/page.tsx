@@ -3,8 +3,17 @@ import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | Intractify",
-  description: "Intractify terms and conditions of use.",
+  title: "Terms of Service — Intractify Usage Terms & Conditions",
+  description:
+    "Intractify Terms of Service covering acceptable use, subscription billing, cancellation, liability limits, and governing law. Minimum age 16. Governed by Indian law.",
+  alternates: { canonical: "https://intractify.com/terms-of-service" },
+  openGraph: {
+    title: "Terms of Service — Intractify Usage Terms & Conditions",
+    description:
+      "Intractify Terms of Service covering acceptable use, subscription billing, cancellation, and governing law.",
+    url: "https://intractify.com/terms-of-service",
+    type: "website",
+  },
 };
 
 export default function TermsOfServicePage() {

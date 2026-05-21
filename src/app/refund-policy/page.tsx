@@ -3,8 +3,17 @@ import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 
 export const metadata: Metadata = {
-  title: "Refund & Cancellation Policy | Intractify",
-  description: "Intractify refund and cancellation policy for subscriptions.",
+  title: "Refund & Cancellation Policy — 7-Day Window | Intractify",
+  description:
+    "Intractify offers a 7-day refund window for new subscribers. Cancel anytime. Processed via Cashfree in 5–7 business days. Annual plans: pro-rated refund within 3 months.",
+  alternates: { canonical: "https://intractify.com/refund-policy" },
+  openGraph: {
+    title: "Refund & Cancellation Policy — 7-Day Window | Intractify",
+    description:
+      "7-day refund window for new subscribers. Cancel anytime. Annual plans: pro-rated refund within 3 months.",
+    url: "https://intractify.com/refund-policy",
+    type: "website",
+  },
 };
 
 export default function RefundPolicyPage() {

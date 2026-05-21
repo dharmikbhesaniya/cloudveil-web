@@ -2,10 +2,21 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 import Link from "next/link";
+import { StructuredData } from "@/lib/seo/structured-data";
+import { generateBreadcrumbSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
-  title: "Contact | Intractify",
-  description: "Get in touch with the Intractify team for support, billing, or privacy inquiries.",
+  title: "Contact Intractify — Support, Billing & Privacy",
+  description:
+    "Reach the Intractify team for support, billing, privacy requests, or enterprise inquiries. Response within 24 hours on business days (Mon–Fri, 9am–6pm IST).",
+  alternates: { canonical: "https://intractify.com/contact" },
+  openGraph: {
+    title: "Contact Intractify — Support, Billing & Privacy",
+    description:
+      "Reach the Intractify team for support, billing, privacy requests, or enterprise inquiries.",
+    url: "https://intractify.com/contact",
+    type: "website",
+  },
 };
 
 const CONTACT_METHODS = [
@@ -38,9 +49,49 @@ const FAQ_SHORTCUTS = [
   { label: "Data Deletion", href: "/data-deletion" },
 ];
 
+const contactPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: "Contact Intractify",
+  url: "https://intractify.com/contact",
+  description:
+    "Reach the Intractify team for support, billing, privacy requests, or enterprise inquiries.",
+  mainEntity: {
+    "@type": "Organization",
+    name: "Intractify Technologies",
+    email: "support@intractify.com",
+    url: "https://intractify.com",
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        email: "support@intractify.com",
+        contactType: "customer support",
+        hoursAvailable: "Mo-Fr 09:00-18:00",
+        availableLanguage: "English",
+      },
+      {
+        "@type": "ContactPoint",
+        email: "billing@intractify.com",
+        contactType: "billing support",
+      },
+      {
+        "@type": "ContactPoint",
+        email: "privacy@intractify.com",
+        contactType: "data protection officer",
+      },
+    ],
+  },
+};
+
+const breadcrumb = generateBreadcrumbSchema([
+  { name: "Home", url: "https://intractify.com" },
+  { name: "Contact", url: "https://intractify.com/contact" },
+]);
+
 export default function ContactPage() {
   return (
     <>
+      <StructuredData data={[contactPageSchema, breadcrumb]} />
       <Navbar />
       <main
         id="main-content"
