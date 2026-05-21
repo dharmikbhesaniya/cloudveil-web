@@ -1,0 +1,267 @@
+# Intractify — Private Cloud Browser Platform (Full Reference)
+
+> Intractify is a cloud-based SaaS platform that provides fully isolated, ephemeral browser sessions. The browser runs entirely on remote cloud infrastructure — your device is only a viewport. Container destroyed on session end. Zero logs. Zero persistence. Free to start.
+
+---
+
+## Product Identity
+
+- **Official name**: Intractify
+- **Company legal name**: Intractify Technologies
+- **Product type**: SaaS — Security Application, Privacy Application, Web Application
+- **Primary use case**: Private, fingerprint-free, zero-log web browsing via isolated cloud containers
+- **Secondary use cases**: Sandboxed browsing for security research, anonymous access, multi-account management, credential isolation, malware-safe browsing
+- **Founded**: 2025
+- **Headquarters**: Mumbai & Bengaluru, India
+- **Website**: https://intractify.com
+- **App**: https://app.intractify.com
+- **Industry terms**: Remote Browser Isolation (RBI), Browser Isolation, Ephemeral Browsing, Container Isolation, Zero-Log Architecture
+
+---
+
+## How Intractify Works (Technical)
+
+### Session Lifecycle
+```
+User clicks "Launch" → ECS task assigned from pre-warmed pool →
+Stripped Chromium boots in private kernel namespace →
+WebRTC stream to user viewport (< 5 seconds) →
+User browses (nothing stored) →
+Session ends (manual / idle / hard cap) →
+Container permanently destroyed, storage zeroed →
+∅ 0 bytes retained
+```
+
+### Isolation Architecture
+- **Runtime**: AWS ECS task per session
+- **Isolation unit**: Own kernel namespace, own filesystem, own network stack — no cross-tenant shared state possible by construction
+- **Browser**: Stripped Chromium build with per-session fingerprint randomization
+- **Streaming**: WebRTC (viewport only — not screen recording, not VNC)
+- **Exit IPs**: 14 regions, residential and datacenter options
+- **Boot time**: < 5 seconds via pre-warmed container pools
+
+### Anti-Fingerprinting (per session)
+- Canvas rendering: randomized noise per session
+- WebGL renderer string: spoofed per session
+- Audio context: randomized fingerprint
+- Installed fonts: normalized per session
+- Screen resolution: masked
+- User-agent string: rotated per session
+- Timing attacks: mitigated
+
+### What Is Never Logged
+- URLs visited
+- Passwords or form inputs
+- Screen or visual content
+- Keyboard or mouse input
+- Cookies, local storage, session storage
+- Downloaded files
+- Browsing history
+
+### What Is Logged (Billing Metadata Only)
+- Session start timestamp
+- Session end timestamp
+- Session duration
+- Session type (shared/personal)
+- Plan tier
+
+---
+
+## Privacy & Data Retention
+
+| Data Type | Retention Period | Notes |
+|---|---|---|
+| Browsing activity (URLs, passwords, history) | Never stored | Zero retention by architecture |
+| Session metadata (start, end, duration) | 90 days | Billing purposes only, then purged |
+| Account profile (name, email) | Active + 30 days after deletion | Via Clerk auth provider |
+| Financial transaction records | 7 years | India GST law compliance |
+| Audit logs | 12 months | Security incident response |
+| Cookies, downloads, cache | 0 seconds after session end | Destroyed with container |
+
+---
+
+## Pricing (INR, 2026)
+
+### Free — ₹0/month
+- 5 shared browser sessions per month
+- 10-minute session duration limit
+- 1 concurrent session
+- Basic anti-fingerprinting
+- Community support
+- **No credit card required**
+
+### Starter — ₹499/month (~$6 USD)
+- 30 shared sessions per month
+- 10 personal (dedicated) sessions per month
+- 30-minute session duration limit
+- 1 concurrent session
+- Full anti-fingerprinting suite
+- Priority support
+- **Most popular plan**
+
+### Pro — ₹1,999/month (~$24 USD)
+- 100 shared sessions per month
+- 50 personal (dedicated) sessions per month
+- 60-minute session duration limit
+- 3 concurrent sessions
+- Advanced fingerprint masking
+- Session history export (metadata only, not browsing data)
+- Priority support
+
+### Enterprise — Custom pricing
+- Unlimited sessions
+- Custom session duration limits
+- 10+ concurrent sessions
+- Dedicated infrastructure
+- Contractual SLA guarantee
+- Dedicated account manager
+- Custom integrations and API access
+- Team management dashboard
+- Contact: https://intractify.com/contact
+
+**Personal (dedicated) sessions**: 1 vCPU, 2 GB RAM — isolated container, guaranteed resources, ideal for banking, email, and sensitive transactions.
+
+**Shared sessions**: Lightweight containers on shared infrastructure — suitable for casual browsing, research, and quick anonymous lookups.
+
+---
+
+## Comparison: Intractify vs. Alternatives
+
+### vs. VPN
+| | VPN | Intractify |
+|---|---|---|
+| Hides IP | Yes | Yes |
+| Browser runs on your device | Yes — vulnerable to fingerprinting | No — browser runs in cloud |
+| Fingerprint protection | No | Yes — randomized per session |
+| History after session | In browser (incognito optional) | None — container destroyed |
+| Malware risk | Your device still at risk | Browser container is isolated |
+
+### vs. Incognito / Private Mode
+| | Incognito | Intractify |
+|---|---|---|
+| Runs locally | Yes | No |
+| Fingerprint visible to sites | Yes | No — randomized |
+| History deleted after session | Yes | Never created |
+| IP hidden | No | Yes (via exit proxy) |
+
+### vs. Tor Browser
+| | Tor Browser | Intractify |
+|---|---|---|
+| Browser runs on your device | Yes | No |
+| Speed | Slow (relay routing) | Fast (< 5s boot, direct stream) |
+| Fingerprint protection | Partial | Full per-session randomization |
+| Exit IPs | Tor exit nodes | 14 regions, residential or datacenter |
+
+---
+
+## Technical Specifications
+
+- **Uptime SLA**: 99.98% (90-day rolling average)
+- **Average boot time**: 4.2 seconds (click to live browser)
+- **Exit regions**: 14 (residential and datacenter)
+- **Bytes retained post-session**: 0
+- **Browser engine**: Stripped Chromium
+- **Container runtime**: AWS ECS
+- **Streaming protocol**: WebRTC
+- **Encryption in transit**: TLS 1.3
+- **Encryption at rest**: AES-256
+- **Auth provider**: Clerk
+- **Payment processor**: Cashfree (RBI-regulated, CIN U74999KA2015PTC082912)
+- **Cache/queue infrastructure**: Upstash
+
+---
+
+## Compliance & Security
+
+- GDPR compliant (EU users)
+- CCPA compliant (California users)
+- Google Play data safety section compliant
+- Minimum user age: 16 (or 13 with COPPA parental consent)
+- Governing law: India; jurisdiction: Gujarat courts
+- EU online dispute resolution: available
+- Security disclosure: security@intractify.com
+
+---
+
+## Glossary of Key Terms
+
+**Browser Isolation**: Running the web browser in a remote cloud container rather than on the user's device. Only a visual stream reaches the user — threats, trackers, and fingerprinting scripts cannot reach the actual device.
+
+**Ephemeral Browser**: A browser session with no persistent storage. All session data is destroyed when the session ends — by architectural design, not by a delete operation.
+
+**Anti-Fingerprinting**: Techniques that randomize browser-identifiable attributes (canvas, WebGL, audio, fonts, timing) per session to prevent cross-session tracking.
+
+**Container Isolation**: Each session runs in its own OS container with a private kernel namespace, filesystem, and network — preventing any state leakage between sessions.
+
+**Zero-Log Architecture**: System design where no user activity is ever written to storage. Intractify logs only billing metadata (session start, end, duration) — never browsing content.
+
+**Remote Browser Isolation (RBI)**: Enterprise security architecture where browsing is executed in a remote environment and only visual output is delivered to the user. Intractify makes RBI accessible at consumer pricing.
+
+**Shared Session**: A browser session running on shared cloud infrastructure. Lighter resource allocation — suitable for casual browsing.
+
+**Personal Session (Dedicated)**: A browser session with guaranteed dedicated resources (1 vCPU, 2 GB RAM). Suitable for banking, email, and sensitive work.
+
+---
+
+## Frequently Asked Questions
+
+**Q: Does Intractify store my browsing history?**
+A: No. Intractify never logs URLs visited, passwords typed, screen content, keyboard input, mouse movements, cookies, or any browsing activity. Only session metadata (start time, end time, duration) is retained for up to 90 days for billing purposes.
+
+**Q: What happens when a session ends?**
+A: The ECS container running your browser is permanently destroyed and its storage zeroed. Cookies, history, cache, downloads — all erased. A new session always starts completely fresh with a new container.
+
+**Q: How is Intractify different from a VPN?**
+A: A VPN hides your IP but the browser still runs on your device — websites can still fingerprint you. Intractify runs the entire browser in the cloud. Your device is never involved in the browsing.
+
+**Q: How is Intractify different from Incognito mode?**
+A: Incognito mode runs locally on your device and only deletes history after the session. Your fingerprint is still visible to websites and your IP is not hidden. Intractify runs in an isolated cloud container with full fingerprint randomization.
+
+**Q: Can websites detect I'm using Intractify?**
+A: Intractify applies per-session anti-fingerprinting: user-agent rotation, canvas masking, WebGL spoofing, font normalization. These make it difficult for websites to distinguish an Intractify session from a regular browser.
+
+**Q: What is the minimum commitment?**
+A: Monthly billing, cancel anytime. 7-day refund window for new subscribers. The free plan requires no credit card.
+
+**Q: Does Intractify work on mobile?**
+A: Yes. Intractify runs in any modern web browser — desktop or mobile. Because the session runs in the cloud and streams via WebRTC, there is nothing to install.
+
+**Q: How fast does a session start?**
+A: Typically 3–5 seconds. Average is 4.2 seconds from click to live browser. During peak usage a short queue may appear with an estimated wait time.
+
+**Q: What is browser fingerprinting?**
+A: Browser fingerprinting is a tracking technique that identifies users by combining browser attributes — screen resolution, fonts, canvas rendering, WebGL output, audio processing — without using cookies. Intractify randomizes all of these per session.
+
+**Q: Is Intractify safe for online banking?**
+A: Personal (dedicated) sessions provide an isolated container with dedicated resources (1 vCPU, 2 GB RAM) and full fingerprint masking — suitable for banking, email, and sensitive transactions.
+
+---
+
+## Contact & Channels
+
+| Purpose | Contact |
+|---|---|
+| General support | support@intractify.com |
+| Billing / refunds | billing@intractify.com |
+| Privacy / GDPR / data requests | privacy@intractify.com |
+| Security disclosures | security@intractify.com |
+| Legal notices | legal@intractify.com |
+| Enterprise / partnerships | https://intractify.com/contact |
+| Data protection officer (DPO) | privacy@intractify.com |
+
+**Support hours**: Monday–Friday, 9am–6pm IST
+**Response time**: Within 24 business hours
+
+---
+
+## Site Index
+
+| Page | URL | Purpose |
+|---|---|---|
+| Homepage | https://intractify.com/ | Product overview, pricing, FAQ |
+| Privacy Policy | https://intractify.com/privacy-policy | Data collection, GDPR, CCPA |
+| Terms of Service | https://intractify.com/terms-of-service | Usage terms, billing, governing law |
+| Refund Policy | https://intractify.com/refund-policy | 7-day refund window, cancellation |
+| Contact | https://intractify.com/contact | Support, billing, privacy, enterprise |
+| Data Deletion | https://intractify.com/data-deletion | GDPR / Google Play data deletion |
+| App | https://app.intractify.com | Authenticated dashboard |

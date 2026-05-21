@@ -73,6 +73,19 @@ export const metadata: Metadata = {
   creator: "Intractify Technologies",
   publisher: "Intractify Technologies",
   category: "technology",
+  applicationName: "Intractify",
+  // NOTE: Replace with actual code from Google Search Console once verified
+  // verification: { google: "YOUR_GOOGLE_VERIFICATION_CODE" },
+  appleWebApp: {
+    capable: true,
+    title: "Intractify",
+    statusBarStyle: "black-translucent",
+  },
+  other: {
+    "theme-color": "#1F2C58",
+    "color-scheme": "light",
+    "mobile-web-app-capable": "yes",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

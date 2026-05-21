@@ -11,7 +11,13 @@ import { PricingSection } from "@/sections/pricing/PricingSection";
 import { FAQSection } from "@/sections/faq/FAQSection";
 import { CTASection } from "@/sections/cta/CTASection";
 import { StructuredData } from "@/lib/seo/structured-data";
-import { softwareApplicationSchema, generateFAQSchema } from "@/lib/seo/schema";
+import {
+  softwareApplicationSchema,
+  howItWorksSchema,
+  homePageSchema,
+  definedTermSetSchema,
+  generateFAQSchema,
+} from "@/lib/seo/schema";
 import { FAQ_DATA } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -33,7 +39,15 @@ export default function LandingPage() {
 
   return (
     <>
-      <StructuredData data={[softwareApplicationSchema, faqSchema]} />
+      <StructuredData
+        data={[
+          softwareApplicationSchema,
+          howItWorksSchema,
+          homePageSchema,
+          definedTermSetSchema,
+          faqSchema,
+        ]}
+      />
       <Navbar />
       <main className="flex-1">
         <Hero />

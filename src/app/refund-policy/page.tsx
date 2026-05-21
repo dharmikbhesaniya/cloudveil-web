@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
+import { StructuredData } from "@/lib/seo/structured-data";
+import { generateWebPageSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
   title: "Refund & Cancellation Policy — 7-Day Window | Intractify",
@@ -16,9 +18,21 @@ export const metadata: Metadata = {
   },
 };
 
+const pageSchema = generateWebPageSchema({
+  name: "Refund & Cancellation Policy — 7-Day Window",
+  description:
+    "Intractify offers a 7-day refund window for new subscribers. Cancel anytime. Processed via Cashfree in 5–7 business days.",
+  url: "https://intractify.com/refund-policy",
+  breadcrumb: [
+    { name: "Home", url: "https://intractify.com" },
+    { name: "Refund Policy", url: "https://intractify.com/refund-policy" },
+  ],
+});
+
 export default function RefundPolicyPage() {
   return (
     <>
+      <StructuredData data={pageSchema} />
       <Navbar />
       <main
         id="main-content"

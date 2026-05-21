@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
+import { StructuredData } from "@/lib/seo/structured-data";
+import { generateWebPageSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
   title: "Data Deletion Request — GDPR & Google Play Compliant | Intractify",
@@ -16,9 +18,21 @@ export const metadata: Metadata = {
   },
 };
 
+const pageSchema = generateWebPageSchema({
+  name: "Data Deletion Request — GDPR & Google Play Compliant",
+  description:
+    "Request deletion of your Intractify account and data. Completed within 30 days. GDPR, CCPA, and Google Play data safety compliant.",
+  url: "https://intractify.com/data-deletion",
+  breadcrumb: [
+    { name: "Home", url: "https://intractify.com" },
+    { name: "Data Deletion", url: "https://intractify.com/data-deletion" },
+  ],
+});
+
 export default function DataDeletionPage() {
   return (
     <>
+      <StructuredData data={pageSchema} />
       <Navbar />
       <main
         id="main-content"

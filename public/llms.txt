@@ -2,6 +2,11 @@
 
 > Launch a fully isolated cloud browser in under 5 seconds. Container-level isolation, zero fingerprint, zero logs. Browser destroyed when your session ends. Free to start.
 
+## Full Reference
+
+For complete technical details, pricing tables, comparison tables, glossary, and full FAQ:
+- [Full reference (llms-full.txt)](https://intractify.com/llms-full.txt)
+
 ## What Is Intractify
 
 Intractify is a SaaS privacy platform that provides fully isolated cloud browser sessions. The browser runs entirely on secure cloud infrastructure — your device is only a viewer. No browsing data, history, cookies, or activity is ever stored. When your session ends, the container running the browser is permanently destroyed and its storage zeroed.

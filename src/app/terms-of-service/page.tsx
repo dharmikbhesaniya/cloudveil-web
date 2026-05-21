@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
+import { StructuredData } from "@/lib/seo/structured-data";
+import { generateWebPageSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
   title: "Terms of Service — Intractify Usage Terms & Conditions",
@@ -16,9 +18,21 @@ export const metadata: Metadata = {
   },
 };
 
+const pageSchema = generateWebPageSchema({
+  name: "Terms of Service — Intractify Usage Terms & Conditions",
+  description:
+    "Intractify Terms of Service covering acceptable use, subscription billing, cancellation, liability limits, and governing law.",
+  url: "https://intractify.com/terms-of-service",
+  breadcrumb: [
+    { name: "Home", url: "https://intractify.com" },
+    { name: "Terms of Service", url: "https://intractify.com/terms-of-service" },
+  ],
+});
+
 export default function TermsOfServicePage() {
   return (
     <>
+      <StructuredData data={pageSchema} />
       <Navbar />
       <main
         id="main-content"

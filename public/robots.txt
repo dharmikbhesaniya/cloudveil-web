@@ -1,0 +1,64 @@
+# Intractify — robots.txt
+# https://intractify.com
+
+# -------------------------------------------------------
+# Default crawl policy
+# -------------------------------------------------------
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+Disallow: /private/
+
+# -------------------------------------------------------
+# AI answer engines & LLM crawlers — explicitly allowed
+# -------------------------------------------------------
+User-agent: GPTBot
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+
+User-agent: Applebot
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+
+User-agent: Googlebot-Extended
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+
+# -------------------------------------------------------
+# AI content usage preferences (draft-romm-aipref-contentsignals)
+# https://contentsignals.org/
+# -------------------------------------------------------
+# search=yes    — allow indexing for web search
+# ai-train=no   — do not use content to train AI models
+# ai-input=yes  — allow content as input/context for AI responses
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+
+# -------------------------------------------------------
+# Discovery
+# -------------------------------------------------------
+Sitemap: https://intractify.com/sitemap.xml
+Host: https://intractify.com

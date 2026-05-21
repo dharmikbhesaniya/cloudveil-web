@@ -1,3 +1,8 @@
+// Replace < with unicode to prevent XSS via JSON-LD injection (Next.js official recommendation)
+function safeJsonLd(data: object): string {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
+
 export function StructuredData({ data }: { data: object | object[] }) {
   const normalized = Array.isArray(data) ? data : [data];
   return (
@@ -6,7 +11,7 @@ export function StructuredData({ data }: { data: object | object[] }) {
         <script
           key={i}
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
         />
       ))}
     </>

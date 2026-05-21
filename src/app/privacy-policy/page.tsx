@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 import Link from "next/link";
+import { StructuredData } from "@/lib/seo/structured-data";
+import { generateWebPageSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
   title: "Privacy Policy — What Data Intractify Collects & Retains",
@@ -17,9 +19,21 @@ export const metadata: Metadata = {
   },
 };
 
+const pageSchema = generateWebPageSchema({
+  name: "Privacy Policy — What Data Intractify Collects & Retains",
+  description:
+    "Intractify never logs browsing activity. Session metadata kept 90 days for billing only. Full GDPR/CCPA compliance.",
+  url: "https://intractify.com/privacy-policy",
+  breadcrumb: [
+    { name: "Home", url: "https://intractify.com" },
+    { name: "Privacy Policy", url: "https://intractify.com/privacy-policy" },
+  ],
+});
+
 export default function PrivacyPolicyPage() {
   return (
     <>
+      <StructuredData data={pageSchema} />
       <Navbar />
       <main
         id="main-content"

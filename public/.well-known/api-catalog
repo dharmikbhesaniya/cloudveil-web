@@ -1,0 +1,43 @@
+{
+  "title": "Intractify API Catalog",
+  "description": "API and content endpoints available on intractify.com for agents and automated clients.",
+  "apis": [
+    {
+      "id": "llms-compact",
+      "title": "LLM Reference (Compact)",
+      "description": "Compact product reference for LLM crawlers — pricing, features, architecture, FAQ.",
+      "url": "https://intractify.com/llms.txt",
+      "type": "text/plain",
+      "relation": "describedby"
+    },
+    {
+      "id": "llms-full",
+      "title": "LLM Reference (Full)",
+      "description": "Full technical reference with comparison tables, glossary, full FAQ, and site index.",
+      "url": "https://intractify.com/llms-full.txt",
+      "type": "text/plain",
+      "relation": "service-doc"
+    },
+    {
+      "id": "sitemap",
+      "title": "Sitemap",
+      "description": "XML sitemap listing all canonical pages.",
+      "url": "https://intractify.com/sitemap.xml",
+      "type": "application/xml",
+      "relation": "sitemap"
+    },
+    {
+      "id": "robots",
+      "title": "Robots",
+      "description": "Crawl directives and AI bot policy.",
+      "url": "https://intractify.com/robots.txt",
+      "type": "text/plain",
+      "relation": "robots"
+    }
+  ],
+  "contact": {
+    "support": "support@intractify.com",
+    "privacy": "privacy@intractify.com"
+  },
+  "organization": "https://intractify.com/#organization"
+}
