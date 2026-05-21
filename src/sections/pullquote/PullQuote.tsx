@@ -76,11 +76,10 @@ export function PullQuote() {
       >
         <p
           style={{
-            fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
-            fontStyle: "italic",
-            fontWeight: 400,
+            fontFamily: "var(--font-sans, ui-sans-serif, sans-serif)",
+            fontWeight: 500,
             fontSize: "clamp(28px, 3.6vw, 44px)",
-            lineHeight: 1.2,
+            lineHeight: 1.25,
             letterSpacing: "-0.022em",
             textWrap: "balance" as React.CSSProperties["textWrap"],
             color: "var(--foreground)",
@@ -101,6 +100,14 @@ export function PullQuote() {
                     transform: visible ? "translateY(0)" : "translateY(12px)",
                     transition: `opacity 0.7s ${EASE} ${delay}s, transform 0.7s ${EASE} ${delay}s`,
                     color: w.red ? "#6F2530" : "inherit",
+                    ...(w.red
+                      ? {
+                          fontFamily:
+                            "var(--font-display, 'Instrument Serif', Georgia, serif)",
+                          fontStyle: "italic",
+                          fontWeight: 400,
+                        }
+                      : {}),
                   }}
                 >
                   {w.text.trimEnd()}
