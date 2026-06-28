@@ -9,7 +9,7 @@ export function PricingSection() {
   const { ref: gridRef, isRevealed: gridRevealed } = useScrollReveal({ threshold: 0.05 });
 
   return (
-    <section className="py-24" id="pricing">
+    <section className="py-24" id="pricing" style={{ borderTop: "1px solid var(--border)" }}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div

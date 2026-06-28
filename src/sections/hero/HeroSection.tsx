@@ -10,7 +10,7 @@ function prefersReducedMotion() {
   return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-function useUrlTypewriter(target: string, startDelay = 2600) {
+function useUrlTypewriter(target: string, startDelay = 1200) {
   const [text, setText] = useState("");
   useEffect(() => {
     if (prefersReducedMotion()) {
@@ -121,11 +121,11 @@ export function Hero() {
   const timer = useCountdown(12, 48);
 
   useEffect(() => {
-    const t = setTimeout(() => setMetaActive(true), 2100);
+    const t = setTimeout(() => setMetaActive(true), 800);
     return () => clearTimeout(t);
   }, []);
 
-  const wordDelay = [0.35, 0.5, 0.85, 1.0, 1.15];
+  const wordDelay = [0.1, 0.18, 0.26, 0.34, 0.42];
   let wordIdx = 0;
 
   return (
@@ -154,7 +154,7 @@ export function Hero() {
                 color: "var(--muted-foreground)",
                 marginBottom: "28px",
                 opacity: 0,
-                animation: `fade-up 0.9s ${EASE} 0.1s forwards`,
+                animation: `fade-up 0.8s ${EASE} 0.05s forwards`,
               }}
             >
               — N° 01 / Cloud privacy / Est. 2025
@@ -175,7 +175,7 @@ export function Hero() {
             >
               {WORDS.map((w, i) => {
                 if (w.break) return <br key={`br-${i}`} />;
-                const delay = wordDelay[wordIdx++] ?? 0.35;
+                const delay = wordDelay[wordIdx++] ?? 0.1;
                 if (w.italic) {
                   return (
                     <span
@@ -191,6 +191,9 @@ export function Hero() {
                         color: "var(--primary)",
                         position: "relative",
                         marginRight: "0.25em",
+                        paddingLeft: "0.08em",
+                        marginLeft: "-0.08em",
+                        paddingRight: "0.08em",
                       }}
                     >
                       {w.text}{" "}
@@ -205,7 +208,7 @@ export function Hero() {
                           background: "var(--primary)",
                           transform: "scaleX(0)",
                           transformOrigin: "left",
-                          animation: `underline-draw 1.2s ${EASE} 1.6s forwards`,
+                          animation: `underline-draw 0.8s ${EASE} 0.7s forwards`,
                         }}
                       />
                     </span>
@@ -234,7 +237,7 @@ export function Hero() {
                 maxWidth: "460px",
                 margin: "28px 0 0",
                 opacity: 0,
-                animation: `fade-up 1s ${EASE} 1.7s forwards`,
+                animation: `fade-up 0.8s ${EASE} 0.5s forwards`,
               }}
             >
               A complete browser, lent to you in the cloud for a session, then taken apart. No
@@ -249,7 +252,7 @@ export function Hero() {
                 alignItems: "baseline",
                 marginTop: "36px",
                 opacity: 0,
-                animation: `fade-up 1s ${EASE} 1.9s forwards`,
+                animation: `fade-up 0.8s ${EASE} 0.6s forwards`,
               }}
             >
               <a
@@ -277,7 +280,7 @@ export function Hero() {
                 fontSize: "11.5px",
                 color: "var(--muted-foreground)",
                 opacity: 0,
-                animation: `fade-up 1s ${EASE} 2.1s forwards`,
+                animation: `fade-up 0.8s ${EASE} 0.7s forwards`,
               }}
             >
               {META.map((m) => (
@@ -376,7 +379,7 @@ export function Hero() {
                       background: "var(--foreground)",
                       flexShrink: 0,
                       animation: "caret-blink 1.1s steps(2) infinite",
-                      animationDelay: "2.6s",
+                      animationDelay: "1.2s",
                       opacity: 0,
                     }}
                   />

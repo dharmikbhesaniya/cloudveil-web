@@ -7,16 +7,30 @@ const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 type QuoteWord = { text: string; red?: boolean; br?: boolean };
 
 const LINES: QuoteWord[] = [
-  { text: "A " }, { text: "private " }, { text: "browser " },
-  { text: "tab " }, { text: "is " }, { text: "a " }, { text: "curtain." },
+  { text: "A " },
+  { text: "private " },
+  { text: "browser " },
+  { text: "tab " },
+  { text: "is " },
+  { text: "a " },
+  { text: "curtain." },
   { br: true, text: "" },
-  { text: "Intractify ", red: true }, { text: "is ", red: true },
-  { text: "a ", red: true }, { text: "different ", red: true },
-  { text: "room ", red: true }, { text: "—" },
+  { text: "Intractify ", red: true },
+  { text: "is ", red: true },
+  { text: "a ", red: true },
+  { text: "different ", red: true },
+  { text: "room ", red: true },
+  { text: "—" },
   { br: true, text: "" },
-  { text: "built " }, { text: "fresh, " }, { text: "lived " },
-  { text: "in " }, { text: "once, " }, { text: "demolished " },
-  { text: "as " }, { text: "you " }, { text: "leave." },
+  { text: "built " },
+  { text: "fresh, " },
+  { text: "lived " },
+  { text: "in " },
+  { text: "once, " },
+  { text: "demolished " },
+  { text: "as " },
+  { text: "you " },
+  { text: "leave." },
 ];
 
 export function PullQuote() {
@@ -35,7 +49,7 @@ export function PullQuote() {
           io.disconnect();
         }
       },
-      { threshold: 0.18 }
+      { threshold: 0.18 },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -60,11 +74,13 @@ export function PullQuote() {
           fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
           fontStyle: "italic",
           fontSize: "220px",
-          lineHeight: 0.7,
+          lineHeight: 0.5,
           color: "#6F2530",
           opacity: 0.16,
           pointerEvents: "none",
           userSelect: "none",
+          padding: "0px",
+          margin: "0px",
         }}
       >
         &ldquo;
@@ -72,7 +88,11 @@ export function PullQuote() {
 
       <div
         className="mx-auto max-w-7xl"
-        style={{ padding: "0 clamp(24px, 5vw, 40px)", position: "relative", zIndex: 1 }}
+        style={{
+          padding: "0 clamp(24px, 5vw, 40px)",
+          position: "relative",
+          zIndex: 1,
+        }}
       >
         <p
           style={{
@@ -106,13 +126,14 @@ export function PullQuote() {
                             "var(--font-display, 'Instrument Serif', Georgia, serif)",
                           fontStyle: "italic",
                           fontWeight: 400,
+                          padding: "0 0.08em",
+                          margin: "0 -0.08em",
                         }
                       : {}),
                   }}
                 >
                   {w.text.trimEnd()}
-                </span>
-                {" "}
+                </span>{" "}
               </span>
             );
           })}

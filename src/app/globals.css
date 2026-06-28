@@ -298,10 +298,10 @@
 .skeleton-line::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(21,22,26,0.08), transparent); animation: skeleton-shimmer 2.2s ease-in-out infinite; }
 
 /* preview-in */
-.preview-in { opacity: 0; transform: translateY(40px) rotateX(8deg); transform-origin: top center; animation: preview-in 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.9s forwards; }
+.preview-in { opacity: 0; transform: translateY(40px) rotateX(8deg); transform-origin: top center; animation: preview-in 1s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards; }
 
 /* hero-word stagger */
-.hero-word { display: inline-block; opacity: 0; transform: translateY(28px); animation: word-reveal 1s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.hero-word { display: inline-block; opacity: 0; transform: translateY(28px); animation: word-reveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 
 /* lifecycle-rule */
 .lifecycle-rule { flex: 1; height: 1px; background: var(--border); margin: 0 8px; position: relative; overflow: hidden; }
