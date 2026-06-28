@@ -4,6 +4,7 @@ import { Footer } from "@/components/common/Footer";
 import { Hero } from "@/sections/hero/HeroSection";
 import { TrustSignals } from "@/sections/trust/TrustSignals";
 import { Features } from "@/sections/features/FeaturesSection";
+import { ComparisonSection } from "@/sections/comparison/ComparisonSection";
 import { HowItWorks } from "@/sections/how-it-works/HowItWorksSection";
 import { Stats } from "@/sections/stats/Stats";
 import { PullQuote } from "@/sections/pullquote/PullQuote";
@@ -55,6 +56,7 @@ export default function LandingPage() {
         <Hero />
         <TrustSignals />
         <Features />
+        <ComparisonSection />
         <HowItWorks />
         <Stats />
         <PullQuote />
