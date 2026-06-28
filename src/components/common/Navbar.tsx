@@ -84,7 +84,7 @@ export function Navbar() {
             </a>
             <a
               href="https://app.intractify.com/sign-up"
-              className="btn-ink hidden md:inline-flex"
+              className="btn-ink navbar-desktop-cta"
               id="navbar-get-started"
             >
               Launch a browser <span>→</span>
@@ -92,15 +92,16 @@ export function Navbar() {
 
             {/* Mobile menu toggle */}
             <button
-              className="cursor-pointer md:hidden"
+              className="navbar-mobile-toggle cursor-pointer"
               onClick={() => setMobileOpen((v) => !v)}
               aria-label="Toggle menu"
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-navigation"
               style={{
                 background: "none",
                 border: "none",
                 padding: "4px",
                 color: "var(--foreground)",
-                display: "flex",
                 alignItems: "center",
               }}
             >
@@ -112,6 +113,7 @@ export function Navbar() {
         {/* Mobile menu dropdown */}
         {mobileOpen && (
           <div
+            id="mobile-navigation"
             style={{
               background: "var(--background)",
               borderTop: "1px solid var(--border)",

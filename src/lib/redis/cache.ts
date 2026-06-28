@@ -1,6 +1,9 @@
-import { redis } from "./client";
+import { getRedis } from "./client";
 
 export async function getCached<T>(key: string): Promise<T | null> {
+  const redis = getRedis();
+  if (!redis) return null;
+
   const raw = await redis.get(key);
   if (raw === null || raw === undefined) return null;
   if (typeof raw === "string") {
@@ -18,10 +21,16 @@ export async function setCached<T>(
   value: T,
   ttlSeconds: number,
 ): Promise<void> {
+  const redis = getRedis();
+  if (!redis) return;
+
   await redis.setex(key, ttlSeconds, JSON.stringify(value));
 }
 
 export async function deleteCached(key: string): Promise<void> {
+  const redis = getRedis();
+  if (!redis) return;
+
   await redis.del(key);
 }
 

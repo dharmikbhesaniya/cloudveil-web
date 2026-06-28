@@ -1,4 +1,4 @@
-import { redis } from "./client";
+import { getRedis } from "./client";
 
 export interface RateLimitResult {
   allowed: boolean;
@@ -20,6 +20,15 @@ export async function checkRateLimit(
   limit = 5,
   windowSec = 60,
 ): Promise<RateLimitResult> {
+  const redis = getRedis();
+  if (!redis) {
+    return {
+      allowed: true,
+      remaining: limit,
+      resetInSeconds: windowSec,
+    };
+  }
+
   const key = `ratelimit:${namespace}:${identifier}`;
 
   // INCR is atomic — safe under concurrent requests

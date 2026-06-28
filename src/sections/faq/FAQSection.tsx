@@ -22,6 +22,8 @@ export function FAQSection() {
         <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
           {FAQ_DATA.map((faq, index) => {
             const isOpen = openIndex === index;
+            const buttonId = `faq-button-${index}`;
+            const panelId = `faq-panel-${index}`;
             return (
               <div
                 key={index}
@@ -32,10 +34,13 @@ export function FAQSection() {
                   overflow: "hidden",
                   transition: "background 0.25s",
                 }}
-              >
-                <button
-                  onClick={() => setOpenIndex(isOpen ? null : index)}
-                  style={{
+                >
+                  <button
+                    id={buttonId}
+                    onClick={() => setOpenIndex(isOpen ? null : index)}
+                    aria-expanded={isOpen}
+                    aria-controls={panelId}
+                    style={{
                     width: "100%",
                     textAlign: "left",
                     padding: "20px 24px",
@@ -78,6 +83,9 @@ export function FAQSection() {
                 </button>
 
                 <div
+                  id={panelId}
+                  role="region"
+                  aria-labelledby={buttonId}
                   style={{
                     maxHeight: isOpen ? "800px" : "0",
                     overflow: "hidden",

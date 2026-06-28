@@ -10,10 +10,9 @@ const COL_PRODUCT = [
 ];
 
 const COL_HOUSE = [
-  { label: "The room", href: "#" },
   { label: "Contact", href: "/contact" },
-  { label: "Journal", href: "#" },
-  { label: "Working with us", href: "#" },
+  { label: "Refund policy", href: "/refund-policy" },
+  { label: "Data deletion", href: "/data-deletion" },
 ];
 
 const COL_LEGAL = [
@@ -212,13 +211,17 @@ export function Footer() {
         >
           <span>© Intractify Systems Inc. {new Date().getFullYear()} · All quietly reserved.</span>
           <span>
-            <a href="#" style={{ color: "inherit", textDecoration: "none" }}>Status</a>
+            <Link href="/contact" style={{ color: "inherit", textDecoration: "none" }}>
+              Contact
+            </Link>
             {" · "}
-            <a href="#" style={{ color: "inherit", textDecoration: "none" }}>Twitter</a>
+            <Link href="/privacy-policy" style={{ color: "inherit", textDecoration: "none" }}>
+              Privacy
+            </Link>
             {" · "}
-            <a href="#" style={{ color: "inherit", textDecoration: "none" }}>GitHub</a>
-            {" · "}
-            <a href="#" style={{ color: "inherit", textDecoration: "none" }}>System map</a>
+            <Link href="/terms-of-service" style={{ color: "inherit", textDecoration: "none" }}>
+              Terms
+            </Link>
           </span>
         </div>
       </div>

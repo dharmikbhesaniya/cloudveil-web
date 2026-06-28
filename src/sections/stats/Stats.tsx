@@ -156,12 +156,11 @@ export function Stats() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
             gap: "48px",
             paddingBottom: "32px",
             borderBottom: "1px solid var(--border)",
           }}
-          className="grid-cols-2 sm:grid-cols-4"
+          className="stats-grid"
         >
           {STATS.map((s) => (
             <StatItem key={s.label} stat={s} />

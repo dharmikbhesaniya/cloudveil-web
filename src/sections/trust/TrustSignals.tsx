@@ -122,12 +122,11 @@ export function TrustSignals() {
       {/* Trust pillars */}
       <div
         ref={ref}
-        className="mx-auto max-w-7xl"
+        className="trust-grid mx-auto max-w-7xl"
         style={{
           padding: "40px clamp(24px, 5vw, 40px) 48px",
           borderTop: "1px solid var(--border)",
           display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
           gap: "40px",
         }}
       >

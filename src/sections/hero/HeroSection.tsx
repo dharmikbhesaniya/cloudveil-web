@@ -6,19 +6,30 @@ import { Shield } from "lucide-react";
 const URL_TARGET = "session.intractify.com/s/8f4a2c1e";
 const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 
+function prefersReducedMotion() {
+  return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 function useUrlTypewriter(target: string, startDelay = 2600) {
   const [text, setText] = useState("");
   useEffect(() => {
+    if (prefersReducedMotion()) {
+      setText(target);
+      return;
+    }
     let i = 0;
+    let iv: ReturnType<typeof setInterval> | undefined;
     const t = setTimeout(() => {
-      const iv = setInterval(() => {
+      iv = setInterval(() => {
         i++;
         setText(target.slice(0, i));
         if (i >= target.length) clearInterval(iv);
       }, 55);
-      return () => clearInterval(iv);
     }, startDelay);
-    return () => clearTimeout(t);
+    return () => {
+      clearTimeout(t);
+      if (iv) clearInterval(iv);
+    };
   }, [target, startDelay]);
   return text;
 }
@@ -26,6 +37,7 @@ function useUrlTypewriter(target: string, startDelay = 2600) {
 function useCountdown(initialMin: number, initialSec: number) {
   const [time, setTime] = useState({ m: initialMin, s: initialSec });
   useEffect(() => {
+    if (prefersReducedMotion()) return;
     const iv = setInterval(() => {
       setTime((prev) => {
         if (prev.s > 0) return { m: prev.m, s: prev.s - 1 };
@@ -42,15 +54,21 @@ function useCounter(target: number, decimals: number, active: boolean) {
   const [val, setVal] = useState(0);
   useEffect(() => {
     if (!active) return;
+    if (prefersReducedMotion()) {
+      setVal(target);
+      return;
+    }
     const dur = 1800;
     const start = performance.now();
+    let frame = 0;
     const ease = (t: number) => 1 - Math.pow(1 - t, 3);
     const raf = (now: number) => {
       const p = Math.min((now - start) / dur, 1);
       setVal(parseFloat((ease(p) * target).toFixed(decimals)));
-      if (p < 1) requestAnimationFrame(raf);
+      if (p < 1) frame = requestAnimationFrame(raf);
     };
-    requestAnimationFrame(raf);
+    frame = requestAnimationFrame(raf);
+    return () => cancelAnimationFrame(frame);
   }, [active, target, decimals]);
   return val;
 }
@@ -144,6 +162,7 @@ export function Hero() {
 
             {/* Staggered headline */}
             <h1
+              aria-label="Your private space, kept elsewhere."
               style={{
                 fontFamily: "var(--font-sans, ui-sans-serif, sans-serif)",
                 fontWeight: 500,
@@ -162,6 +181,7 @@ export function Hero() {
                     <span
                       key={i}
                       className="hero-word"
+                      aria-hidden="true"
                       style={{
                         animationDelay: `${delay}s`,
                         fontFamily:
@@ -173,7 +193,7 @@ export function Hero() {
                         marginRight: "0.25em",
                       }}
                     >
-                      {w.text}
+                      {w.text}{" "}
                       <span
                         aria-hidden="true"
                         style={{
@@ -195,9 +215,10 @@ export function Hero() {
                   <span
                     key={i}
                     className="hero-word"
+                    aria-hidden="true"
                     style={{ animationDelay: `${delay}s`, marginRight: "0.25em" }}
                   >
-                    {w.text}
+                    {w.text}{" "}
                   </span>
                 );
               })}

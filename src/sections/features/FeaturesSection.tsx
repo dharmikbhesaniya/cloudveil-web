@@ -109,7 +109,6 @@ function FeatureRow({
       ref={ref}
       style={{
         display: "grid",
-        gridTemplateColumns: "80px 1fr 2fr",
         gap: "40px",
         padding: "32px 0",
         borderBottom: "1px solid var(--border)",
@@ -117,7 +116,7 @@ function FeatureRow({
         transform: visible ? "translateY(0)" : "translateY(24px)",
         transition: `opacity 0.9s ${EASE} ${delay}s, transform 0.9s ${EASE} ${delay}s`,
       }}
-      className="group"
+      className="feature-row group"
     >
       {/* Number */}
       <div

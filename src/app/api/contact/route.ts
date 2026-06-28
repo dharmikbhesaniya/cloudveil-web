@@ -10,14 +10,16 @@ const VALID_SUBJECTS = [
   "Other",
 ] as const;
 
-// ── Input validation ──────────────────────────────────────────────────────────
-
-function validateBody(body: unknown): {
+type ValidContact = {
   name: string;
   email: string;
   subject: string;
   message: string;
-} | string {
+};
+
+// ── Input validation ──────────────────────────────────────────────────────────
+
+function validateBody(body: unknown): ValidContact | string {
   if (typeof body !== "object" || body === null) return "Invalid request body";
 
   const { name, email, subject, message } = body as Record<string, unknown>;
@@ -39,6 +41,47 @@ function validateBody(body: unknown): {
     subject,
     message: message.trim(),
   };
+}
+
+async function deliverContactMessage(contact: ValidContact, ip: string) {
+  const webhookUrl = process.env.CONTACT_WEBHOOK_URL;
+
+  if (!webhookUrl) {
+    return {
+      ok: false,
+      status: 503,
+      error: "Contact delivery is not configured. Please email support@intractify.com.",
+    };
+  }
+
+  try {
+    const res = await fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...contact,
+        ip,
+        source: "intractify-contact-form",
+        receivedAt: new Date().toISOString(),
+      }),
+    });
+
+    if (!res.ok) {
+      return {
+        ok: false,
+        status: 502,
+        error: "We could not send your message. Please email support@intractify.com.",
+      };
+    }
+  } catch {
+    return {
+      ok: false,
+      status: 502,
+      error: "We could not send your message. Please email support@intractify.com.",
+    };
+  }
+
+  return { ok: true, status: 201, error: "" };
 }
 
 // ── Route handler ─────────────────────────────────────────────────────────────
@@ -82,6 +125,14 @@ export async function POST(req: NextRequest) {
   const validated = validateBody(body);
   if (typeof validated === "string") {
     return NextResponse.json({ error: validated }, { status: 400 });
+  }
+
+  const delivered = await deliverContactMessage(validated, ip);
+  if (!delivered.ok) {
+    return NextResponse.json(
+      { error: delivered.error },
+      { status: delivered.status },
+    );
   }
 
   return NextResponse.json(
