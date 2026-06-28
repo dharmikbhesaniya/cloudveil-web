@@ -152,6 +152,37 @@ These five brand-new, premium concepts are designed to be entirely unique, deliv
     *   Under Intractify, the red particles flow into a cloud container first. The container executes the scripts remotely, and only streams clean gray particles (representing pure video pixels) to the device.
 *   **Why it works:** Makes remote browser isolation (RBI) instantly understandable.
 
+### 10. The Refractive Glass Dome (Vacuum Isolation)
+*   **Concept:** A three-dimensional glass containment dome (using CSS refractions and backdrop blurs) that dynamically wraps around the browser mockup during scanning, representing complete isolation.
+*   **The Experience:**
+    *   On scan boot, a faint glowing outline emerges around the browser mockup.
+    *   During active diagnostic checks, the boundary crystallizes into a glass containment shield (using a radial `backdrop-filter` blur and specular highlights) that slightly distorts and refracts background grid lines behind it.
+    *   Web leaks or external script lines bounce off this glass shell as tiny, colorful prism flares.
+*   **Why it works:** Visually models "isolation" and "containment" using high-end glassmorphic physics.
+
+### 11. The Cleanroom Air Shower (Fingerprint Repeller)
+*   **Concept:** A force-field perimeter around the browser mockup that repels background tracking particles.
+*   **The Experience:**
+    *   Concurrently, a swarm of tiny gray dust particles (representing trackers and cookies) float across the screen layout.
+    *   As the purge begins, a circular compression ring sweeps outward from the borders of the browser mockup frame.
+    *   This wave pushes all dust particles out of a 150px zone around the container. Particles that try to re-enter bounce off the perimeter and dissolve.
+*   **Why it works:** Directly represents the idea of "cleansing" and "repelling" tracking vectors.
+
+### 12. The Prismatic Light Ray (Pixel Streaming Link)
+*   **Concept:** A single, pixel-perfect light laser linking the user's launch CTA to the secure container viewport.
+*   **The Experience:**
+    *   A thin laser line flows from the "Launch a Browser" button to the mockup container.
+    *   During scanning, the laser is unstable, emitting small red coordinates of leaked data.
+    *   Once secured, the beam stabilizes into a solid white light path, dispersing into a soft, quiet spectrum glow when entering the sandbox.
+*   **Why it works:** Establishes a visual link between user action and safe cloud browser output.
+
+### 13. The Telemetry Heartbeat (Haptic Ripples)
+*   **Concept:** Periodic concentric outline ripples emitting from the browser mockup that temporarily highlight nearby typography in a breathing rhythm.
+*   **The Experience:**
+    *   The browser mockup acts as a sonar beacon, pulsing subtle, expanding CSS outline rings.
+    *   As each wave passes over the left-column headline, the text momentarily brightens (shifting to 100% opacity) before settling back, locking focus between text and mockup in a steady rhythm.
+*   **Why it works:** Uses rhythmic timing rather than static overlays to focus the user's attention.
+
 ---
 
 ## Part IV: Implementation & Validation Plan

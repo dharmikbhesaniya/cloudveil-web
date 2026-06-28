@@ -145,11 +145,13 @@ function VisualMockup({ activeStep, isMobile = false }: { activeStep: number; is
                 particlesRef.current.push(new SmokeParticle(cookie.x, cookie.y));
               }
             } else {
-              ctx.strokeStyle = "rgba(229, 75, 75, 0.65)";
-              ctx.fillStyle = "rgba(229, 75, 75, 0.1)";
+              ctx.beginPath();
+              ctx.arc(cookie.x, cookie.y, cookie.size / 2, 0, Math.PI * 2);
+              ctx.fillStyle = "rgba(229, 75, 75, 0.15)";
+              ctx.strokeStyle = "rgba(229, 75, 75, 0.7)";
               ctx.lineWidth = 1;
-              ctx.strokeRect(cookie.x - cookie.size / 2, cookie.y - cookie.size / 2, cookie.size, cookie.size);
-              ctx.fillRect(cookie.x - cookie.size / 2, cookie.y - cookie.size / 2, cookie.size, cookie.size);
+              ctx.fill();
+              ctx.stroke();
             }
           }
         });

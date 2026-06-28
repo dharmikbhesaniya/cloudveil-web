@@ -7,32 +7,42 @@ const URL_TARGET = "session.intractify.com/s/8f4a2c1e";
 const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 
 function prefersReducedMotion() {
-  return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
 }
 
 function getClientSpecs() {
   if (typeof window === "undefined") {
-    return { os: "macOS", browser: "Safari", ip: "185.112.45.12", hash: "9F2A7E1C" };
+    return {
+      os: "macOS",
+      browser: "Safari",
+      ip: "185.112.45.12",
+      hash: "9F2A7E1C",
+    };
   }
-  
+
   const ua = window.navigator.userAgent;
   let os = "Linux";
   let browser = "Chrome";
-  
+
   if (ua.indexOf("Win") !== -1) os = "Windows";
   else if (ua.indexOf("Mac") !== -1) os = "macOS";
   else if (ua.indexOf("Linux") !== -1) os = "Linux";
   else if (ua.indexOf("Android") !== -1) os = "Android";
   else if (ua.indexOf("like Mac") !== -1) os = "iOS";
-  
+
   if (ua.indexOf("Firefox") !== -1) browser = "Firefox";
   else if (ua.indexOf("SamsungBrowser") !== -1) browser = "Samsung Browser";
-  else if (ua.indexOf("Opera") !== -1 || ua.indexOf("OPR") !== -1) browser = "Opera";
+  else if (ua.indexOf("Opera") !== -1 || ua.indexOf("OPR") !== -1)
+    browser = "Opera";
   else if (ua.indexOf("Trident") !== -1) browser = "Internet Explorer";
-  else if (ua.indexOf("Edge") !== -1 || ua.indexOf("Edg") !== -1) browser = "Edge";
+  else if (ua.indexOf("Edge") !== -1 || ua.indexOf("Edg") !== -1)
+    browser = "Edge";
   else if (ua.indexOf("Chrome") !== -1) browser = "Chrome";
   else if (ua.indexOf("Safari") !== -1) browser = "Safari";
-  
+
   let hashVal = 0;
   for (let i = 0; i < ua.length; i++) {
     hashVal = (hashVal << 5) - hashVal + ua.charCodeAt(i);
@@ -40,7 +50,7 @@ function getClientSpecs() {
   }
   const hash = Math.abs(hashVal).toString(16).toUpperCase().substring(0, 8);
   const ip = `185.112.${(window.screen.width % 250) + 1}.${(window.screen.height % 250) + 1}`;
-  
+
   return { os, browser, ip, hash };
 }
 
@@ -60,10 +70,22 @@ function FingerprintSVG() {
       strokeWidth={1.5}
       strokeLinecap="round"
     >
-      <path strokeDasharray="1 3" d="M30 70 C30 50, 40 40, 50 40 C60 40, 70 50, 70 70" />
-      <path strokeDasharray="3 3" d="M25 75 C25 45, 35 30, 50 30 C65 30, 75 45, 75 75" />
-      <path strokeDasharray="1 4" d="M20 80 C20 40, 30 20, 50 20 C70 20, 80 40, 80 80" />
-      <path strokeDasharray="2 3" d="M15 85 C15 35, 25 10, 50 10 C75 10, 85 35, 85 85" />
+      <path
+        strokeDasharray="1 3"
+        d="M30 70 C30 50, 40 40, 50 40 C60 40, 70 50, 70 70"
+      />
+      <path
+        strokeDasharray="3 3"
+        d="M25 75 C25 45, 35 30, 50 30 C65 30, 75 45, 75 75"
+      />
+      <path
+        strokeDasharray="1 4"
+        d="M20 80 C20 40, 30 20, 50 20 C70 20, 80 40, 80 80"
+      />
+      <path
+        strokeDasharray="2 3"
+        d="M15 85 C15 35, 25 10, 50 10 C75 10, 85 35, 85 85"
+      />
       <path d="M45 55 C45 50, 50 48, 52 48 C54 48, 55 50, 55 55 L55 70" />
       <path strokeDasharray="1 2" d="M35 80 L35 70 C35 60, 40 55, 45 55" />
       <path d="M65 80 L65 70 C65 60, 60 55, 55 55" />
@@ -179,22 +201,36 @@ const STEPS = [
   { id: "provision", num: "01", label: "BOOT", dot: "var(--border)" },
   { id: "scanning", num: "02", label: "SCAN", dot: "var(--primary)" },
   { id: "exposed", num: "03", label: "ALERT", dot: "#E54B4B" },
-  { id: "obfuscating", num: "04", label: "PURGE", dot: "var(--muted-foreground)" },
+  {
+    id: "obfuscating",
+    num: "04",
+    label: "PURGE",
+    dot: "var(--muted-foreground)",
+  },
   { id: "isolated", num: "05", label: "SECURE", dot: "var(--foreground)" },
 ] as const;
 
 export function Hero() {
   const [metaActive, setMetaActive] = useState(false);
   const [bootPhase, setBootPhase] = useState(0);
-  const [scanPhase, setScanPhase] = useState<"idle" | "scanning" | "exposed" | "obfuscating" | "isolated">("idle");
-  const [activeStep, setActiveStep] = useState<"provision" | "scanning" | "exposed" | "obfuscating" | "isolated">("provision");
-  const [clientSpecs, setClientSpecs] = useState({ os: "macOS", browser: "Safari", ip: "185.112.45.12", hash: "9F2A7E1C" });
+  const [scanPhase, setScanPhase] = useState<
+    "idle" | "scanning" | "exposed" | "obfuscating" | "isolated"
+  >("idle");
+  const [activeStep, setActiveStep] = useState<
+    "provision" | "scanning" | "exposed" | "obfuscating" | "isolated"
+  >("provision");
+  const [clientSpecs, setClientSpecs] = useState({
+    os: "macOS",
+    browser: "Safari",
+    ip: "185.112.45.12",
+    hash: "9F2A7E1C",
+  });
   const metaRef = useRef<HTMLDivElement>(null);
   const urlText = useUrlTypewriter(URL_TARGET);
   const timer = useCountdown(12, 48);
   const timeoutsRef = useRef<Array<ReturnType<typeof setTimeout>>>([]);
 
-  const goToStep = (step: typeof STEPS[number]["id"]) => {
+  const goToStep = (step: (typeof STEPS)[number]["id"]) => {
     timeoutsRef.current.forEach(clearTimeout);
     timeoutsRef.current = [];
     if (step === "provision") {
@@ -209,7 +245,7 @@ export function Hero() {
 
   useEffect(() => {
     setClientSpecs(getClientSpecs());
-    
+
     // Fetch live public IP address
     fetch("https://api.ipify.org?format=json")
       .then((res) => res.json())
@@ -218,18 +254,20 @@ export function Hero() {
           setClientSpecs((prev) => ({ ...prev, ip: data.ip }));
         }
       })
-      .catch((err) => console.warn("Failed fetching IP, using local mock:", err));
+      .catch((err) =>
+        console.warn("Failed fetching IP, using local mock:", err),
+      );
 
     const t = setTimeout(() => setMetaActive(true), 800);
     timeoutsRef.current.push(t);
-    
+
     if (prefersReducedMotion()) {
       setBootPhase(4);
       setScanPhase("isolated");
       setActiveStep("isolated");
       return () => clearTimeout(t);
     }
-    
+
     setActiveStep("provision");
 
     const t1 = setTimeout(() => setBootPhase(1), 1000);
@@ -252,9 +290,9 @@ export function Hero() {
       setScanPhase("isolated");
       setActiveStep("isolated");
     }, 10300);
-    
+
     timeoutsRef.current.push(t1, t2, t3, t4, t5, t6, t7);
-    
+
     return () => {
       timeoutsRef.current.forEach(clearTimeout);
     };
@@ -354,7 +392,10 @@ export function Hero() {
                     key={i}
                     className="hero-word"
                     aria-hidden="true"
-                    style={{ animationDelay: `${delay}s`, marginRight: "0.25em" }}
+                    style={{
+                      animationDelay: `${delay}s`,
+                      marginRight: "0.25em",
+                    }}
                   >
                     {w.text}{" "}
                   </span>
@@ -375,8 +416,9 @@ export function Hero() {
                 animation: `fade-up 0.8s ${EASE} 0.5s forwards`,
               }}
             >
-              A complete browser, lent to you in the cloud for a session, then taken apart. No
-              cookies survive. No history is written. No record returns.
+              A complete browser, lent to you in the cloud for a session, then
+              taken apart. No cookies survive. No history is written. No record
+              returns.
             </p>
 
             {/* Actions */}
@@ -397,7 +439,11 @@ export function Hero() {
               >
                 Launch a browser <span>→</span>
               </a>
-              <a className="serif-link" href="#features" id="hero-cta-secondary">
+              <a
+                className="serif-link"
+                href="#features"
+                id="hero-cta-secondary"
+              >
                 read the method
               </a>
             </div>
@@ -434,7 +480,7 @@ export function Hero() {
                 background: "var(--cv-card-bg)",
                 border: "1px solid var(--border)",
                 borderRadius: "6px",
-                boxShadow: "0 1px 0 #00000008, 0 30px 60px -30px #15161A1A",
+                boxShadow: "none",
               }}
             >
               {/* Chrome bar */}
@@ -504,7 +550,13 @@ export function Hero() {
                       flexShrink: 0,
                     }}
                   />
-                  <span style={{ flex: 1, overflow: "hidden", whiteSpace: "nowrap" }}>
+                  <span
+                    style={{
+                      flex: 1,
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
                     {urlText || " "}
                   </span>
                   <span
@@ -534,22 +586,26 @@ export function Hero() {
                   position: "relative",
                 }}
               >
-                <style dangerouslySetInnerHTML={{ __html: `
+                <style
+                  dangerouslySetInnerHTML={{
+                    __html: `
                   @keyframes scan-sweep {
                     0% { top: 0%; opacity: 0.8; }
                     50% { top: 100%; opacity: 0.8; }
                     100% { top: 0%; opacity: 0.8; }
                   }
                   @keyframes pulse-red {
-                    0% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(229, 75, 75, 0.4); }
-                    70% { transform: scale(1); opacity: 0.6; box-shadow: 0 0 0 6px rgba(229, 75, 75, 0); }
-                    100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(229, 75, 75, 0); }
+                    0% { opacity: 1; }
+                    50% { opacity: 0.3; }
+                    100% { opacity: 1; }
                   }
                   @keyframes progress-fill {
                     0% { width: 0%; }
                     100% { width: 100%; }
                   }
-                `}} />
+                `,
+                  }}
+                />
 
                 {bootPhase < 4 ? (
                   <div
@@ -566,10 +622,39 @@ export function Hero() {
                       padding: "0 10%",
                     }}
                   >
-                    <div style={{ opacity: bootPhase >= 0 ? 1 : 0, transition: "opacity 0.2s" }}>{">"} Allocating sandbox environment...</div>
-                    <div style={{ opacity: bootPhase >= 1 ? 1 : 0, transition: "opacity 0.2s" }}>{">"} Initializing zero-trust node...</div>
-                    <div style={{ opacity: bootPhase >= 2 ? 1 : 0, transition: "opacity 0.2s" }}>{">"} Establishing ephemeral tunnel...</div>
-                    <div style={{ opacity: bootPhase >= 3 ? 1 : 0, transition: "opacity 0.2s", color: "var(--foreground)" }}>{">"} Session live.</div>
+                    <div
+                      style={{
+                        opacity: bootPhase >= 0 ? 1 : 0,
+                        transition: "opacity 0.2s",
+                      }}
+                    >
+                      {">"} Allocating sandbox environment...
+                    </div>
+                    <div
+                      style={{
+                        opacity: bootPhase >= 1 ? 1 : 0,
+                        transition: "opacity 0.2s",
+                      }}
+                    >
+                      {">"} Initializing zero-trust node...
+                    </div>
+                    <div
+                      style={{
+                        opacity: bootPhase >= 2 ? 1 : 0,
+                        transition: "opacity 0.2s",
+                      }}
+                    >
+                      {">"} Establishing ephemeral tunnel...
+                    </div>
+                    <div
+                      style={{
+                        opacity: bootPhase >= 3 ? 1 : 0,
+                        transition: "opacity 0.2s",
+                        color: "var(--foreground)",
+                      }}
+                    >
+                      {">"} Session live.
+                    </div>
                   </div>
                 ) : (
                   <>
@@ -586,7 +671,15 @@ export function Hero() {
                           height: "100%",
                         }}
                       >
-                        <div style={{ position: "relative", padding: "10px", border: "1px solid var(--border)", borderRadius: "8px", overflow: "hidden" }}>
+                        <div
+                          style={{
+                            position: "relative",
+                            padding: "10px",
+                            border: "1px solid var(--border)",
+                            borderRadius: "8px",
+                            overflow: "hidden",
+                          }}
+                        >
                           <FingerprintSVG />
                           <div
                             style={{
@@ -595,12 +688,17 @@ export function Hero() {
                               right: 0,
                               height: "2px",
                               background: "var(--primary)",
-                              boxShadow: "0 0 8px var(--primary)",
                               animation: "scan-sweep 2s ease-in-out infinite",
                             }}
                           />
                         </div>
-                        <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "11px", color: "var(--muted-foreground)" }}>
+                        <div
+                          style={{
+                            fontFamily: "var(--font-mono, monospace)",
+                            fontSize: "11px",
+                            color: "var(--muted-foreground)",
+                          }}
+                        >
                           {">"} Scanning local specs...
                         </div>
                       </div>
@@ -651,10 +749,30 @@ export function Hero() {
                             gap: "8px",
                           }}
                         >
-                          <div>IP ADDRESS: <span style={{ color: "#E54B4B" }}>{clientSpecs.ip}</span></div>
-                          <div>PLATFORM:   <span style={{ color: "#E54B4B" }}>{clientSpecs.os}</span></div>
-                          <div>BROWSER:    <span style={{ color: "#E54B4B" }}>{clientSpecs.browser}</span></div>
-                          <div>HASH ID:     <span style={{ color: "#E54B4B" }}>{clientSpecs.hash}</span></div>
+                          <div>
+                            IP ADDRESS:{" "}
+                            <span style={{ color: "#E54B4B" }}>
+                              {clientSpecs.ip}
+                            </span>
+                          </div>
+                          <div>
+                            PLATFORM:{" "}
+                            <span style={{ color: "#E54B4B" }}>
+                              {clientSpecs.os}
+                            </span>
+                          </div>
+                          <div>
+                            BROWSER:{" "}
+                            <span style={{ color: "#E54B4B" }}>
+                              {clientSpecs.browser}
+                            </span>
+                          </div>
+                          <div>
+                            HASH ID:{" "}
+                            <span style={{ color: "#E54B4B" }}>
+                              {clientSpecs.hash}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -713,7 +831,10 @@ export function Hero() {
                             color: "var(--primary)",
                           }}
                         >
-                          <Shield style={{ width: "48px", height: "48px" }} strokeWidth={1.2} />
+                          <Shield
+                            style={{ width: "48px", height: "48px" }}
+                            strokeWidth={1.2}
+                          />
                         </div>
 
                         <div
@@ -743,10 +864,30 @@ export function Hero() {
                             gap: "6px",
                           }}
                         >
-                          <div>IP ADDRESS: <span style={{ color: "var(--foreground)" }}>10.200.0.8 (Spoofed)</span></div>
-                          <div>PLATFORM:   <span style={{ color: "var(--foreground)" }}>Linux x86_64</span></div>
-                          <div>BROWSER:    <span style={{ color: "var(--foreground)" }}>Chrome (Masked by Intractify)</span></div>
-                          <div>HASH ID:     <span style={{ color: "var(--foreground)" }}>00000000 (Anonymized)</span></div>
+                          <div>
+                            IP ADDRESS:{" "}
+                            <span style={{ color: "var(--foreground)" }}>
+                              10.200.0.8 (Spoofed)
+                            </span>
+                          </div>
+                          <div>
+                            PLATFORM:{" "}
+                            <span style={{ color: "var(--foreground)" }}>
+                              Linux x86_64
+                            </span>
+                          </div>
+                          <div>
+                            BROWSER:{" "}
+                            <span style={{ color: "var(--foreground)" }}>
+                              Chrome (Masked by Intractify)
+                            </span>
+                          </div>
+                          <div>
+                            HASH ID:{" "}
+                            <span style={{ color: "var(--foreground)" }}>
+                              00000000 (Anonymized)
+                            </span>
+                          </div>
                         </div>
                       </>
                     )}
@@ -769,18 +910,23 @@ export function Hero() {
               >
                 <span>1 vCPU · 2 GB</span>
                 <span style={{ color: "var(--foreground)" }}>{timer}</span>
-                <span style={{ marginLeft: "auto", color: "var(--muted-foreground)" }}>
+                <span
+                  style={{
+                    marginLeft: "auto",
+                    color: "var(--muted-foreground)",
+                  }}
+                >
                   us-east-1
                 </span>
               </div>
             </div>
 
             {/* Step Snapshots (Gallery Tabs) */}
-            <div 
-              style={{ 
-                display: "flex", 
-                gap: "10px", 
-                marginTop: "20px", 
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+                marginTop: "20px",
                 justifyContent: "space-between",
                 width: "100%",
               }}
@@ -794,8 +940,12 @@ export function Hero() {
                     style={{
                       flex: 1,
                       padding: "10px 8px",
-                      background: isActive ? "var(--background)" : "var(--cv-card-bg)",
-                      border: isActive ? "1px solid var(--foreground)" : "1px solid var(--border)",
+                      background: isActive
+                        ? "var(--background)"
+                        : "var(--cv-card-bg)",
+                      border: isActive
+                        ? "1px solid var(--foreground)"
+                        : "1px solid var(--border)",
                       borderRadius: "6px",
                       cursor: "pointer",
                       transition: "all 0.2s ease",
@@ -813,23 +963,42 @@ export function Hero() {
                       if (!isActive) e.currentTarget.style.opacity = "0.65";
                     }}
                   >
-                    <span style={{ 
-                      fontFamily: "var(--font-mono, monospace)", 
-                      fontSize: "9px", 
-                      letterSpacing: "0.05em",
-                      color: "var(--muted-foreground)" 
-                    }}>
+                    <span
+                      style={{
+                        fontFamily: "var(--font-mono, monospace)",
+                        fontSize: "9px",
+                        letterSpacing: "0.05em",
+                        color: "var(--muted-foreground)",
+                      }}
+                    >
                       {s.num}
                     </span>
-                    <div style={{ display: "flex", alignItems: "center", gap: "5px", width: "100%" }}>
-                      <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: s.dot, display: "inline-block" }} />
-                      <span style={{ 
-                        fontFamily: "var(--font-mono, monospace)", 
-                        fontSize: "10px", 
-                        fontWeight: 500,
-                        color: "var(--foreground)",
-                        letterSpacing: "0.02em"
-                      }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "5px",
+                        width: "100%",
+                      }}
+                    >
+                      <span
+                        style={{
+                          width: "5px",
+                          height: "5px",
+                          borderRadius: "50%",
+                          background: s.dot,
+                          display: "inline-block",
+                        }}
+                      />
+                      <span
+                        style={{
+                          fontFamily: "var(--font-mono, monospace)",
+                          fontSize: "10px",
+                          fontWeight: 500,
+                          color: "var(--foreground)",
+                          letterSpacing: "0.02em",
+                        }}
+                      >
                         {s.label}
                       </span>
                     </div>
@@ -916,10 +1085,39 @@ export function Hero() {
                     padding: "0 5%",
                   }}
                 >
-                  <div style={{ opacity: bootPhase >= 0 ? 1 : 0, transition: "opacity 0.2s" }}>{">"} Allocating sandbox environment...</div>
-                  <div style={{ opacity: bootPhase >= 1 ? 1 : 0, transition: "opacity 0.2s" }}>{">"} Initializing zero-trust node...</div>
-                  <div style={{ opacity: bootPhase >= 2 ? 1 : 0, transition: "opacity 0.2s" }}>{">"} Establishing ephemeral tunnel...</div>
-                  <div style={{ opacity: bootPhase >= 3 ? 1 : 0, transition: "opacity 0.2s", color: "var(--foreground)" }}>{">"} Session live.</div>
+                  <div
+                    style={{
+                      opacity: bootPhase >= 0 ? 1 : 0,
+                      transition: "opacity 0.2s",
+                    }}
+                  >
+                    {">"} Allocating sandbox environment...
+                  </div>
+                  <div
+                    style={{
+                      opacity: bootPhase >= 1 ? 1 : 0,
+                      transition: "opacity 0.2s",
+                    }}
+                  >
+                    {">"} Initializing zero-trust node...
+                  </div>
+                  <div
+                    style={{
+                      opacity: bootPhase >= 2 ? 1 : 0,
+                      transition: "opacity 0.2s",
+                    }}
+                  >
+                    {">"} Establishing ephemeral tunnel...
+                  </div>
+                  <div
+                    style={{
+                      opacity: bootPhase >= 3 ? 1 : 0,
+                      transition: "opacity 0.2s",
+                      color: "var(--foreground)",
+                    }}
+                  >
+                    {">"} Session live.
+                  </div>
                 </div>
               ) : (
                 <>
@@ -936,7 +1134,15 @@ export function Hero() {
                         height: "100%",
                       }}
                     >
-                      <div style={{ position: "relative", padding: "6px", border: "1px solid var(--border)", borderRadius: "6px", overflow: "hidden" }}>
+                      <div
+                        style={{
+                          position: "relative",
+                          padding: "6px",
+                          border: "1px solid var(--border)",
+                          borderRadius: "6px",
+                          overflow: "hidden",
+                        }}
+                      >
                         <FingerprintSVG />
                         <div
                           style={{
@@ -945,12 +1151,17 @@ export function Hero() {
                             right: 0,
                             height: "2px",
                             background: "var(--primary)",
-                            boxShadow: "0 0 8px var(--primary)",
                             animation: "scan-sweep 2s ease-in-out infinite",
                           }}
                         />
                       </div>
-                      <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", color: "var(--muted-foreground)" }}>
+                      <div
+                        style={{
+                          fontFamily: "var(--font-mono, monospace)",
+                          fontSize: "10px",
+                          color: "var(--muted-foreground)",
+                        }}
+                      >
                         {">"} Scanning local specs...
                       </div>
                     </div>
@@ -1001,10 +1212,30 @@ export function Hero() {
                           gap: "6px",
                         }}
                       >
-                        <div>IP: <span style={{ color: "#E54B4B" }}>{clientSpecs.ip}</span></div>
-                        <div>OS: <span style={{ color: "#E54B4B" }}>{clientSpecs.os}</span></div>
-                        <div>BROWSER: <span style={{ color: "#E54B4B" }}>{clientSpecs.browser}</span></div>
-                        <div>HASH: <span style={{ color: "#E54B4B" }}>{clientSpecs.hash}</span></div>
+                        <div>
+                          IP:{" "}
+                          <span style={{ color: "#E54B4B" }}>
+                            {clientSpecs.ip}
+                          </span>
+                        </div>
+                        <div>
+                          OS:{" "}
+                          <span style={{ color: "#E54B4B" }}>
+                            {clientSpecs.os}
+                          </span>
+                        </div>
+                        <div>
+                          BROWSER:{" "}
+                          <span style={{ color: "#E54B4B" }}>
+                            {clientSpecs.browser}
+                          </span>
+                        </div>
+                        <div>
+                          HASH:{" "}
+                          <span style={{ color: "#E54B4B" }}>
+                            {clientSpecs.hash}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   )}
@@ -1053,7 +1284,11 @@ export function Hero() {
                     <>
                       <Shield
                         className="animate-floaty animate-fade-up"
-                        style={{ width: "40px", height: "40px", color: "var(--primary)" }}
+                        style={{
+                          width: "40px",
+                          height: "40px",
+                          color: "var(--primary)",
+                        }}
                         strokeWidth={1.2}
                       />
                       <p
@@ -1082,10 +1317,30 @@ export function Hero() {
                           gap: "4px",
                         }}
                       >
-                        <div>IP: <span style={{ color: "var(--foreground)" }}>10.200.0.8 (Spoofed)</span></div>
-                        <div>OS: <span style={{ color: "var(--foreground)" }}>Linux x86_64</span></div>
-                        <div>BROWSER: <span style={{ color: "var(--foreground)" }}>Chrome (Masked by Intractify)</span></div>
-                        <div>HASH: <span style={{ color: "var(--foreground)" }}>00000000 (Anonymized)</span></div>
+                        <div>
+                          IP:{" "}
+                          <span style={{ color: "var(--foreground)" }}>
+                            10.200.0.8 (Spoofed)
+                          </span>
+                        </div>
+                        <div>
+                          OS:{" "}
+                          <span style={{ color: "var(--foreground)" }}>
+                            Linux x86_64
+                          </span>
+                        </div>
+                        <div>
+                          BROWSER:{" "}
+                          <span style={{ color: "var(--foreground)" }}>
+                            Chrome (Masked by Intractify)
+                          </span>
+                        </div>
+                        <div>
+                          HASH:{" "}
+                          <span style={{ color: "var(--foreground)" }}>
+                            00000000 (Anonymized)
+                          </span>
+                        </div>
                       </div>
                     </>
                   )}
@@ -1109,11 +1364,11 @@ export function Hero() {
           </div>
 
           {/* Step Snapshots (Gallery Tabs) */}
-          <div 
-            style={{ 
-              display: "flex", 
-              gap: "8px", 
-              marginTop: "16px", 
+          <div
+            style={{
+              display: "flex",
+              gap: "8px",
+              marginTop: "16px",
               justifyContent: "space-between",
               width: "100%",
               flexWrap: "wrap",
@@ -1129,8 +1384,12 @@ export function Hero() {
                     flex: "1 1 0px",
                     minWidth: "60px",
                     padding: "8px 6px",
-                    background: isActive ? "var(--background)" : "var(--cv-card-bg)",
-                    border: isActive ? "1px solid var(--foreground)" : "1px solid var(--border)",
+                    background: isActive
+                      ? "var(--background)"
+                      : "var(--cv-card-bg)",
+                    border: isActive
+                      ? "1px solid var(--foreground)"
+                      : "1px solid var(--border)",
                     borderRadius: "6px",
                     cursor: "pointer",
                     transition: "all 0.2s ease",
@@ -1142,23 +1401,42 @@ export function Hero() {
                     opacity: isActive ? 1 : 0.65,
                   }}
                 >
-                  <span style={{ 
-                    fontFamily: "var(--font-mono, monospace)", 
-                    fontSize: "8px", 
-                    letterSpacing: "0.05em",
-                    color: "var(--muted-foreground)" 
-                  }}>
+                  <span
+                    style={{
+                      fontFamily: "var(--font-mono, monospace)",
+                      fontSize: "8px",
+                      letterSpacing: "0.05em",
+                      color: "var(--muted-foreground)",
+                    }}
+                  >
                     {s.num}
                   </span>
-                  <div style={{ display: "flex", alignItems: "center", gap: "4px", width: "100%" }}>
-                    <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: s.dot, display: "inline-block" }} />
-                    <span style={{ 
-                      fontFamily: "var(--font-mono, monospace)", 
-                      fontSize: "9px", 
-                      fontWeight: 500,
-                      color: "var(--foreground)",
-                      letterSpacing: "0.02em"
-                    }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "4px",
+                      width: "100%",
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: "4px",
+                        height: "4px",
+                        borderRadius: "50%",
+                        background: s.dot,
+                        display: "inline-block",
+                      }}
+                    />
+                    <span
+                      style={{
+                        fontFamily: "var(--font-mono, monospace)",
+                        fontSize: "9px",
+                        fontWeight: 500,
+                        color: "var(--foreground)",
+                        letterSpacing: "0.02em",
+                      }}
+                    >
                       {s.label}
                     </span>
                   </div>
