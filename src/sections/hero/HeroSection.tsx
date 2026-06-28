@@ -175,45 +175,88 @@ function MetaNum({
   );
 }
 
+const STEPS = [
+  { id: "provision", num: "01", label: "BOOT", dot: "var(--border)" },
+  { id: "scanning", num: "02", label: "SCAN", dot: "var(--primary)" },
+  { id: "exposed", num: "03", label: "ALERT", dot: "#E54B4B" },
+  { id: "obfuscating", num: "04", label: "PURGE", dot: "var(--muted-foreground)" },
+  { id: "isolated", num: "05", label: "SECURE", dot: "var(--foreground)" },
+] as const;
+
 export function Hero() {
   const [metaActive, setMetaActive] = useState(false);
   const [bootPhase, setBootPhase] = useState(0);
   const [scanPhase, setScanPhase] = useState<"idle" | "scanning" | "exposed" | "obfuscating" | "isolated">("idle");
+  const [activeStep, setActiveStep] = useState<"provision" | "scanning" | "exposed" | "obfuscating" | "isolated">("provision");
   const [clientSpecs, setClientSpecs] = useState({ os: "macOS", browser: "Safari", ip: "185.112.45.12", hash: "9F2A7E1C" });
   const metaRef = useRef<HTMLDivElement>(null);
   const urlText = useUrlTypewriter(URL_TARGET);
   const timer = useCountdown(12, 48);
+  const timeoutsRef = useRef<Array<ReturnType<typeof setTimeout>>>([]);
+
+  const goToStep = (step: typeof STEPS[number]["id"]) => {
+    timeoutsRef.current.forEach(clearTimeout);
+    timeoutsRef.current = [];
+    if (step === "provision") {
+      setBootPhase(3);
+      setScanPhase("idle");
+    } else {
+      setBootPhase(4);
+      setScanPhase(step);
+    }
+    setActiveStep(step);
+  };
 
   useEffect(() => {
     setClientSpecs(getClientSpecs());
+    
+    // Fetch live public IP address
+    fetch("https://api.ipify.org?format=json")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.ip) {
+          setClientSpecs((prev) => ({ ...prev, ip: data.ip }));
+        }
+      })
+      .catch((err) => console.warn("Failed fetching IP, using local mock:", err));
+
     const t = setTimeout(() => setMetaActive(true), 800);
+    timeoutsRef.current.push(t);
     
     if (prefersReducedMotion()) {
       setBootPhase(4);
       setScanPhase("isolated");
+      setActiveStep("isolated");
       return () => clearTimeout(t);
     }
     
+    setActiveStep("provision");
+
     const t1 = setTimeout(() => setBootPhase(1), 1000);
     const t2 = setTimeout(() => setBootPhase(2), 1700);
     const t3 = setTimeout(() => setBootPhase(3), 2300);
     const t4 = setTimeout(() => {
       setBootPhase(4);
       setScanPhase("scanning");
+      setActiveStep("scanning");
     }, 2800);
-    const t5 = setTimeout(() => setScanPhase("exposed"), 5300);
-    const t6 = setTimeout(() => setScanPhase("obfuscating"), 8300);
-    const t7 = setTimeout(() => setScanPhase("isolated"), 10300);
+    const t5 = setTimeout(() => {
+      setScanPhase("exposed");
+      setActiveStep("exposed");
+    }, 5300);
+    const t6 = setTimeout(() => {
+      setScanPhase("obfuscating");
+      setActiveStep("obfuscating");
+    }, 8300);
+    const t7 = setTimeout(() => {
+      setScanPhase("isolated");
+      setActiveStep("isolated");
+    }, 10300);
+    
+    timeoutsRef.current.push(t1, t2, t3, t4, t5, t6, t7);
     
     return () => {
-      clearTimeout(t);
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
-      clearTimeout(t4);
-      clearTimeout(t5);
-      clearTimeout(t6);
-      clearTimeout(t7);
+      timeoutsRef.current.forEach(clearTimeout);
     };
   }, []);
 
@@ -702,7 +745,7 @@ export function Hero() {
                         >
                           <div>IP ADDRESS: <span style={{ color: "var(--foreground)" }}>10.200.0.8 (Spoofed)</span></div>
                           <div>PLATFORM:   <span style={{ color: "var(--foreground)" }}>Linux x86_64</span></div>
-                          <div>BROWSER:    <span style={{ color: "var(--foreground)" }}>Chrome / Headless</span></div>
+                          <div>BROWSER:    <span style={{ color: "var(--foreground)" }}>Chrome (Masked by Intractify)</span></div>
                           <div>HASH ID:     <span style={{ color: "var(--foreground)" }}>00000000 (Anonymized)</span></div>
                         </div>
                       </>
@@ -730,6 +773,69 @@ export function Hero() {
                   us-east-1
                 </span>
               </div>
+            </div>
+
+            {/* Step Snapshots (Gallery Tabs) */}
+            <div 
+              style={{ 
+                display: "flex", 
+                gap: "10px", 
+                marginTop: "20px", 
+                justifyContent: "space-between",
+                width: "100%",
+              }}
+            >
+              {STEPS.map((s) => {
+                const isActive = activeStep === s.id;
+                return (
+                  <button
+                    key={s.id}
+                    onClick={() => goToStep(s.id)}
+                    style={{
+                      flex: 1,
+                      padding: "10px 8px",
+                      background: isActive ? "var(--background)" : "var(--cv-card-bg)",
+                      border: isActive ? "1px solid var(--foreground)" : "1px solid var(--border)",
+                      borderRadius: "6px",
+                      cursor: "pointer",
+                      transition: "all 0.2s ease",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                      gap: "4px",
+                      textAlign: "left",
+                      opacity: isActive ? 1 : 0.65,
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive) e.currentTarget.style.opacity = "1";
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) e.currentTarget.style.opacity = "0.65";
+                    }}
+                  >
+                    <span style={{ 
+                      fontFamily: "var(--font-mono, monospace)", 
+                      fontSize: "9px", 
+                      letterSpacing: "0.05em",
+                      color: "var(--muted-foreground)" 
+                    }}>
+                      {s.num}
+                    </span>
+                    <div style={{ display: "flex", alignItems: "center", gap: "5px", width: "100%" }}>
+                      <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: s.dot, display: "inline-block" }} />
+                      <span style={{ 
+                        fontFamily: "var(--font-mono, monospace)", 
+                        fontSize: "10px", 
+                        fontWeight: 500,
+                        color: "var(--foreground)",
+                        letterSpacing: "0.02em"
+                      }}>
+                        {s.label}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -978,7 +1084,7 @@ export function Hero() {
                       >
                         <div>IP: <span style={{ color: "var(--foreground)" }}>10.200.0.8 (Spoofed)</span></div>
                         <div>OS: <span style={{ color: "var(--foreground)" }}>Linux x86_64</span></div>
-                        <div>BROWSER: <span style={{ color: "var(--foreground)" }}>Chrome / Headless</span></div>
+                        <div>BROWSER: <span style={{ color: "var(--foreground)" }}>Chrome (Masked by Intractify)</span></div>
                         <div>HASH: <span style={{ color: "var(--foreground)" }}>00000000 (Anonymized)</span></div>
                       </div>
                     </>
@@ -1000,6 +1106,65 @@ export function Hero() {
               <span>1 vCPU · 2 GB</span>
               <span style={{ color: "var(--foreground)" }}>{timer}</span>
             </div>
+          </div>
+
+          {/* Step Snapshots (Gallery Tabs) */}
+          <div 
+            style={{ 
+              display: "flex", 
+              gap: "8px", 
+              marginTop: "16px", 
+              justifyContent: "space-between",
+              width: "100%",
+              flexWrap: "wrap",
+            }}
+          >
+            {STEPS.map((s) => {
+              const isActive = activeStep === s.id;
+              return (
+                <button
+                  key={s.id}
+                  onClick={() => goToStep(s.id)}
+                  style={{
+                    flex: "1 1 0px",
+                    minWidth: "60px",
+                    padding: "8px 6px",
+                    background: isActive ? "var(--background)" : "var(--cv-card-bg)",
+                    border: isActive ? "1px solid var(--foreground)" : "1px solid var(--border)",
+                    borderRadius: "6px",
+                    cursor: "pointer",
+                    transition: "all 0.2s ease",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    gap: "2px",
+                    textAlign: "left",
+                    opacity: isActive ? 1 : 0.65,
+                  }}
+                >
+                  <span style={{ 
+                    fontFamily: "var(--font-mono, monospace)", 
+                    fontSize: "8px", 
+                    letterSpacing: "0.05em",
+                    color: "var(--muted-foreground)" 
+                  }}>
+                    {s.num}
+                  </span>
+                  <div style={{ display: "flex", alignItems: "center", gap: "4px", width: "100%" }}>
+                    <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: s.dot, display: "inline-block" }} />
+                    <span style={{ 
+                      fontFamily: "var(--font-mono, monospace)", 
+                      fontSize: "9px", 
+                      fontWeight: 500,
+                      color: "var(--foreground)",
+                      letterSpacing: "0.02em"
+                    }}>
+                      {s.label}
+                    </span>
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
