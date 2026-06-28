@@ -61,7 +61,7 @@ export default function LandingPage() {
         <Stats />
         <PullQuote />
         <AudienceSection />
-        <TrustLogos />
+        {/* <TrustLogos /> */}
         <PricingSection />
         <FAQSection />
         <CTASection />

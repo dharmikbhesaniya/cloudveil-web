@@ -87,10 +87,8 @@ export function HowItWorks() {
                 <div
                   className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-mono text-sm font-bold text-white ring-4"
                   style={{
-                    background:
-                      "linear-gradient(135deg, oklch(0.50 0.28 265), oklch(0.55 0.24 320))",
-                    boxShadow:
-                      "0 0 0 4px var(--cv-step-ring), 0 0 20px oklch(0.65 0.22 268 / 25%)",
+                    background: "var(--foreground)",
+                    boxShadow: "0 0 0 4px var(--cv-step-ring)",
                   }}
                 >
                   {i + 1}
@@ -112,10 +110,9 @@ export function HowItWorks() {
                   <div
                     className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border"
                     style={{
-                      borderColor: "oklch(0.50 0.28 265 / 20%)",
+                      borderColor: "var(--border)",
                       color: "var(--primary)",
-                      background:
-                        "linear-gradient(135deg, oklch(0.50 0.28 265 / 18%), oklch(0.55 0.24 320 / 12%))",
+                      background: "oklch(0.5 0 0 / 4%)",
                     }}
                   >
                     <step.icon className="h-6 w-6" strokeWidth={1.8} />
@@ -133,7 +130,7 @@ export function HowItWorks() {
                 <div
                   className="mt-auto h-0.5 w-full"
                   style={{
-                    background: `linear-gradient(90deg, oklch(0.50 0.28 265 / ${(i + 1) * 25}%), oklch(0.55 0.24 320 / ${(i + 1) * 20}%), transparent)`,
+                    background: "var(--border)",
                   }}
                 />
               </div>
