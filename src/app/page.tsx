@@ -7,6 +7,8 @@ import { Features } from "@/sections/features/FeaturesSection";
 import { HowItWorks } from "@/sections/how-it-works/HowItWorksSection";
 import { Stats } from "@/sections/stats/Stats";
 import { PullQuote } from "@/sections/pullquote/PullQuote";
+import { AudienceSection } from "@/sections/audience/AudienceSection";
+import { TrustLogos } from "@/sections/trust/TrustLogos";
 import { PricingSection } from "@/sections/pricing/PricingSection";
 import { FAQSection } from "@/sections/faq/FAQSection";
 import { CTASection } from "@/sections/cta/CTASection";
@@ -56,6 +58,8 @@ export default function LandingPage() {
         <HowItWorks />
         <Stats />
         <PullQuote />
+        <AudienceSection />
+        <TrustLogos />
         <PricingSection />
         <FAQSection />
         <CTASection />

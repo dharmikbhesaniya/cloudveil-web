@@ -116,13 +116,31 @@ function MetaNum({
 
 export function Hero() {
   const [metaActive, setMetaActive] = useState(false);
+  const [bootPhase, setBootPhase] = useState(0);
   const metaRef = useRef<HTMLDivElement>(null);
   const urlText = useUrlTypewriter(URL_TARGET);
   const timer = useCountdown(12, 48);
 
   useEffect(() => {
     const t = setTimeout(() => setMetaActive(true), 800);
-    return () => clearTimeout(t);
+    
+    if (prefersReducedMotion()) {
+      setBootPhase(4);
+      return () => clearTimeout(t);
+    }
+    
+    const t1 = setTimeout(() => setBootPhase(1), 1000);
+    const t2 = setTimeout(() => setBootPhase(2), 1700);
+    const t3 = setTimeout(() => setBootPhase(3), 2300);
+    const t4 = setTimeout(() => setBootPhase(4), 2800);
+    
+    return () => {
+      clearTimeout(t);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+      clearTimeout(t4);
+    };
   }, []);
 
   const wordDelay = [0.1, 0.18, 0.26, 0.34, 0.42];
@@ -140,7 +158,7 @@ export function Hero() {
       >
         <div
           className="grid items-center gap-16 hero-two-col"
-          style={{ gridTemplateColumns: "1.1fr 0.9fr" }}
+          style={{ gridTemplateColumns: "1fr 1fr" }}
         >
           {/* Left column */}
           <div>
@@ -398,51 +416,77 @@ export function Hero() {
                   gap: "14px",
                 }}
               >
-                <div
-                  className="animate-floaty"
-                  style={{
-                    width: "56px",
-                    height: "56px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "var(--primary)",
-                  }}
-                >
-                  <Shield style={{ width: "56px", height: "56px" }} strokeWidth={1.2} />
-                </div>
-
-                <div
-                  style={{
-                    fontFamily:
-                      "var(--font-display, 'Instrument Serif', Georgia, serif)",
-                    fontStyle: "italic",
-                    fontSize: "22px",
-                    color: "var(--foreground)",
-                    textAlign: "center",
-                  }}
-                >
-                  Isolated · session running
-                </div>
-
-                <div
-                  style={{
-                    width: "240px",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "8px",
-                  }}
-                >
-                  <div className="skeleton-line" style={{ width: "78%" }} />
+                {bootPhase < 4 ? (
                   <div
-                    className="skeleton-line"
-                    style={{ width: "55%", animationDelay: "0.4s" }}
-                  />
-                  <div
-                    className="skeleton-line"
-                    style={{ width: "70%", animationDelay: "0.8s" }}
-                  />
-                </div>
+                    style={{
+                      fontFamily: "var(--font-mono, monospace)",
+                      fontSize: "11.5px",
+                      color: "var(--muted-foreground)",
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "flex-start",
+                      gap: "12px",
+                      padding: "0 10%",
+                    }}
+                  >
+                    <div style={{ opacity: bootPhase >= 0 ? 1 : 0, transition: "opacity 0.2s" }}>{">"} Allocating sandbox environment...</div>
+                    <div style={{ opacity: bootPhase >= 1 ? 1 : 0, transition: "opacity 0.2s" }}>{">"} Initializing zero-trust node...</div>
+                    <div style={{ opacity: bootPhase >= 2 ? 1 : 0, transition: "opacity 0.2s" }}>{">"} Establishing ephemeral tunnel...</div>
+                    <div style={{ opacity: bootPhase >= 3 ? 1 : 0, transition: "opacity 0.2s", color: "var(--foreground)" }}>{">"} Session live.</div>
+                  </div>
+                ) : (
+                  <>
+                    <div
+                      className="animate-floaty animate-fade-up"
+                      style={{
+                        width: "56px",
+                        height: "56px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "var(--primary)",
+                      }}
+                    >
+                      <Shield style={{ width: "56px", height: "56px" }} strokeWidth={1.2} />
+                    </div>
+
+                    <div
+                      className="animate-fade-up"
+                      style={{
+                        fontFamily:
+                          "var(--font-display, 'Instrument Serif', Georgia, serif)",
+                        fontStyle: "italic",
+                        fontSize: "22px",
+                        color: "var(--foreground)",
+                        textAlign: "center",
+                      }}
+                    >
+                      Isolated · session running
+                    </div>
+
+                    <div
+                      className="animate-fade-up"
+                      style={{
+                        width: "240px",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "8px",
+                      }}
+                    >
+                      <div className="skeleton-line" style={{ width: "78%" }} />
+                      <div
+                        className="skeleton-line"
+                        style={{ width: "55%", animationDelay: "0.4s" }}
+                      />
+                      <div
+                        className="skeleton-line"
+                        style={{ width: "70%", animationDelay: "0.8s" }}
+                      />
+                    </div>
+                  </>
+                )}
               </div>
 
               {/* Footer */}
@@ -520,40 +564,69 @@ export function Hero() {
             <div
               style={{
                 padding: "24px",
+                minHeight: "240px",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
+                justifyContent: "center",
                 gap: "12px",
               }}
             >
-              <Shield
-                style={{ width: "48px", height: "48px", color: "var(--primary)" }}
-                strokeWidth={1.2}
-              />
-              <p
-                style={{
-                  fontFamily: "var(--font-display, Georgia, serif)",
-                  fontStyle: "italic",
-                  fontSize: "18px",
-                  color: "var(--foreground)",
-                  margin: 0,
-                  textAlign: "center",
-                }}
-              >
-                Isolated · session running
-              </p>
-              <div
-                style={{
-                  width: "200px",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "6px",
-                }}
-              >
-                <div className="skeleton-line" style={{ width: "78%" }} />
-                <div className="skeleton-line" style={{ width: "55%" }} />
-                <div className="skeleton-line" style={{ width: "70%" }} />
-              </div>
+              {bootPhase < 4 ? (
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "10px",
+                    color: "var(--muted-foreground)",
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "flex-start",
+                    gap: "10px",
+                    padding: "0 5%",
+                  }}
+                >
+                  <div style={{ opacity: bootPhase >= 0 ? 1 : 0, transition: "opacity 0.2s" }}>{">"} Allocating sandbox environment...</div>
+                  <div style={{ opacity: bootPhase >= 1 ? 1 : 0, transition: "opacity 0.2s" }}>{">"} Initializing zero-trust node...</div>
+                  <div style={{ opacity: bootPhase >= 2 ? 1 : 0, transition: "opacity 0.2s" }}>{">"} Establishing ephemeral tunnel...</div>
+                  <div style={{ opacity: bootPhase >= 3 ? 1 : 0, transition: "opacity 0.2s", color: "var(--foreground)" }}>{">"} Session live.</div>
+                </div>
+              ) : (
+                <>
+                  <Shield
+                    className="animate-floaty animate-fade-up"
+                    style={{ width: "48px", height: "48px", color: "var(--primary)" }}
+                    strokeWidth={1.2}
+                  />
+                  <p
+                    className="animate-fade-up"
+                    style={{
+                      fontFamily: "var(--font-display, Georgia, serif)",
+                      fontStyle: "italic",
+                      fontSize: "18px",
+                      color: "var(--foreground)",
+                      margin: 0,
+                      textAlign: "center",
+                    }}
+                  >
+                    Isolated · session running
+                  </p>
+                  <div
+                    className="animate-fade-up"
+                    style={{
+                      width: "200px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "6px",
+                    }}
+                  >
+                    <div className="skeleton-line" style={{ width: "78%" }} />
+                    <div className="skeleton-line" style={{ width: "55%", animationDelay: "0.4s" }} />
+                    <div className="skeleton-line" style={{ width: "70%", animationDelay: "0.8s" }} />
+                  </div>
+                </>
+              )}
             </div>
             <div
               style={{
