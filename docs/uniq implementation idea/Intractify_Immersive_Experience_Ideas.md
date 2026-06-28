@@ -118,6 +118,40 @@ These five brand-new, premium concepts are designed to be entirely unique, deliv
     *   Each snap updates the server diagnostics and creates a slight, weighted spring bounce animation on the screen.
 *   **Why it works:** Replaces boring form elements with an interactive, tactile accessory that makes configuring the product satisfying and memorable.
 
+### 6. The Focal Step-Scroll Showcase (Scroll-Linked Comparison Stepper)
+*   **Concept:** A scroll-linked stepper layout that highlights comparative points in sequence on scroll while morphing a sticky browser mockup dashboard.
+*   **The Experience:**
+    *   The viewport splits into a left-hand text column and a sticky right-hand visual mockup pane.
+    *   The left-hand column lists 5 comparative privacy points (Cookies, Fingerprint, Malware, IP Leaks, Lifecycle). Scrolling down naturally fades the active step to 100% opacity with a clean white text highlight and left border green glow, while other steps fade to 30% opacity.
+    *   The sticky mockup on the right morphs in sync with the active step to show custom animations (such as local cookies accumulating and then evaporating into dust particles, WebRTC queries leaking IP routing, or cloud container self-destruction).
+    *   On mobile viewports, the mockup embeds directly underneath each individual card, preserving the context.
+*   **Why it works:** Legibility is preserved without clipping text. The visitor is guided smoothly through each point with zero dragging effort, creating a "thumb-stopping" educational showcase.
+
+### 7. The Trace Evaporator (Canvas Particle Swipe)
+*   **Concept:** A split-screen mockup container with a draggable vertical divider that physically wipes away local cookies, dissolving them into canvas-based smoke particles.
+*   **The Experience:**
+    *   A browser mockup frame is split in half by a vertical slider handle.
+    *   The left side (VPN) shows a grid of red cookie blocks accumulated on the disk. Moving the cursor attracts red tracking dots that lock onto the drive.
+    *   The right side (Intractify) shows a clean paper-white workspace with zero local footprints.
+    *   Dragging the slider sweeps across the red cookies, converting them into physics-based particle streams (Canvas) that break apart, float up, and dissolve into dust before fading out.
+*   **Why it works:** Satisfying data destruction metaphor that visually demonstrates that cookies are deleted.
+
+### 8. The Telemetry Radar Sweep (Glyph Coordinates)
+*   **Concept:** A circular radar screen coordinate system that sweep-scrambles tracking beacons in real-time.
+*   **The Experience:**
+    *   A circular radar coordinate grid concentric tracker pulses in Nothing's telemetry style.
+    *   Under VPN mode, red beacons ("trackers") lock onto the target IP.
+    *   In Intractify mode, a glowing sweep-bar sweeps across the radar. Upon sweep, all red coordinates scramble, turning into randomized gray dots that drift away, showing `Status: Pings Scrambled` and `0 traces`.
+*   **Why it works:** Telemetry style adds an advanced security vibe.
+
+### 9. The Packet Sandbox (Pixel vs. Data Stream Flow)
+*   **Concept:** An interactive flow map illustrating how scripts compile in the cloud vs. on the user's CPU.
+*   **The Experience:**
+    *   Streams of script/data particles flow from a Mock Server down to the Client Device.
+    *   Under a VPN, red particles (raw JS code, trackers, exploits) flow straight into the client device and pile up in local memory.
+    *   Under Intractify, the red particles flow into a cloud container first. The container executes the scripts remotely, and only streams clean gray particles (representing pure video pixels) to the device.
+*   **Why it works:** Makes remote browser isolation (RBI) instantly understandable.
+
 ---
 
 ## Part IV: Implementation & Validation Plan
