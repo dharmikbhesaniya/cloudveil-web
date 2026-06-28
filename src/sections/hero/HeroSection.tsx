@@ -93,7 +93,7 @@ function FingerprintSVG() {
   );
 }
 
-function useUrlTypewriter(target: string, startDelay = 1200) {
+function useUrlTypewriter(target: string, startDelay = 500) {
   const [text, setText] = useState("");
   useEffect(() => {
     if (prefersReducedMotion()) {
@@ -107,7 +107,7 @@ function useUrlTypewriter(target: string, startDelay = 1200) {
         i++;
         setText(target.slice(0, i));
         if (i >= target.length) clearInterval(iv);
-      }, 55);
+      }, 30);
     }, startDelay);
     return () => {
       clearTimeout(t);
@@ -258,7 +258,7 @@ export function Hero() {
         console.warn("Failed fetching IP, using local mock:", err),
       );
 
-    const t = setTimeout(() => setMetaActive(true), 800);
+    const t = setTimeout(() => setMetaActive(true), 400);
     timeoutsRef.current.push(t);
 
     if (prefersReducedMotion()) {
@@ -270,26 +270,26 @@ export function Hero() {
 
     setActiveStep("provision");
 
-    const t1 = setTimeout(() => setBootPhase(1), 1000);
-    const t2 = setTimeout(() => setBootPhase(2), 1700);
-    const t3 = setTimeout(() => setBootPhase(3), 2300);
+    const t1 = setTimeout(() => setBootPhase(1), 500);
+    const t2 = setTimeout(() => setBootPhase(2), 900);
+    const t3 = setTimeout(() => setBootPhase(3), 1300);
     const t4 = setTimeout(() => {
       setBootPhase(4);
       setScanPhase("scanning");
       setActiveStep("scanning");
-    }, 2800);
+    }, 1700);
     const t5 = setTimeout(() => {
       setScanPhase("exposed");
       setActiveStep("exposed");
-    }, 5300);
+    }, 3200);
     const t6 = setTimeout(() => {
       setScanPhase("obfuscating");
       setActiveStep("obfuscating");
-    }, 8300);
+    }, 5000);
     const t7 = setTimeout(() => {
       setScanPhase("isolated");
       setActiveStep("isolated");
-    }, 10300);
+    }, 6500);
 
     timeoutsRef.current.push(t1, t2, t3, t4, t5, t6, t7);
 
@@ -688,7 +688,7 @@ export function Hero() {
                               right: 0,
                               height: "2px",
                               background: "var(--primary)",
-                              animation: "scan-sweep 2s ease-in-out infinite",
+                              animation: "scan-sweep 1.2s ease-in-out infinite",
                             }}
                           />
                         </div>
@@ -811,7 +811,7 @@ export function Hero() {
                               top: 0,
                               height: "100%",
                               background: "var(--foreground)",
-                              animation: "progress-fill 2s linear forwards",
+                              animation: "progress-fill 1.5s linear forwards",
                             }}
                           />
                         </div>
@@ -1151,7 +1151,7 @@ export function Hero() {
                             right: 0,
                             height: "2px",
                             background: "var(--primary)",
-                            animation: "scan-sweep 2s ease-in-out infinite",
+                            animation: "scan-sweep 1.2s ease-in-out infinite",
                           }}
                         />
                       </div>
@@ -1273,7 +1273,7 @@ export function Hero() {
                             top: 0,
                             height: "100%",
                             background: "var(--foreground)",
-                            animation: "progress-fill 2s linear forwards",
+                            animation: "progress-fill 1.5s linear forwards",
                           }}
                         />
                       </div>
