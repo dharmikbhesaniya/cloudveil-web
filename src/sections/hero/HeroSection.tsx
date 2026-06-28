@@ -10,6 +10,67 @@ function prefersReducedMotion() {
   return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
+function getClientSpecs() {
+  if (typeof window === "undefined") {
+    return { os: "macOS", browser: "Safari", ip: "185.112.45.12", hash: "9F2A7E1C" };
+  }
+  
+  const ua = window.navigator.userAgent;
+  let os = "Linux";
+  let browser = "Chrome";
+  
+  if (ua.indexOf("Win") !== -1) os = "Windows";
+  else if (ua.indexOf("Mac") !== -1) os = "macOS";
+  else if (ua.indexOf("Linux") !== -1) os = "Linux";
+  else if (ua.indexOf("Android") !== -1) os = "Android";
+  else if (ua.indexOf("like Mac") !== -1) os = "iOS";
+  
+  if (ua.indexOf("Firefox") !== -1) browser = "Firefox";
+  else if (ua.indexOf("SamsungBrowser") !== -1) browser = "Samsung Browser";
+  else if (ua.indexOf("Opera") !== -1 || ua.indexOf("OPR") !== -1) browser = "Opera";
+  else if (ua.indexOf("Trident") !== -1) browser = "Internet Explorer";
+  else if (ua.indexOf("Edge") !== -1 || ua.indexOf("Edg") !== -1) browser = "Edge";
+  else if (ua.indexOf("Chrome") !== -1) browser = "Chrome";
+  else if (ua.indexOf("Safari") !== -1) browser = "Safari";
+  
+  let hashVal = 0;
+  for (let i = 0; i < ua.length; i++) {
+    hashVal = (hashVal << 5) - hashVal + ua.charCodeAt(i);
+    hashVal |= 0;
+  }
+  const hash = Math.abs(hashVal).toString(16).toUpperCase().substring(0, 8);
+  const ip = `185.112.${(window.screen.width % 250) + 1}.${(window.screen.height % 250) + 1}`;
+  
+  return { os, browser, ip, hash };
+}
+
+function FingerprintSVG() {
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      style={{
+        width: "72px",
+        height: "72px",
+        color: "var(--muted-foreground)",
+        opacity: 0.65,
+        display: "block",
+      }}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+    >
+      <path strokeDasharray="1 3" d="M30 70 C30 50, 40 40, 50 40 C60 40, 70 50, 70 70" />
+      <path strokeDasharray="3 3" d="M25 75 C25 45, 35 30, 50 30 C65 30, 75 45, 75 75" />
+      <path strokeDasharray="1 4" d="M20 80 C20 40, 30 20, 50 20 C70 20, 80 40, 80 80" />
+      <path strokeDasharray="2 3" d="M15 85 C15 35, 25 10, 50 10 C75 10, 85 35, 85 85" />
+      <path d="M45 55 C45 50, 50 48, 52 48 C54 48, 55 50, 55 55 L55 70" />
+      <path strokeDasharray="1 2" d="M35 80 L35 70 C35 60, 40 55, 45 55" />
+      <path d="M65 80 L65 70 C65 60, 60 55, 55 55" />
+    </svg>
+  );
+}
+
 function useUrlTypewriter(target: string, startDelay = 1200) {
   const [text, setText] = useState("");
   useEffect(() => {
@@ -117,22 +178,32 @@ function MetaNum({
 export function Hero() {
   const [metaActive, setMetaActive] = useState(false);
   const [bootPhase, setBootPhase] = useState(0);
+  const [scanPhase, setScanPhase] = useState<"idle" | "scanning" | "exposed" | "obfuscating" | "isolated">("idle");
+  const [clientSpecs, setClientSpecs] = useState({ os: "macOS", browser: "Safari", ip: "185.112.45.12", hash: "9F2A7E1C" });
   const metaRef = useRef<HTMLDivElement>(null);
   const urlText = useUrlTypewriter(URL_TARGET);
   const timer = useCountdown(12, 48);
 
   useEffect(() => {
+    setClientSpecs(getClientSpecs());
     const t = setTimeout(() => setMetaActive(true), 800);
     
     if (prefersReducedMotion()) {
       setBootPhase(4);
+      setScanPhase("isolated");
       return () => clearTimeout(t);
     }
     
     const t1 = setTimeout(() => setBootPhase(1), 1000);
     const t2 = setTimeout(() => setBootPhase(2), 1700);
     const t3 = setTimeout(() => setBootPhase(3), 2300);
-    const t4 = setTimeout(() => setBootPhase(4), 2800);
+    const t4 = setTimeout(() => {
+      setBootPhase(4);
+      setScanPhase("scanning");
+    }, 2800);
+    const t5 = setTimeout(() => setScanPhase("exposed"), 5300);
+    const t6 = setTimeout(() => setScanPhase("obfuscating"), 8300);
+    const t7 = setTimeout(() => setScanPhase("isolated"), 10300);
     
     return () => {
       clearTimeout(t);
@@ -140,6 +211,9 @@ export function Hero() {
       clearTimeout(t2);
       clearTimeout(t3);
       clearTimeout(t4);
+      clearTimeout(t5);
+      clearTimeout(t6);
+      clearTimeout(t7);
     };
   }, []);
 
@@ -414,8 +488,26 @@ export function Hero() {
                   alignItems: "center",
                   justifyContent: "center",
                   gap: "14px",
+                  position: "relative",
                 }}
               >
+                <style dangerouslySetInnerHTML={{ __html: `
+                  @keyframes scan-sweep {
+                    0% { top: 0%; opacity: 0.8; }
+                    50% { top: 100%; opacity: 0.8; }
+                    100% { top: 0%; opacity: 0.8; }
+                  }
+                  @keyframes pulse-red {
+                    0% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(229, 75, 75, 0.4); }
+                    70% { transform: scale(1); opacity: 0.6; box-shadow: 0 0 0 6px rgba(229, 75, 75, 0); }
+                    100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(229, 75, 75, 0); }
+                  }
+                  @keyframes progress-fill {
+                    0% { width: 0%; }
+                    100% { width: 100%; }
+                  }
+                `}} />
+
                 {bootPhase < 4 ? (
                   <div
                     style={{
@@ -438,53 +530,183 @@ export function Hero() {
                   </div>
                 ) : (
                   <>
-                    <div
-                      className="animate-floaty animate-fade-up"
-                      style={{
-                        width: "56px",
-                        height: "56px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: "var(--primary)",
-                      }}
-                    >
-                      <Shield style={{ width: "56px", height: "56px" }} strokeWidth={1.2} />
-                    </div>
-
-                    <div
-                      className="animate-fade-up"
-                      style={{
-                        fontFamily:
-                          "var(--font-display, 'Instrument Serif', Georgia, serif)",
-                        fontStyle: "italic",
-                        fontSize: "22px",
-                        color: "var(--foreground)",
-                        textAlign: "center",
-                      }}
-                    >
-                      Isolated · session running
-                    </div>
-
-                    <div
-                      className="animate-fade-up"
-                      style={{
-                        width: "240px",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "8px",
-                      }}
-                    >
-                      <div className="skeleton-line" style={{ width: "78%" }} />
+                    {scanPhase === "scanning" && (
                       <div
-                        className="skeleton-line"
-                        style={{ width: "55%", animationDelay: "0.4s" }}
-                      />
+                        style={{
+                          position: "relative",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: "16px",
+                          width: "100%",
+                          height: "100%",
+                        }}
+                      >
+                        <div style={{ position: "relative", padding: "10px", border: "1px solid var(--border)", borderRadius: "8px", overflow: "hidden" }}>
+                          <FingerprintSVG />
+                          <div
+                            style={{
+                              position: "absolute",
+                              left: 0,
+                              right: 0,
+                              height: "2px",
+                              background: "var(--primary)",
+                              boxShadow: "0 0 8px var(--primary)",
+                              animation: "scan-sweep 2s ease-in-out infinite",
+                            }}
+                          />
+                        </div>
+                        <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "11px", color: "var(--muted-foreground)" }}>
+                          {">"} Scanning local specs...
+                        </div>
+                      </div>
+                    )}
+
+                    {scanPhase === "exposed" && (
                       <div
-                        className="skeleton-line"
-                        style={{ width: "70%", animationDelay: "0.8s" }}
-                      />
-                    </div>
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "flex-start",
+                          width: "100%",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px",
+                            color: "#E54B4B",
+                            fontFamily: "var(--font-mono, monospace)",
+                            fontSize: "11px",
+                            marginBottom: "16px",
+                            padding: "0 10%",
+                          }}
+                        >
+                          <span
+                            style={{
+                              width: "8px",
+                              height: "8px",
+                              borderRadius: "50%",
+                              background: "#E54B4B",
+                              display: "inline-block",
+                              animation: "pulse-red 1.2s infinite",
+                            }}
+                          />
+                          <span>WARNING: FINGERPRINT EXPOSED</span>
+                        </div>
+                        <div
+                          style={{
+                            fontFamily: "var(--font-mono, monospace)",
+                            fontSize: "11px",
+                            color: "var(--foreground)",
+                            width: "100%",
+                            padding: "0 10%",
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "8px",
+                          }}
+                        >
+                          <div>IP ADDRESS: <span style={{ color: "#E54B4B" }}>{clientSpecs.ip}</span></div>
+                          <div>PLATFORM:   <span style={{ color: "#E54B4B" }}>{clientSpecs.os}</span></div>
+                          <div>BROWSER:    <span style={{ color: "#E54B4B" }}>{clientSpecs.browser}</span></div>
+                          <div>HASH ID:     <span style={{ color: "#E54B4B" }}>{clientSpecs.hash}</span></div>
+                        </div>
+                      </div>
+                    )}
+
+                    {scanPhase === "obfuscating" && (
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "flex-start",
+                          gap: "12px",
+                          width: "100%",
+                          padding: "0 10%",
+                          fontFamily: "var(--font-mono, monospace)",
+                          fontSize: "11px",
+                          color: "var(--muted-foreground)",
+                        }}
+                      >
+                        <div>{">"} Purging local session traces...</div>
+                        <div>{">"} Spoofing canvas hardware tokens...</div>
+                        <div>{">"} Launching isolated sandbox tunnel...</div>
+                        <div
+                          style={{
+                            position: "relative",
+                            width: "100%",
+                            height: "2px",
+                            background: "var(--border)",
+                            marginTop: "12px",
+                            overflow: "hidden",
+                          }}
+                        >
+                          <div
+                            style={{
+                              position: "absolute",
+                              left: 0,
+                              top: 0,
+                              height: "100%",
+                              background: "var(--foreground)",
+                              animation: "progress-fill 2s linear forwards",
+                            }}
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {scanPhase === "isolated" && (
+                      <>
+                        <div
+                          className="animate-floaty animate-fade-up"
+                          style={{
+                            width: "48px",
+                            height: "48px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            color: "var(--primary)",
+                          }}
+                        >
+                          <Shield style={{ width: "48px", height: "48px" }} strokeWidth={1.2} />
+                        </div>
+
+                        <div
+                          className="animate-fade-up"
+                          style={{
+                            fontFamily:
+                              "var(--font-display, 'Instrument Serif', Georgia, serif)",
+                            fontStyle: "italic",
+                            fontSize: "20px",
+                            color: "var(--foreground)",
+                            textAlign: "center",
+                          }}
+                        >
+                          Isolated · session active
+                        </div>
+
+                        <div
+                          className="animate-fade-up"
+                          style={{
+                            fontFamily: "var(--font-mono, monospace)",
+                            fontSize: "11px",
+                            color: "var(--muted-foreground)",
+                            width: "100%",
+                            padding: "0 10%",
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "6px",
+                          }}
+                        >
+                          <div>IP ADDRESS: <span style={{ color: "var(--foreground)" }}>10.200.0.8 (Spoofed)</span></div>
+                          <div>PLATFORM:   <span style={{ color: "var(--foreground)" }}>Linux x86_64</span></div>
+                          <div>BROWSER:    <span style={{ color: "var(--foreground)" }}>Chrome / Headless</span></div>
+                          <div>HASH ID:     <span style={{ color: "var(--foreground)" }}>00000000 (Anonymized)</span></div>
+                        </div>
+                      </>
+                    )}
                   </>
                 )}
               </div>
@@ -570,6 +792,7 @@ export function Hero() {
                 alignItems: "center",
                 justifyContent: "center",
                 gap: "12px",
+                position: "relative",
               }}
             >
               {bootPhase < 4 ? (
@@ -594,37 +817,172 @@ export function Hero() {
                 </div>
               ) : (
                 <>
-                  <Shield
-                    className="animate-floaty animate-fade-up"
-                    style={{ width: "48px", height: "48px", color: "var(--primary)" }}
-                    strokeWidth={1.2}
-                  />
-                  <p
-                    className="animate-fade-up"
-                    style={{
-                      fontFamily: "var(--font-display, Georgia, serif)",
-                      fontStyle: "italic",
-                      fontSize: "18px",
-                      color: "var(--foreground)",
-                      margin: 0,
-                      textAlign: "center",
-                    }}
-                  >
-                    Isolated · session running
-                  </p>
-                  <div
-                    className="animate-fade-up"
-                    style={{
-                      width: "200px",
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "6px",
-                    }}
-                  >
-                    <div className="skeleton-line" style={{ width: "78%" }} />
-                    <div className="skeleton-line" style={{ width: "55%", animationDelay: "0.4s" }} />
-                    <div className="skeleton-line" style={{ width: "70%", animationDelay: "0.8s" }} />
-                  </div>
+                  {scanPhase === "scanning" && (
+                    <div
+                      style={{
+                        position: "relative",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "12px",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    >
+                      <div style={{ position: "relative", padding: "6px", border: "1px solid var(--border)", borderRadius: "6px", overflow: "hidden" }}>
+                        <FingerprintSVG />
+                        <div
+                          style={{
+                            position: "absolute",
+                            left: 0,
+                            right: 0,
+                            height: "2px",
+                            background: "var(--primary)",
+                            boxShadow: "0 0 8px var(--primary)",
+                            animation: "scan-sweep 2s ease-in-out infinite",
+                          }}
+                        />
+                      </div>
+                      <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", color: "var(--muted-foreground)" }}>
+                        {">"} Scanning local specs...
+                      </div>
+                    </div>
+                  )}
+
+                  {scanPhase === "exposed" && (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "flex-start",
+                        width: "100%",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "6px",
+                          color: "#E54B4B",
+                          fontFamily: "var(--font-mono, monospace)",
+                          fontSize: "10px",
+                          marginBottom: "12px",
+                          padding: "0 5%",
+                        }}
+                      >
+                        <span
+                          style={{
+                            width: "6px",
+                            height: "6px",
+                            borderRadius: "50%",
+                            background: "#E54B4B",
+                            display: "inline-block",
+                            animation: "pulse-red 1.2s infinite",
+                          }}
+                        />
+                        <span>WARNING: FINGERPRINT EXPOSED</span>
+                      </div>
+                      <div
+                        style={{
+                          fontFamily: "var(--font-mono, monospace)",
+                          fontSize: "10px",
+                          color: "var(--foreground)",
+                          width: "100%",
+                          padding: "0 5%",
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "6px",
+                        }}
+                      >
+                        <div>IP: <span style={{ color: "#E54B4B" }}>{clientSpecs.ip}</span></div>
+                        <div>OS: <span style={{ color: "#E54B4B" }}>{clientSpecs.os}</span></div>
+                        <div>BROWSER: <span style={{ color: "#E54B4B" }}>{clientSpecs.browser}</span></div>
+                        <div>HASH: <span style={{ color: "#E54B4B" }}>{clientSpecs.hash}</span></div>
+                      </div>
+                    </div>
+                  )}
+
+                  {scanPhase === "obfuscating" && (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "flex-start",
+                        gap: "10px",
+                        width: "100%",
+                        padding: "0 5%",
+                        fontFamily: "var(--font-mono, monospace)",
+                        fontSize: "10px",
+                        color: "var(--muted-foreground)",
+                      }}
+                    >
+                      <div>{">"} Purging trace...</div>
+                      <div>{">"} Spoofing tokens...</div>
+                      <div
+                        style={{
+                          position: "relative",
+                          width: "100%",
+                          height: "2px",
+                          background: "var(--border)",
+                          marginTop: "8px",
+                          overflow: "hidden",
+                        }}
+                      >
+                        <div
+                          style={{
+                            position: "absolute",
+                            left: 0,
+                            top: 0,
+                            height: "100%",
+                            background: "var(--foreground)",
+                            animation: "progress-fill 2s linear forwards",
+                          }}
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {scanPhase === "isolated" && (
+                    <>
+                      <Shield
+                        className="animate-floaty animate-fade-up"
+                        style={{ width: "40px", height: "40px", color: "var(--primary)" }}
+                        strokeWidth={1.2}
+                      />
+                      <p
+                        className="animate-fade-up"
+                        style={{
+                          fontFamily: "var(--font-display, Georgia, serif)",
+                          fontStyle: "italic",
+                          fontSize: "16px",
+                          color: "var(--foreground)",
+                          margin: 0,
+                          textAlign: "center",
+                        }}
+                      >
+                        Isolated · session active
+                      </p>
+                      <div
+                        className="animate-fade-up"
+                        style={{
+                          fontFamily: "var(--font-mono, monospace)",
+                          fontSize: "10px",
+                          color: "var(--muted-foreground)",
+                          width: "100%",
+                          padding: "0 5%",
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "4px",
+                        }}
+                      >
+                        <div>IP: <span style={{ color: "var(--foreground)" }}>10.200.0.8 (Spoofed)</span></div>
+                        <div>OS: <span style={{ color: "var(--foreground)" }}>Linux x86_64</span></div>
+                        <div>BROWSER: <span style={{ color: "var(--foreground)" }}>Chrome / Headless</span></div>
+                        <div>HASH: <span style={{ color: "var(--foreground)" }}>00000000 (Anonymized)</span></div>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
             </div>
