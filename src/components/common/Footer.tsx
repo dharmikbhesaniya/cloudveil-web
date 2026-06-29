@@ -4,6 +4,7 @@ import Link from "next/link";
 
 const COL_PRODUCT = [
   { label: "Features", href: "#features" },
+  { label: "Comparison", href: "#comparison" },
   { label: "Method", href: "#how-it-works" },
   { label: "Pricing", href: "#pricing" },
   { label: "Questions", href: "#faq" },
