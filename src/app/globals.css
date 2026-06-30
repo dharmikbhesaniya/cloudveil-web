@@ -285,7 +285,7 @@
 
 .navbar-desktop-cta { display: none; }
 .navbar-mobile-toggle { display: flex; }
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .navbar-desktop-cta { display: inline-flex; }
   .navbar-mobile-toggle { display: none; }
 }

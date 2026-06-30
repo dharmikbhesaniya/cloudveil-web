@@ -60,7 +60,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop nav links */}
-          <nav className="hidden items-center gap-7 md:flex" id="navbar-desktop-nav">
+          <nav className="hidden items-center gap-7 lg:flex" id="navbar-desktop-nav">
             {PUBLIC_NAV.map((item) => (
               <a
                 key={item.href}
@@ -77,7 +77,7 @@ export function Navbar() {
           <div className="flex items-center gap-[18px]">
             <a
               href="https://app.intractify.com/sign-in"
-              className="serif-link hidden md:inline"
+              className="serif-link hidden lg:inline"
               id="navbar-sign-in"
             >
               sign in
