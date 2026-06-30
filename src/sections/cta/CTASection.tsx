@@ -95,6 +95,7 @@ export function CTASection() {
             flexWrap: "wrap",
           }}
         >
+          {/* 
           <a
             href="https://app.intractify.com/sign-up"
             className="btn-ink"
@@ -104,6 +105,14 @@ export function CTASection() {
           </a>
           <a className="serif-link" href="#pricing">
             view pricing
+          </a>
+          */}
+          <a
+            href="#pricing"
+            className="btn-ink"
+            id="cta-primary"
+          >
+            Join Waitlist <span>→</span>
           </a>
           <span
             style={{

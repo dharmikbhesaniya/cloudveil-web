@@ -432,12 +432,21 @@ export function Hero() {
                 animation: `fade-up 0.8s ${EASE} 0.6s forwards`,
               }}
             >
+              {/* 
               <a
                 href="https://app.intractify.com/sign-up"
                 className="btn-ink"
                 id="hero-cta-primary"
               >
                 Launch a browser <span>→</span>
+              </a>
+              */}
+              <a
+                href="#pricing"
+                className="btn-ink"
+                id="hero-cta-primary"
+              >
+                Join Waitlist <span>→</span>
               </a>
               <a
                 className="serif-link"

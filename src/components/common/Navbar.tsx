@@ -75,6 +75,7 @@ export function Navbar() {
 
           {/* Auth CTA */}
           <div className="flex items-center gap-[18px]">
+            {/* 
             <a
               href="https://app.intractify.com/sign-in"
               className="serif-link hidden lg:inline"
@@ -88,6 +89,14 @@ export function Navbar() {
               id="navbar-get-started"
             >
               Launch a browser <span>→</span>
+            </a>
+            */}
+            <a
+              href="#pricing"
+              className="btn-ink navbar-desktop-cta"
+              id="navbar-get-started"
+            >
+              Join Waitlist <span>→</span>
             </a>
 
             {/* Mobile menu toggle */}
@@ -141,6 +150,7 @@ export function Navbar() {
               ))}
             </nav>
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              {/* 
               <a
                 href="https://app.intractify.com/sign-in"
                 style={{
@@ -163,6 +173,15 @@ export function Navbar() {
                 style={{ justifyContent: "center" }}
               >
                 Get started free
+              </a>
+              */}
+              <a
+                href="#pricing"
+                onClick={() => setMobileOpen(false)}
+                className="btn-ink"
+                style={{ justifyContent: "center" }}
+              >
+                Join Priority Waitlist <span>→</span>
               </a>
             </div>
           </div>

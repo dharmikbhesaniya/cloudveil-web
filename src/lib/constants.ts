@@ -4,7 +4,7 @@ export const PUBLIC_NAV = [
   { title: "Features", href: "#features" },
   { title: "Comparison", href: "#comparison" },
   { title: "How It Works", href: "#how-it-works" },
-  { title: "Pricing", href: "#pricing" },
+  // { title: "Pricing", href: "#pricing" },
   { title: "FAQ", href: "#faq" },
 ];
 
