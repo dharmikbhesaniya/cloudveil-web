@@ -6,49 +6,6 @@ function prefersReducedMotion() {
   return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-interface Cookie {
-  x: number;
-  y: number;
-  active: boolean;
-  size: number;
-}
-
-class SmokeParticle {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  alpha: number;
-  size: number;
-  decay: number;
-  
-  constructor(x: number, y: number) {
-    this.x = x;
-    this.y = y;
-    this.vx = (Math.random() - 0.5) * 1.5;
-    this.vy = -Math.random() * 2 - 1.2;
-    this.alpha = 1;
-    this.size = Math.random() * 6 + 3;
-    this.decay = Math.random() * 0.015 + 0.015;
-  }
-  
-  update() {
-    this.x += this.vx;
-    this.y += this.vy;
-    this.alpha -= this.decay;
-  }
-  
-  draw(ctx: CanvasRenderingContext2D) {
-    ctx.save();
-    ctx.globalAlpha = Math.max(0, this.alpha);
-    ctx.fillStyle = "rgba(180, 180, 180, 0.35)"; // Soft grey digital smoke
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-  }
-}
-
 const STEPS = [
   {
     category: "LOCAL STORAGE",
@@ -83,99 +40,6 @@ const STEPS = [
 ];
 
 function VisualMockup({ activeStep, isMobile = false }: { activeStep: number; isMobile?: boolean }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const particlesRef = useRef<SmokeParticle[]>([]);
-  const cookiesRef = useRef<Cookie[]>([]);
-  const activeStepRef = useRef(activeStep);
-
-  useEffect(() => {
-    activeStepRef.current = activeStep;
-  }, [activeStep]);
-
-  // Canvas cookie animation inside Step 0
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const resizeCanvas = () => {
-      canvas.width = canvas.clientWidth;
-      canvas.height = canvas.clientHeight;
-      
-      const rows = 5;
-      const cols = 6;
-      const arr: Cookie[] = [];
-      const rowGap = canvas.height / (rows + 1);
-      const colGap = (canvas.width * 0.45) / (cols + 1);
-      
-      for (let r = 1; r <= rows; r++) {
-        for (let c = 1; c <= cols; c++) {
-          arr.push({
-            x: c * colGap + (Math.random() - 0.5) * 4,
-            y: r * rowGap + (Math.random() - 0.5) * 4,
-            active: true,
-            size: 6 + Math.random() * 3,
-          });
-        }
-      }
-      cookiesRef.current = arr;
-    };
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
-
-    let frameId: number;
-    let sweepX = 0;
-    
-    const render = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      if (activeStepRef.current === 0) {
-        sweepX += 2.5;
-        if (sweepX > canvas.width * 1.5) {
-          sweepX = 0;
-          cookiesRef.current.forEach(c => c.active = true);
-        }
-        
-        cookiesRef.current.forEach((cookie) => {
-          if (cookie.active) {
-            if (cookie.x < sweepX && sweepX < canvas.width * 0.75) {
-              cookie.active = false;
-              for (let i = 0; i < 6; i++) {
-                particlesRef.current.push(new SmokeParticle(cookie.x, cookie.y));
-              }
-            } else {
-              ctx.beginPath();
-              ctx.arc(cookie.x, cookie.y, cookie.size / 2, 0, Math.PI * 2);
-              ctx.fillStyle = "rgba(229, 75, 75, 0.15)";
-              ctx.strokeStyle = "rgba(229, 75, 75, 0.7)";
-              ctx.lineWidth = 1;
-              ctx.fill();
-              ctx.stroke();
-            }
-          }
-        });
-      } else {
-        sweepX = 0;
-        cookiesRef.current = [];
-      }
-
-      particlesRef.current = particlesRef.current.filter((p) => {
-        p.update();
-        p.draw(ctx);
-        return p.alpha > 0;
-      });
-
-      frameId = requestAnimationFrame(render);
-    };
-    render();
-
-    return () => {
-      cancelAnimationFrame(frameId);
-      window.removeEventListener("resize", resizeCanvas);
-    };
-  }, []);
-
   return (
     <div
       style={{
@@ -379,20 +243,6 @@ function VisualMockup({ activeStep, isMobile = false }: { activeStep: number; is
           )}
         </div>
       </div>
-
-      {/* Canvas Overlay for Step 0 (Cookie Evaporation) */}
-      <canvas
-        ref={canvasRef}
-        style={{
-          position: "absolute",
-          left: 0,
-          top: 0,
-          width: "100%",
-          height: "100%",
-          pointerEvents: "none",
-          zIndex: 2,
-        }}
-      />
     </div>
   );
 }
@@ -400,8 +250,23 @@ function VisualMockup({ activeStep, isMobile = false }: { activeStep: number; is
 export function ComparisonSection() {
   const [activeStep, setActiveStep] = useState(0);
   const stepRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const mobileStickyRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const headingRef = useRef<HTMLDivElement>(null);
+  const mobileContainerRef = useRef<HTMLDivElement>(null);
+  const [headingHeight, setHeadingHeight] = useState(140); // measured height of sticky heading block
+  const [scrollOffset, setScrollOffset] = useState(0); // dynamic offset when scrolling away
 
-  // Scroll listener to detect active step centered in viewport
+  // Measure sticky heading height dynamically (updates on resize)
+  useEffect(() => {
+    const el = headingRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(() => setHeadingHeight(el.offsetHeight));
+    observer.observe(el);
+    setHeadingHeight(el.offsetHeight);
+    return () => observer.disconnect();
+  }, []);
+
+  // Scroll listener — checks both desktop and mobile refs, skips hidden elements
   useEffect(() => {
     if (prefersReducedMotion()) return;
 
@@ -410,24 +275,63 @@ export function ComparisonSection() {
       let closestIdx = 0;
       let closestDist = Infinity;
 
-      stepRefs.current.forEach((el, idx) => {
+      const allRefs = [
+        ...stepRefs.current.map((el, i) => ({ el, i })),
+        ...mobileStickyRefs.current.map((el, i) => ({ el, i })),
+      ];
+
+      allRefs.forEach(({ el, i }) => {
         if (!el) return;
         const rect = el.getBoundingClientRect();
+        if (rect.height === 0) return; // skip hidden (display:none) elements
         const elementCenter = rect.top + rect.height / 2;
         const dist = Math.abs(elementCenter - midpoint);
         if (dist < closestDist) {
           closestDist = dist;
-          closestIdx = idx;
+          closestIdx = i;
         }
       });
 
       setActiveStep(closestIdx);
+
+      // Measure mobile scroll offset to scroll away together
+      const container = mobileContainerRef.current;
+      if (container) {
+        const containerBottom = container.getBoundingClientRect().bottom;
+        const lastCard = mobileStickyRefs.current[STEPS.length - 1];
+        const headingEl = headingRef.current;
+        if (lastCard && headingEl) {
+          const measuredHeadingHeight = headingEl.offsetHeight;
+          const currentCardTopBase = NAVBAR_HEIGHT + measuredHeadingHeight;
+          const lastCardHeight = lastCard.offsetHeight;
+          const targetStackBottom = currentCardTopBase + (STEPS.length - 1) * CARD_STACK_OFFSET + lastCardHeight;
+          const pushDelta = Math.max(0, targetStackBottom - containerBottom);
+          console.log("DEBUG SCROLL:", {
+            containerBottom,
+            measuredHeadingHeight,
+            lastCardHeight,
+            targetStackBottom,
+            pushDelta
+          });
+          setScrollOffset(pushDelta);
+        } else {
+          console.log("DEBUG SCROLL: Missing refs", {
+            lastCard: !!lastCard,
+            headingEl: !!headingEl
+          });
+        }
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const NAVBAR_HEIGHT = 76; // px — height of sticky navbar
+  const CARD_STACK_OFFSET = 14; // px — how much each stacked card peeks out
+  // Cards start below sticky heading (navbar + heading block height)
+  const CARD_TOP_BASE = NAVBAR_HEIGHT + headingHeight;
 
   return (
     <section
@@ -442,54 +346,244 @@ export function ComparisonSection() {
         className="mx-auto max-w-7xl"
         style={{ padding: "0 clamp(24px, 5vw, 40px)" }}
       >
-        {/* Eyebrow */}
-        <div
-          style={{
-            color: "var(--muted-foreground)",
-            fontFamily: "var(--font-mono, monospace)",
-            fontSize: "10px",
-            letterSpacing: "0.2em",
-            textTransform: "uppercase",
-            marginBottom: "18px",
-          }}
-        >
-          — Comparison
-        </div>
-
-        {/* Heading */}
-        <h2
-          style={{
-            fontFamily: "var(--font-sans, ui-sans-serif, sans-serif)",
-            fontWeight: 500,
-            fontSize: "clamp(32px, 4.5vw, 54px)",
-            lineHeight: 1,
-            letterSpacing: "-0.03em",
-            margin: "0 0 72px",
-            maxWidth: "800px",
-            color: "var(--foreground)",
-          }}
-        >
-          VPNs hide your location.{" "}
-          <span
+        {/* DESKTOP-ONLY HEADING */}
+        <div className="hidden lg:block pb-12">
+          {/* Eyebrow */}
+          <div
             style={{
-              fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
-              fontStyle: "italic",
-              fontWeight: 400,
+              color: "var(--muted-foreground)",
+              fontFamily: "var(--font-mono, monospace)",
+              fontSize: "10px",
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              marginBottom: "18px",
             }}
           >
-            Intractify
-          </span>{" "}
-          isolates your session.
-        </h2>
+            — Comparison
+          </div>
 
-        {/* Two-Column Focal Stepper Layout */}
+          {/* Heading */}
+          <h2
+            style={{
+              fontFamily: "var(--font-sans, ui-sans-serif, sans-serif)",
+              fontWeight: 500,
+              fontSize: "clamp(32px, 4.5vw, 54px)",
+              lineHeight: 1,
+              letterSpacing: "-0.03em",
+              margin: "0 0 80px",
+              maxWidth: "800px",
+              color: "var(--foreground)",
+            }}
+          >
+            VPNs hide your location.{" "}
+            <span
+              style={{
+                fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
+                fontStyle: "italic",
+                fontWeight: 400,
+              }}
+            >
+              Intractify
+            </span>{" "}
+            isolates your session.
+          </h2>
+        </div>
+
+        {/* MOBILE-ONLY SECTION CONTAINER (wraps sticky title + sticky cards so they scroll away together!) */}
+        <div ref={mobileContainerRef} className="block lg:hidden" style={{ marginBottom: "16px" }}>
+          {/* Eyebrow + Heading — sticky on mobile */}
+          <div
+            ref={headingRef}
+            style={{
+              position: "sticky",
+              top: `${NAVBAR_HEIGHT - scrollOffset}px`,
+              zIndex: 50,
+              background: "var(--secondary)",
+              paddingBottom: "24px",
+              paddingTop: "4px",
+              marginBottom: "8px",
+            }}
+          >
+            {/* Eyebrow */}
+            <div
+              style={{
+                color: "var(--muted-foreground)",
+                fontFamily: "var(--font-mono, monospace)",
+                fontSize: "10px",
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                marginBottom: "14px",
+              }}
+            >
+              — Comparison
+            </div>
+
+            {/* Heading */}
+            <h2
+              style={{
+                fontFamily: "var(--font-sans, ui-sans-serif, sans-serif)",
+                fontWeight: 500,
+                fontSize: "clamp(26px, 4.5vw, 54px)",
+                lineHeight: 1.05,
+                letterSpacing: "-0.03em",
+                margin: 0,
+                maxWidth: "800px",
+                color: "var(--foreground)",
+              }}
+            >
+              VPNs hide your location.{" "}
+              <span
+                style={{
+                  fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
+                  fontStyle: "italic",
+                  fontWeight: 400,
+                }}
+              >
+                Intractify
+              </span>{" "}
+              isolates your session.
+            </h2>
+          </div>
+
+          {/* MOBILE: Sticky Card Stack */}
+          {STEPS.map((step, idx) => {
+            const stackDepth = Math.max(0, activeStep - idx);
+            const isBehind = idx < activeStep;
+            const isActive = activeStep === idx;
+            // Cards behind shrink subtly to create depth
+            const scale = isBehind ? Math.max(0.88, 1 - stackDepth * 0.03) : 1;
+
+            return (
+              <div
+                key={idx}
+                ref={(el) => { mobileStickyRefs.current[idx] = el; }}
+                style={{
+                  position: "sticky",
+                  top: `${CARD_TOP_BASE + idx * CARD_STACK_OFFSET - scrollOffset}px`,
+                  zIndex: idx + 1,
+                  // card appearance
+                  background: "var(--background)",
+                  border: `1px solid ${isActive ? "var(--primary)" : "var(--border)"}`,
+                  borderRadius: "16px",
+                  padding: "22px 20px",
+                  marginBottom: idx < STEPS.length - 1 ? "16px" : "0",
+                  // depth effect
+                  transform: `scale(${scale})`,
+                  transformOrigin: "top center",
+                  transition: "transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease",
+                  boxShadow: isActive
+                    ? "0 16px 48px rgba(0,0,0,0.14)"
+                    : isBehind
+                    ? "0 4px 16px rgba(0,0,0,0.08)"
+                    : "0 2px 8px rgba(0,0,0,0.04)",
+                }}
+              >
+                {/* Step indicator */}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    marginBottom: "12px",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "22px",
+                      height: "22px",
+                      borderRadius: "50%",
+                      background: isActive ? "var(--primary)" : "var(--border)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "9px",
+                      fontFamily: "var(--font-mono, monospace)",
+                      color: isActive ? "var(--primary-foreground)" : "var(--muted-foreground)",
+                      fontWeight: 700,
+                      flexShrink: 0,
+                      transition: "background 0.3s ease",
+                    }}
+                  >
+                    0{idx + 1}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "var(--font-mono, monospace)",
+                      fontSize: "9px",
+                      color: isActive ? "var(--primary)" : "var(--muted-foreground)",
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      transition: "color 0.3s ease",
+                    }}
+                  >
+                    {step.category}
+                  </div>
+                </div>
+
+                {/* Title */}
+                <h3
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontWeight: 600,
+                    fontSize: "17px",
+                    margin: "0 0 14px",
+                    color: "var(--foreground)",
+                    letterSpacing: "-0.02em",
+                    lineHeight: 1.25,
+                  }}
+                >
+                  {step.title}
+                </h3>
+
+                {/* VPN vs Intractify */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  <div
+                    style={{
+                      fontSize: "12.5px",
+                      lineHeight: 1.55,
+                      color: "var(--muted-foreground)",
+                      padding: "10px 12px",
+                      background: "oklch(0.4 0.08 20 / 7%)",
+                      borderRadius: "8px",
+                      borderLeft: "2px solid #E54B4B",
+                    }}
+                  >
+                    <span style={{ color: "#E54B4B", fontWeight: 700, marginRight: "5px" }}>
+                      ✕ VPN:
+                    </span>
+                    {step.vpn}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "12.5px",
+                      lineHeight: 1.55,
+                      color: "var(--foreground)",
+                      fontWeight: 500,
+                      padding: "10px 12px",
+                      background: "oklch(0.55 0.1 160 / 6%)",
+                      borderRadius: "8px",
+                      borderLeft: "2px solid var(--primary)",
+                    }}
+                  >
+                    <span style={{ color: "var(--primary)", fontWeight: 700, marginRight: "5px" }}>
+                      ✓ Intractify:
+                    </span>
+                    {step.intractify}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* ── DESKTOP: Two-Column Focal Stepper ─────────────────────── */}
         <div
-          className="grid grid-cols-1 lg:grid-cols-12 gap-16"
+          className="hidden lg:grid lg:grid-cols-12 gap-16"
           style={{ position: "relative" }}
         >
           {/* Left Column: Text Stepper cards */}
           <div
-            className="lg:col-span-6 flex flex-col gap-24 lg:gap-40"
+            className="lg:col-span-6 flex flex-col gap-40"
             style={{ paddingBottom: prefersReducedMotion() ? "0" : "20vh" }}
           >
             {STEPS.map((step, idx) => {
@@ -548,19 +642,14 @@ export function ComparisonSection() {
                       {step.intractify}
                     </div>
                   </div>
-
-                  {/* Mobile Embedded Visual Mockup (Visible on Mobile Viewports only) */}
-                  <div className="lg:hidden mt-8">
-                    <VisualMockup activeStep={idx} isMobile />
-                  </div>
                 </div>
               );
             })}
           </div>
 
-          {/* Right Column: Sticky Visual Mockup (Visible on Desktop Viewports only) */}
+          {/* Right Column: Sticky Visual Mockup */}
           <div
-            className="lg:col-span-6 hidden lg:block"
+            className="lg:col-span-6"
             style={{
               position: "sticky",
               top: "22vh",

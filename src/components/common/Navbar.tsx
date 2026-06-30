@@ -18,7 +18,7 @@ export function Navbar() {
   return (
     <>
       <header
-        className="sticky top-0 z-50 transition-all duration-300"
+        className="sticky top-0 z-[100] transition-all duration-300"
         style={{
           background: scrolled ? "var(--navbar-bg-scrolled)" : "var(--navbar-bg)",
           borderBottom: `1px solid ${scrolled ? "var(--navbar-border-scrolled)" : "var(--navbar-border)"}`,
