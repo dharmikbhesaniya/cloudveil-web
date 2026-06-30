@@ -152,7 +152,7 @@ export function PullQuote() {
             transition: `opacity 1s ${EASE}`,
           }}
         >
-          — Anika Rao · co-founder &amp; head of platform
+          — Dharmik Bhesaniya · founder &amp; head of platform
         </div>
       </div>
     </section>

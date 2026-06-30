@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkRateLimit } from "@/lib/redis/rate-limit";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
 const VALID_SUBJECTS = [
   "General support",
@@ -127,11 +128,35 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: validated }, { status: 400 });
   }
 
+  let dbSaved = false;
+  if (isSupabaseConfigured()) {
+    try {
+      const { error: dbError } = await supabase.from("contacts").insert([
+        {
+          name: validated.name,
+          email: validated.email,
+          subject: validated.subject,
+          message: validated.message,
+        },
+      ]);
+      if (dbError) {
+        console.error("Supabase contacts table insert error:", dbError);
+      } else {
+        dbSaved = true;
+      }
+    } catch (err) {
+      console.error("Unexpected database write error:", err);
+    }
+  }
+
   const delivered = await deliverContactMessage(validated, ip);
-  if (!delivered.ok) {
+  
+  // If both the database save and webhook delivery failed, report the error.
+  // Otherwise, if database succeeded, we treat the overall request as successful.
+  if (!dbSaved && !delivered.ok) {
     return NextResponse.json(
-      { error: delivered.error },
-      { status: delivered.status },
+      { error: delivered.error || "We could not save your message. Please try again later." },
+      { status: delivered.status || 500 },
     );
   }
 

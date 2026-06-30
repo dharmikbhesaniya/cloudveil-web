@@ -248,9 +248,10 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={state === "submitting"}
-        className="w-full rounded-xl px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+        className="w-full rounded-xl px-6 py-3 text-sm font-semibold transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
         style={{
-          background: "linear-gradient(135deg, var(--primary) 0%, #8B5CF6 100%)",
+          background: "var(--primary)",
+          color: "var(--primary-foreground)",
         }}
       >
         {state === "submitting" ? "Sending…" : "Send Message"}

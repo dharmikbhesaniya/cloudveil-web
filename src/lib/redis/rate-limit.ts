@@ -20,30 +20,39 @@ export async function checkRateLimit(
   limit = 5,
   windowSec = 60,
 ): Promise<RateLimitResult> {
-  const redis = getRedis();
-  if (!redis) {
+  try {
+    const redis = getRedis();
+    if (!redis) {
+      return {
+        allowed: true,
+        remaining: limit,
+        resetInSeconds: windowSec,
+      };
+    }
+
+    const key = `ratelimit:${namespace}:${identifier}`;
+
+    // INCR is atomic — safe under concurrent requests
+    const count = await redis.incr(key);
+
+    // Set TTL only on first increment so the window is anchored to the first request
+    if (count === 1) {
+      await redis.expire(key, windowSec);
+    }
+
+    const ttl = await redis.ttl(key);
+
+    return {
+      allowed: count <= limit,
+      remaining: Math.max(0, limit - count),
+      resetInSeconds: ttl > 0 ? ttl : windowSec,
+    };
+  } catch (error) {
+    console.error("Rate limiting connection error (defaulting to allowed):", error);
     return {
       allowed: true,
       remaining: limit,
       resetInSeconds: windowSec,
     };
   }
-
-  const key = `ratelimit:${namespace}:${identifier}`;
-
-  // INCR is atomic — safe under concurrent requests
-  const count = await redis.incr(key);
-
-  // Set TTL only on first increment so the window is anchored to the first request
-  if (count === 1) {
-    await redis.expire(key, windowSec);
-  }
-
-  const ttl = await redis.ttl(key);
-
-  return {
-    allowed: count <= limit,
-    remaining: Math.max(0, limit - count),
-    resetInSeconds: ttl > 0 ? ttl : windowSec,
-  };
 }
