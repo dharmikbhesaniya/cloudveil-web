@@ -3,7 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 
 function prefersReducedMotion() {
-  return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
 }
 
 const STEPS = [
@@ -11,35 +14,46 @@ const STEPS = [
     category: "LOCAL STORAGE",
     title: "Persistent Tracking Cookies",
     vpn: "Stored directly on your device. Cookies, session logs, and cache files accumulate over time, allowing ad networks to correlate your identity across visits.",
-    intractify: "Destroyed instantly on session close. Cookies and cache files exist only in the remote cloud memory, leaving 0 bytes on your physical drive.",
+    intractify:
+      "Destroyed instantly on session close. Cookies and cache files exist only in the remote cloud memory, leaving 0 bytes on your physical drive.",
   },
   {
     category: "FINGERPRINTING",
     title: "Hardware Signature Leak",
     vpn: "Exposed. Websites read your real OS version, installed fonts, screen resolution, and WebGL canvas hash to identify you without standard cookies.",
-    intractify: "Normalized. You share an identical generic profile with thousands of other users. Your true hardware configuration never reaches target trackers.",
+    intractify:
+      "Normalized. You share an identical generic profile with thousands of other users. Your true hardware configuration never reaches target trackers.",
   },
   {
     category: "DEVICE SECURITY",
     title: "Script Execution & Zero-Days",
     vpn: "Executed locally on your CPU. Dangerous scripts, zero-day browser exploits, and drive-by malware can target and compromise your host operating system.",
-    intractify: "Trapped in the remote container. All website scripts execute in disposable cloud pods. Your physical device receives only a clean video stream of pixels.",
+    intractify:
+      "Trapped in the remote container. All website scripts execute in disposable cloud pods. Your physical device receives only a clean video stream of pixels.",
   },
   {
     category: "IP & LOCATION LEAKS",
     title: "WebRTC Network Exposure",
     vpn: "Common vulnerability. WebRTC protocols bypass standard proxy rules, leaking your true home ISP IP address directly to target website servers.",
-    intractify: "Zero local connections. The target site only ever sees the cloud container's gateway IP. Your local interface is completely isolated.",
+    intractify:
+      "Zero local connections. The target site only ever sees the cloud container's gateway IP. Your local interface is completely isolated.",
   },
   {
     category: "SESSION LIFECYCLE",
     title: "Persistent vs. Disposable State",
     vpn: "Persistent environment. Unless you clear browser cache manually, security cookies and history logs sit permanently inside your local files.",
-    intractify: "Disposable container architecture. Closing the session automatically reaps and destroys the cloud container instance. There is no trace left to recover.",
+    intractify:
+      "Disposable container architecture. Closing the session automatically reaps and destroys the cloud container instance. There is no trace left to recover.",
   },
 ];
 
-function VisualMockup({ activeStep, isMobile = false }: { activeStep: number; isMobile?: boolean }) {
+function VisualMockup({
+  activeStep,
+  isMobile = false,
+}: {
+  activeStep: number;
+  isMobile?: boolean;
+}) {
   return (
     <div
       style={{
@@ -71,10 +85,34 @@ function VisualMockup({ activeStep, isMobile = false }: { activeStep: number; is
           {activeStep === 0 && (
             <>
               <div>
-                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "9px", color: "#E54B4B", marginBottom: "6px" }}>✕ VPN DISK STATE</div>
-                <div style={{ fontFamily: "var(--font-sans)", fontWeight: 500, fontSize: "16px", color: "#FFFFFF" }}>Cookies Stored Locally</div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "9px",
+                    color: "#E54B4B",
+                    marginBottom: "6px",
+                  }}
+                >
+                  ✕ VPN DISK STATE
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontWeight: 500,
+                    fontSize: "16px",
+                    color: "#FFFFFF",
+                  }}
+                >
+                  Cookies Stored Locally
+                </div>
               </div>
-              <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10.5px", color: "rgba(255,255,255,0.4)" }}>
+              <div
+                style={{
+                  fontFamily: "var(--font-mono, monospace)",
+                  fontSize: "10.5px",
+                  color: "rgba(255,255,255,0.4)",
+                }}
+              >
                 Data persists across visits
               </div>
             </>
@@ -83,15 +121,49 @@ function VisualMockup({ activeStep, isMobile = false }: { activeStep: number; is
           {activeStep === 1 && (
             <>
               <div>
-                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "9px", color: "#E54B4B", marginBottom: "6px" }}>✕ FINGERPRINT SPECS</div>
-                <div style={{ fontFamily: "var(--font-sans)", fontWeight: 500, fontSize: "16px", color: "#FFFFFF", marginBottom: "14px" }}>Exposed Identifiers</div>
-                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", color: "rgba(255,255,255,0.4)", display: "flex", flexDirection: "column", gap: "6px" }}>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "9px",
+                    color: "#E54B4B",
+                    marginBottom: "6px",
+                  }}
+                >
+                  ✕ FINGERPRINT SPECS
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontWeight: 500,
+                    fontSize: "16px",
+                    color: "#FFFFFF",
+                    marginBottom: "14px",
+                  }}
+                >
+                  Exposed Identifiers
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "10px",
+                    color: "rgba(255,255,255,0.4)",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "6px",
+                  }}
+                >
                   <div>OS: macOS Catalina</div>
                   <div>Browser: Safari (Unique Canvas)</div>
                   <div>Fonts: 241 Exposed</div>
                 </div>
               </div>
-              <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10.5px", color: "rgba(255,255,255,0.2)" }}>
+              <div
+                style={{
+                  fontFamily: "var(--font-mono, monospace)",
+                  fontSize: "10.5px",
+                  color: "rgba(255,255,255,0.2)",
+                }}
+              >
                 Identity stands out to trackers
               </div>
             </>
@@ -100,15 +172,49 @@ function VisualMockup({ activeStep, isMobile = false }: { activeStep: number; is
           {activeStep === 2 && (
             <>
               <div>
-                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "9px", color: "#E54B4B", marginBottom: "6px" }}>✕ EXECUTION VECTOR</div>
-                <div style={{ fontFamily: "var(--font-sans)", fontWeight: 500, fontSize: "16px", color: "#FFFFFF", marginBottom: "12px" }}>Local Processing</div>
-                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", color: "rgba(255,255,255,0.4)", display: "flex", flexDirection: "column", gap: "6px" }}>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "9px",
+                    color: "#E54B4B",
+                    marginBottom: "6px",
+                  }}
+                >
+                  ✕ EXECUTION VECTOR
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontWeight: 500,
+                    fontSize: "16px",
+                    color: "#FFFFFF",
+                    marginBottom: "12px",
+                  }}
+                >
+                  Local Processing
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "10px",
+                    color: "rgba(255,255,255,0.4)",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "6px",
+                  }}
+                >
                   <div>Host CPU: Processing JS</div>
                   <div>Memory: Active RAM cache</div>
                   <div>Risk: Host browser exploits</div>
                 </div>
               </div>
-              <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10.5px", color: "rgba(255,255,255,0.2)" }}>
+              <div
+                style={{
+                  fontFamily: "var(--font-mono, monospace)",
+                  fontSize: "10.5px",
+                  color: "rgba(255,255,255,0.2)",
+                }}
+              >
                 Zero-days execute directly on OS
               </div>
             </>
@@ -117,15 +223,49 @@ function VisualMockup({ activeStep, isMobile = false }: { activeStep: number; is
           {activeStep === 3 && (
             <>
               <div>
-                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "9px", color: "#E54B4B", marginBottom: "6px" }}>✕ WebRTC CONFIG</div>
-                <div style={{ fontFamily: "var(--font-sans)", fontWeight: 500, fontSize: "16px", color: "#FFFFFF", marginBottom: "12px" }}>Direct IP Leaks</div>
-                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", color: "rgba(255,255,255,0.4)", display: "flex", flexDirection: "column", gap: "6px" }}>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "9px",
+                    color: "#E54B4B",
+                    marginBottom: "6px",
+                  }}
+                >
+                  ✕ WebRTC CONFIG
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontWeight: 500,
+                    fontSize: "16px",
+                    color: "#FFFFFF",
+                    marginBottom: "12px",
+                  }}
+                >
+                  Direct IP Leaks
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "10px",
+                    color: "rgba(255,255,255,0.4)",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "6px",
+                  }}
+                >
                   <div>WebRTC: Querying interface</div>
                   <div>Leaked IP: 185.112.45.12</div>
                   <div>ISP: Target logs home routing</div>
                 </div>
               </div>
-              <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10.5px", color: "rgba(255,255,255,0.2)" }}>
+              <div
+                style={{
+                  fontFamily: "var(--font-mono, monospace)",
+                  fontSize: "10.5px",
+                  color: "rgba(255,255,255,0.2)",
+                }}
+              >
                 Standard VPN routes get bypassed
               </div>
             </>
@@ -134,15 +274,49 @@ function VisualMockup({ activeStep, isMobile = false }: { activeStep: number; is
           {activeStep === 4 && (
             <>
               <div>
-                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "9px", color: "#E54B4B", marginBottom: "6px" }}>✕ FILE RETENTION</div>
-                <div style={{ fontFamily: "var(--font-sans)", fontWeight: 500, fontSize: "16px", color: "#FFFFFF", marginBottom: "12px" }}>Accumulated Storage</div>
-                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", color: "rgba(255,255,255,0.4)", display: "flex", flexDirection: "column", gap: "6px" }}>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "9px",
+                    color: "#E54B4B",
+                    marginBottom: "6px",
+                  }}
+                >
+                  ✕ FILE RETENTION
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontWeight: 500,
+                    fontSize: "16px",
+                    color: "#FFFFFF",
+                    marginBottom: "12px",
+                  }}
+                >
+                  Accumulated Storage
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "10px",
+                    color: "rgba(255,255,255,0.4)",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "6px",
+                  }}
+                >
                   <div>Disk Space: 240 MB</div>
                   <div>Cache files: Persistent</div>
                   <div>State: Forensics can extract</div>
                 </div>
               </div>
-              <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10.5px", color: "rgba(255,255,255,0.2)" }}>
+              <div
+                style={{
+                  fontFamily: "var(--font-mono, monospace)",
+                  fontSize: "10.5px",
+                  color: "rgba(255,255,255,0.2)",
+                }}
+              >
                 No automatic deletion trigger
               </div>
             </>
@@ -165,10 +339,34 @@ function VisualMockup({ activeStep, isMobile = false }: { activeStep: number; is
           {activeStep === 0 && (
             <>
               <div>
-                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "9px", color: "var(--primary)", marginBottom: "6px" }}>✓ CLOUD ISOLATION</div>
-                <div style={{ fontFamily: "var(--font-sans)", fontWeight: 500, fontSize: "16px", color: "var(--foreground)" }}>Cookies Evaporated</div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "9px",
+                    color: "var(--primary)",
+                    marginBottom: "6px",
+                  }}
+                >
+                  ✓ CLOUD ISOLATION
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontWeight: 500,
+                    fontSize: "16px",
+                    color: "var(--foreground)",
+                  }}
+                >
+                  Cookies Evaporated
+                </div>
               </div>
-              <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10.5px", color: "var(--muted-foreground)" }}>
+              <div
+                style={{
+                  fontFamily: "var(--font-mono, monospace)",
+                  fontSize: "10.5px",
+                  color: "var(--muted-foreground)",
+                }}
+              >
                 Leaves 0 bytes kept on close
               </div>
             </>
@@ -177,15 +375,49 @@ function VisualMockup({ activeStep, isMobile = false }: { activeStep: number; is
           {activeStep === 1 && (
             <>
               <div>
-                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "9px", color: "var(--primary)", marginBottom: "6px" }}>✓ NORMALIZED PROFILE</div>
-                <div style={{ fontFamily: "var(--font-sans)", fontWeight: 500, fontSize: "16px", color: "var(--foreground)", marginBottom: "14px" }}>Generic Mask</div>
-                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", color: "var(--muted-foreground)", display: "flex", flexDirection: "column", gap: "6px" }}>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "9px",
+                    color: "var(--primary)",
+                    marginBottom: "6px",
+                  }}
+                >
+                  ✓ NORMALIZED PROFILE
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontWeight: 500,
+                    fontSize: "16px",
+                    color: "var(--foreground)",
+                    marginBottom: "14px",
+                  }}
+                >
+                  Generic Mask
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "10px",
+                    color: "var(--muted-foreground)",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "6px",
+                  }}
+                >
                   <div>OS: Linux x86_64</div>
                   <div>Browser: Chrome (Anonymized)</div>
                   <div>Fonts: 12 Normalized</div>
                 </div>
               </div>
-              <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10.5px", color: "var(--muted-foreground)" }}>
+              <div
+                style={{
+                  fontFamily: "var(--font-mono, monospace)",
+                  fontSize: "10.5px",
+                  color: "var(--muted-foreground)",
+                }}
+              >
                 Identical to thousands of users
               </div>
             </>
@@ -194,15 +426,49 @@ function VisualMockup({ activeStep, isMobile = false }: { activeStep: number; is
           {activeStep === 2 && (
             <>
               <div>
-                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "9px", color: "var(--primary)", marginBottom: "6px" }}>✓ SANDBOX SHIELD</div>
-                <div style={{ fontFamily: "var(--font-sans)", fontWeight: 500, fontSize: "16px", color: "var(--foreground)", marginBottom: "12px" }}>Disposable Container</div>
-                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", color: "var(--muted-foreground)", display: "flex", flexDirection: "column", gap: "6px" }}>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "9px",
+                    color: "var(--primary)",
+                    marginBottom: "6px",
+                  }}
+                >
+                  ✓ SANDBOX SHIELD
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontWeight: 500,
+                    fontSize: "16px",
+                    color: "var(--foreground)",
+                    marginBottom: "12px",
+                  }}
+                >
+                  Disposable Container
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "10px",
+                    color: "var(--muted-foreground)",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "6px",
+                  }}
+                >
                   <div>Remote Pod: Executing scripts</div>
                   <div>Local device: Receiving pixels</div>
                   <div>Isolation: 100% exploit-proof</div>
                 </div>
               </div>
-              <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10.5px", color: "var(--muted-foreground)" }}>
+              <div
+                style={{
+                  fontFamily: "var(--font-mono, monospace)",
+                  fontSize: "10.5px",
+                  color: "var(--muted-foreground)",
+                }}
+              >
                 Exploits trapped inside the cloud
               </div>
             </>
@@ -211,15 +477,49 @@ function VisualMockup({ activeStep, isMobile = false }: { activeStep: number; is
           {activeStep === 3 && (
             <>
               <div>
-                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "9px", color: "var(--primary)", marginBottom: "6px" }}>✓ PROXY CLOAK</div>
-                <div style={{ fontFamily: "var(--font-sans)", fontWeight: 500, fontSize: "16px", color: "var(--foreground)", marginBottom: "12px" }}>Isolated Gateway</div>
-                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", color: "var(--muted-foreground)", display: "flex", flexDirection: "column", gap: "6px" }}>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "9px",
+                    color: "var(--primary)",
+                    marginBottom: "6px",
+                  }}
+                >
+                  ✓ PROXY CLOAK
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontWeight: 500,
+                    fontSize: "16px",
+                    color: "var(--foreground)",
+                    marginBottom: "12px",
+                  }}
+                >
+                  Isolated Gateway
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "10px",
+                    color: "var(--muted-foreground)",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "6px",
+                  }}
+                >
                   <div>WebRTC: Blocked at gateway</div>
                   <div>Spoofed IP: 10.200.0.8</div>
                   <div>Target sees: Cloud endpoint</div>
                 </div>
               </div>
-              <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10.5px", color: "var(--muted-foreground)" }}>
+              <div
+                style={{
+                  fontFamily: "var(--font-mono, monospace)",
+                  fontSize: "10.5px",
+                  color: "var(--muted-foreground)",
+                }}
+              >
                 Your local home IP never leaves
               </div>
             </>
@@ -228,15 +528,49 @@ function VisualMockup({ activeStep, isMobile = false }: { activeStep: number; is
           {activeStep === 4 && (
             <>
               <div>
-                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "9px", color: "var(--primary)", marginBottom: "6px" }}>✓ AUTO-DESTRUCT</div>
-                <div style={{ fontFamily: "var(--font-sans)", fontWeight: 500, fontSize: "16px", color: "var(--foreground)", marginBottom: "12px" }}>Instance Reaped</div>
-                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10px", color: "var(--muted-foreground)", display: "flex", flexDirection: "column", gap: "6px" }}>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "9px",
+                    color: "var(--primary)",
+                    marginBottom: "6px",
+                  }}
+                >
+                  ✓ AUTO-DESTRUCT
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontWeight: 500,
+                    fontSize: "16px",
+                    color: "var(--foreground)",
+                    marginBottom: "12px",
+                  }}
+                >
+                  Instance Reaped
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "10px",
+                    color: "var(--muted-foreground)",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "6px",
+                  }}
+                >
                   <div>Disk State: ∅ 0 bytes</div>
                   <div>Orchestrator: Task terminated</div>
                   <div>History: Wiped from memory</div>
                 </div>
               </div>
-              <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "10.5px", color: "var(--muted-foreground)" }}>
+              <div
+                style={{
+                  fontFamily: "var(--font-mono, monospace)",
+                  fontSize: "10.5px",
+                  color: "var(--muted-foreground)",
+                }}
+              >
                 Container destroyed on tab close
               </div>
             </>
@@ -260,7 +594,9 @@ export function ComparisonSection() {
   useEffect(() => {
     const el = headingRef.current;
     if (!el) return;
-    const observer = new ResizeObserver(() => setHeadingHeight(el.offsetHeight));
+    const observer = new ResizeObserver(() =>
+      setHeadingHeight(el.offsetHeight),
+    );
     observer.observe(el);
     setHeadingHeight(el.offsetHeight);
     return () => observer.disconnect();
@@ -304,20 +640,23 @@ export function ComparisonSection() {
           const measuredHeadingHeight = headingEl.offsetHeight;
           const currentCardTopBase = NAVBAR_HEIGHT + measuredHeadingHeight;
           const lastCardHeight = lastCard.offsetHeight;
-          const targetStackBottom = currentCardTopBase + (STEPS.length - 1) * CARD_STACK_OFFSET + lastCardHeight;
+          const targetStackBottom =
+            currentCardTopBase +
+            (STEPS.length - 1) * CARD_STACK_OFFSET +
+            lastCardHeight;
           const pushDelta = Math.max(0, targetStackBottom - containerBottom);
           console.log("DEBUG SCROLL:", {
             containerBottom,
             measuredHeadingHeight,
             lastCardHeight,
             targetStackBottom,
-            pushDelta
+            pushDelta,
           });
           setScrollOffset(pushDelta);
         } else {
           console.log("DEBUG SCROLL: Missing refs", {
             lastCard: !!lastCard,
-            headingEl: !!headingEl
+            headingEl: !!headingEl,
           });
         }
       }
@@ -378,7 +717,8 @@ export function ComparisonSection() {
             VPNs hide your location.{" "}
             <span
               style={{
-                fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
+                fontFamily:
+                  "var(--font-display, 'Instrument Serif', Georgia, serif)",
                 fontStyle: "italic",
                 fontWeight: 400,
               }}
@@ -390,7 +730,11 @@ export function ComparisonSection() {
         </div>
 
         {/* MOBILE-ONLY SECTION CONTAINER (wraps sticky title + sticky cards so they scroll away together!) */}
-        <div ref={mobileContainerRef} className="block lg:hidden" style={{ marginBottom: "16px" }}>
+        <div
+          ref={mobileContainerRef}
+          className="block lg:hidden"
+          style={{ marginBottom: "16px" }}
+        >
           {/* Eyebrow + Heading — sticky on mobile */}
           <div
             ref={headingRef}
@@ -423,8 +767,8 @@ export function ComparisonSection() {
               style={{
                 fontFamily: "var(--font-sans, ui-sans-serif, sans-serif)",
                 fontWeight: 500,
-                fontSize: "clamp(26px, 4.5vw, 54px)",
-                lineHeight: 1.05,
+                fontSize: "clamp(36px, 4.5vw, 56px)",
+                lineHeight: 1.06,
                 letterSpacing: "-0.03em",
                 margin: 0,
                 maxWidth: "800px",
@@ -434,7 +778,8 @@ export function ComparisonSection() {
               VPNs hide your location.{" "}
               <span
                 style={{
-                  fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
+                  fontFamily:
+                    "var(--font-display, 'Instrument Serif', Georgia, serif)",
                   fontStyle: "italic",
                   fontWeight: 400,
                 }}
@@ -456,7 +801,9 @@ export function ComparisonSection() {
             return (
               <div
                 key={idx}
-                ref={(el) => { mobileStickyRefs.current[idx] = el; }}
+                ref={(el) => {
+                  mobileStickyRefs.current[idx] = el;
+                }}
                 style={{
                   position: "sticky",
                   top: `${CARD_TOP_BASE + idx * CARD_STACK_OFFSET - scrollOffset}px`,
@@ -470,12 +817,13 @@ export function ComparisonSection() {
                   // depth effect
                   transform: `scale(${scale})`,
                   transformOrigin: "top center",
-                  transition: "transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease",
+                  transition:
+                    "transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease",
                   boxShadow: isActive
                     ? "0 16px 48px rgba(0,0,0,0.14)"
                     : isBehind
-                    ? "0 4px 16px rgba(0,0,0,0.08)"
-                    : "0 2px 8px rgba(0,0,0,0.04)",
+                      ? "0 4px 16px rgba(0,0,0,0.08)"
+                      : "0 2px 8px rgba(0,0,0,0.04)",
                 }}
               >
                 {/* Step indicator */}
@@ -498,7 +846,9 @@ export function ComparisonSection() {
                       justifyContent: "center",
                       fontSize: "9px",
                       fontFamily: "var(--font-mono, monospace)",
-                      color: isActive ? "var(--primary-foreground)" : "var(--muted-foreground)",
+                      color: isActive
+                        ? "var(--primary-foreground)"
+                        : "var(--muted-foreground)",
                       fontWeight: 700,
                       flexShrink: 0,
                       transition: "background 0.3s ease",
@@ -510,7 +860,9 @@ export function ComparisonSection() {
                     style={{
                       fontFamily: "var(--font-mono, monospace)",
                       fontSize: "9px",
-                      color: isActive ? "var(--primary)" : "var(--muted-foreground)",
+                      color: isActive
+                        ? "var(--primary)"
+                        : "var(--muted-foreground)",
                       letterSpacing: "0.1em",
                       textTransform: "uppercase",
                       transition: "color 0.3s ease",
@@ -536,7 +888,13 @@ export function ComparisonSection() {
                 </h3>
 
                 {/* VPN vs Intractify */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                  }}
+                >
                   <div
                     style={{
                       fontSize: "12.5px",
@@ -548,7 +906,13 @@ export function ComparisonSection() {
                       borderLeft: "2px solid #E54B4B",
                     }}
                   >
-                    <span style={{ color: "#E54B4B", fontWeight: 700, marginRight: "5px" }}>
+                    <span
+                      style={{
+                        color: "#E54B4B",
+                        fontWeight: 700,
+                        marginRight: "5px",
+                      }}
+                    >
                       ✕ VPN:
                     </span>
                     {step.vpn}
@@ -565,7 +929,13 @@ export function ComparisonSection() {
                       borderLeft: "2px solid var(--primary)",
                     }}
                   >
-                    <span style={{ color: "var(--primary)", fontWeight: 700, marginRight: "5px" }}>
+                    <span
+                      style={{
+                        color: "var(--primary)",
+                        fontWeight: 700,
+                        marginRight: "5px",
+                      }}
+                    >
                       ✓ Intractify:
                     </span>
                     {step.intractify}
@@ -596,7 +966,10 @@ export function ComparisonSection() {
                   }}
                   style={{
                     opacity: isActive || prefersReducedMotion() ? 1 : 0.3,
-                    transform: isActive || prefersReducedMotion() ? "translateX(0)" : "translateX(-6px)",
+                    transform:
+                      isActive || prefersReducedMotion()
+                        ? "translateX(0)"
+                        : "translateX(-6px)",
                     transition: "opacity 0.4s ease, transform 0.4s ease",
                     borderLeft: `2px solid ${isActive ? "var(--primary)" : "var(--border)"}`,
                     paddingLeft: "24px",
@@ -606,7 +979,9 @@ export function ComparisonSection() {
                     style={{
                       fontFamily: "var(--font-mono, monospace)",
                       fontSize: "10px",
-                      color: isActive ? "var(--primary)" : "var(--muted-foreground)",
+                      color: isActive
+                        ? "var(--primary)"
+                        : "var(--muted-foreground)",
                       marginBottom: "10px",
                       letterSpacing: "0.08em",
                     }}
@@ -634,11 +1009,29 @@ export function ComparisonSection() {
                     }}
                   >
                     <div style={{ color: "var(--muted-foreground)" }}>
-                      <span style={{ color: "#E54B4B", marginRight: "8px", fontWeight: "bold" }}>✕ VPN:</span>
+                      <span
+                        style={{
+                          color: "#E54B4B",
+                          marginRight: "8px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        ✕ VPN:
+                      </span>
                       {step.vpn}
                     </div>
-                    <div style={{ color: "var(--foreground)", fontWeight: 500 }}>
-                      <span style={{ color: "var(--primary)", marginRight: "8px", fontWeight: "bold" }}>✓ Intractify:</span>
+                    <div
+                      style={{ color: "var(--foreground)", fontWeight: 500 }}
+                    >
+                      <span
+                        style={{
+                          color: "var(--primary)",
+                          marginRight: "8px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        ✓ Intractify:
+                      </span>
                       {step.intractify}
                     </div>
                   </div>
