@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import TurndownService from "turndown";
 
 const BASE_URL = "https://intractify.com";
 
@@ -161,11 +162,91 @@ Monday–Friday, 9am–6pm IST. Response within 24 business hours.
 `,
 };
 
+function htmlToMarkdown(html: string): string {
+  // 1. Extract content between <main>...</main> (or <body>...</body>)
+  let contentHtml = "";
+  const mainMatch = html.match(/<main[\s\S]*?>([\s\S]*?)<\/main>/i);
+  if (mainMatch) {
+    contentHtml = mainMatch[1];
+  } else {
+    const bodyMatch = html.match(/<body[\s\S]*?>([\s\S]*?)<\/body>/i);
+    contentHtml = bodyMatch ? bodyMatch[1] : html;
+  }
+
+  // 2. Setup Turndown service
+  const turndownService = new TurndownService({
+    headingStyle: "atx",
+    codeBlockStyle: "fenced",
+    bulletListMarker: "-",
+  });
+
+  // 3. Custom rule for mapping relative links to absolute URL schemas
+  turndownService.addRule("absoluteLinks", {
+    filter: "a",
+    replacement: function (content, node) {
+      const href = (node as any).getAttribute("href") || "";
+      let absoluteHref = href;
+      if (href.startsWith("/")) {
+        absoluteHref = `https://intractify.com${href}`;
+      }
+      return `[${content.trim()}](${absoluteHref})`;
+    },
+  });
+
+  // 4. Strip out unnecessary style, script, and graphics DOM wrappers
+  ["script", "style", "svg", "iframe", "noscript", "head"].forEach((tag) => {
+    turndownService.remove(tag as any);
+  });
+
+  // 5. Convert HTML content to clean Markdown string
+  let markdown = turndownService.turndown(contentHtml);
+
+  // 6. Post-processing normalization of excess spacing/newlines
+  markdown = markdown
+    .split("\n")
+    .map((line) => line.trim())
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+
+  return markdown;
+}
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const path = searchParams.get("path") ?? "/";
 
-  const markdown = PAGE_MARKDOWN[path] ?? PAGE_MARKDOWN["/"];
+  // Prevent routing request loops or file path injection
+  if (path.startsWith("/api") || path.includes(".")) {
+    return NextResponse.json({ error: "Invalid path target" }, { status: 400 });
+  }
+
+  let markdown = "";
+  let isDynamic = false;
+
+  try {
+    const targetUrl = new URL(path, request.url).toString();
+    const fetchResponse = await fetch(targetUrl, {
+      headers: {
+        "Accept": "text/html",
+      },
+      signal: AbortSignal.timeout(5000),
+    });
+
+    if (fetchResponse.ok) {
+      const html = await fetchResponse.text();
+      markdown = htmlToMarkdown(html);
+      isDynamic = true;
+    }
+  } catch (err) {
+    console.error(`Dynamic markdown generation failed for path ${path}:`, err);
+  }
+
+  // Fallback to static pre-rendered markdown if dynamic retrieval fails
+  if (!markdown) {
+    markdown = PAGE_MARKDOWN[path] ?? PAGE_MARKDOWN["/"];
+  }
+
   const tokenCount = Math.ceil(markdown.length / 4);
 
   return new NextResponse(markdown, {
@@ -173,6 +254,7 @@ export async function GET(request: NextRequest) {
     headers: {
       "Content-Type": "text/markdown; charset=utf-8",
       "x-markdown-tokens": String(tokenCount),
+      "x-markdown-dynamic": String(isDynamic),
       "Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
       "Vary": "Accept",
     },

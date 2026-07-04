@@ -3,12 +3,24 @@ import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 import { ContactForm } from "@/components/features/contact/ContactForm";
 import Link from "next/link";
+import { StructuredData } from "@/lib/seo/structured-data";
+import { generateWebPageSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
   title: "Contact | Intractify",
   description: "Get in touch with the Intractify team for support, billing, or privacy inquiries.",
   alternates: { canonical: "https://intractify.com/contact" },
 };
+
+const pageSchema = generateWebPageSchema({
+  name: "Contact Intractify",
+  description: "Get in touch with the Intractify team for support, billing, or privacy inquiries.",
+  url: "https://intractify.com/contact",
+  breadcrumb: [
+    { name: "Home", url: "https://intractify.com" },
+    { name: "Contact", url: "https://intractify.com/contact" },
+  ],
+});
 
 const CONTACT_METHODS = [
   {
@@ -43,6 +55,7 @@ const FAQ_SHORTCUTS = [
 export default function ContactPage() {
   return (
     <>
+      <StructuredData data={pageSchema} />
       <Navbar />
       <main
         id="main-content"
