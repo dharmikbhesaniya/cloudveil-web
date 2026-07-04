@@ -76,38 +76,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: validated }, { status: 400 });
   }
 
-  const {
-    utm_source,
-    utm_medium,
-    utm_campaign,
-    utm_term,
-    utm_content,
-    gclid,
-    gbraid,
-    wbraid,
-    gad_source,
-    referrer,
-  } = (body as Record<string, unknown>) || {};
-
-  const trackingData = {
-    utm_source: typeof utm_source === "string" ? utm_source.trim().substring(0, 1024) : null,
-    utm_medium: typeof utm_medium === "string" ? utm_medium.trim().substring(0, 1024) : null,
-    utm_campaign: typeof utm_campaign === "string" ? utm_campaign.trim().substring(0, 1024) : null,
-    utm_term: typeof utm_term === "string" ? utm_term.trim().substring(0, 1024) : null,
-    utm_content: typeof utm_content === "string" ? utm_content.trim().substring(0, 1024) : null,
-    gclid: typeof gclid === "string" ? gclid.trim().substring(0, 1024) : null,
-    gbraid: typeof gbraid === "string" ? gbraid.trim().substring(0, 1024) : null,
-    wbraid: typeof wbraid === "string" ? wbraid.trim().substring(0, 1024) : null,
-    gad_source: typeof gad_source === "string" ? gad_source.trim().substring(0, 1024) : null,
-    referrer: typeof referrer === "string" ? referrer.trim().substring(0, 2048) : null,
-  };
+  const { visitor_id, session_id } = (body as Record<string, unknown>) || {};
 
   try {
     const { error } = await supabase.from("waitlist").insert([
       {
         email: validated.email,
         plan: validated.plan,
-        ...trackingData,
+        visitor_id: typeof visitor_id === "string" ? visitor_id.trim().substring(0, 256) : null,
+        session_id: typeof session_id === "string" ? session_id.trim().substring(0, 256) : null,
       },
     ]);
 

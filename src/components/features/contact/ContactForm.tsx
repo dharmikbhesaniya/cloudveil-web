@@ -38,11 +38,15 @@ export function ContactForm() {
     setErrorMessage("");
 
     let tracking = {};
+    let visitorId = null;
+    let sessionId = null;
     try {
       const trackingStr = localStorage.getItem("intractify_attribution");
       if (trackingStr) {
         tracking = JSON.parse(trackingStr);
       }
+      visitorId = localStorage.getItem("intractify_visitor_id");
+      sessionId = sessionStorage.getItem("intractify_session_id");
     } catch (err) {
       console.error("Attribution fetch failed inside contact submit:", err);
     }
@@ -54,6 +58,8 @@ export function ContactForm() {
         body: JSON.stringify({
           ...fields,
           ...tracking,
+          visitor_id: visitorId,
+          session_id: sessionId,
         }),
       });
 

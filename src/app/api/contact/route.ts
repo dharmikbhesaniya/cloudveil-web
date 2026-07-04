@@ -152,6 +152,8 @@ export async function POST(req: NextRequest) {
     wbraid,
     gad_source,
     referrer,
+    visitor_id,
+    session_id,
   } = (body as Record<string, unknown>) || {};
 
   const trackingData: AttributionData = {
@@ -176,7 +178,8 @@ export async function POST(req: NextRequest) {
           email: validated.email,
           subject: validated.subject,
           message: validated.message,
-          ...trackingData,
+          visitor_id: typeof visitor_id === "string" ? visitor_id.trim().substring(0, 256) : null,
+          session_id: typeof session_id === "string" ? session_id.trim().substring(0, 256) : null,
         },
       ]);
       if (dbError) {

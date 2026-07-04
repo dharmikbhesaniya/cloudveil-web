@@ -116,11 +116,15 @@ export function PricingSection() {
                 setErrorMessage("");
 
                 let tracking = {};
+                let visitorId = null;
+                let sessionId = null;
                 try {
                   const trackingStr = localStorage.getItem("intractify_attribution");
                   if (trackingStr) {
                     tracking = JSON.parse(trackingStr);
                   }
+                  visitorId = localStorage.getItem("intractify_visitor_id");
+                  sessionId = sessionStorage.getItem("intractify_session_id");
                 } catch (err) {
                   console.error("Attribution fetch failed inside waitlist submit:", err);
                 }
@@ -133,6 +137,8 @@ export function PricingSection() {
                       email: trimmedEmail,
                       plan: "free",
                       ...tracking,
+                      visitor_id: visitorId,
+                      session_id: sessionId,
                     }),
                   });
 
