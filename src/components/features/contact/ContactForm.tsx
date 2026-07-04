@@ -37,11 +37,24 @@ export function ContactForm() {
     setState("submitting");
     setErrorMessage("");
 
+    let tracking = {};
+    try {
+      const trackingStr = localStorage.getItem("intractify_attribution");
+      if (trackingStr) {
+        tracking = JSON.parse(trackingStr);
+      }
+    } catch (err) {
+      console.error("Attribution fetch failed inside contact submit:", err);
+    }
+
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(fields),
+        body: JSON.stringify({
+          ...fields,
+          ...tracking,
+        }),
       });
 
       if (res.status === 429) {

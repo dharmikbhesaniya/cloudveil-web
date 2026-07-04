@@ -18,6 +18,19 @@ type ValidContact = {
   message: string;
 };
 
+type AttributionData = {
+  utm_source?: string | null;
+  utm_medium?: string | null;
+  utm_campaign?: string | null;
+  utm_term?: string | null;
+  utm_content?: string | null;
+  gclid?: string | null;
+  gbraid?: string | null;
+  wbraid?: string | null;
+  gad_source?: string | null;
+  referrer?: string | null;
+};
+
 // ── Input validation ──────────────────────────────────────────────────────────
 
 function validateBody(body: unknown): ValidContact | string {
@@ -44,7 +57,7 @@ function validateBody(body: unknown): ValidContact | string {
   };
 }
 
-async function deliverContactMessage(contact: ValidContact, ip: string) {
+async function deliverContactMessage(contact: ValidContact & AttributionData, ip: string) {
   const webhookUrl = process.env.CONTACT_WEBHOOK_URL;
 
   if (!webhookUrl) {
@@ -128,6 +141,32 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: validated }, { status: 400 });
   }
 
+  const {
+    utm_source,
+    utm_medium,
+    utm_campaign,
+    utm_term,
+    utm_content,
+    gclid,
+    gbraid,
+    wbraid,
+    gad_source,
+    referrer,
+  } = (body as Record<string, unknown>) || {};
+
+  const trackingData: AttributionData = {
+    utm_source: typeof utm_source === "string" ? utm_source.trim().substring(0, 1024) : null,
+    utm_medium: typeof utm_medium === "string" ? utm_medium.trim().substring(0, 1024) : null,
+    utm_campaign: typeof utm_campaign === "string" ? utm_campaign.trim().substring(0, 1024) : null,
+    utm_term: typeof utm_term === "string" ? utm_term.trim().substring(0, 1024) : null,
+    utm_content: typeof utm_content === "string" ? utm_content.trim().substring(0, 1024) : null,
+    gclid: typeof gclid === "string" ? gclid.trim().substring(0, 1024) : null,
+    gbraid: typeof gbraid === "string" ? gbraid.trim().substring(0, 1024) : null,
+    wbraid: typeof wbraid === "string" ? wbraid.trim().substring(0, 1024) : null,
+    gad_source: typeof gad_source === "string" ? gad_source.trim().substring(0, 1024) : null,
+    referrer: typeof referrer === "string" ? referrer.trim().substring(0, 2048) : null,
+  };
+
   let dbSaved = false;
   if (isSupabaseConfigured()) {
     try {
@@ -137,6 +176,7 @@ export async function POST(req: NextRequest) {
           email: validated.email,
           subject: validated.subject,
           message: validated.message,
+          ...trackingData,
         },
       ]);
       if (dbError) {
@@ -149,7 +189,7 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const delivered = await deliverContactMessage(validated, ip);
+  const delivered = await deliverContactMessage({ ...validated, ...trackingData }, ip);
   
   // If both the database save and webhook delivery failed, report the error.
   // Otherwise, if database succeeded, we treat the overall request as successful.

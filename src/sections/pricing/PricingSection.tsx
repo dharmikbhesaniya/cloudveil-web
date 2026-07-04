@@ -115,11 +115,25 @@ export function PricingSection() {
                 setStatus("submitting");
                 setErrorMessage("");
 
+                let tracking = {};
+                try {
+                  const trackingStr = localStorage.getItem("intractify_attribution");
+                  if (trackingStr) {
+                    tracking = JSON.parse(trackingStr);
+                  }
+                } catch (err) {
+                  console.error("Attribution fetch failed inside waitlist submit:", err);
+                }
+
                 try {
                   const res = await fetch("/api/waitlist", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email: trimmedEmail, plan: "free" }),
+                    body: JSON.stringify({
+                      email: trimmedEmail,
+                      plan: "free",
+                      ...tracking,
+                    }),
                   });
 
                   const data = await res.json();

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { StructuredData } from "@/lib/seo/structured-data";
 import { organizationSchema, websiteSchema } from "@/lib/seo/schema";
+import { UTMTracker } from "@/components/common/UTMTracker";
 
 const geistSans = Geist({ variable: "--font-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({
@@ -106,6 +107,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className="noise-overlay bg-background text-foreground flex min-h-full flex-col"
       >
+        <UTMTracker />
         <StructuredData data={[organizationSchema, websiteSchema]} />
         {children}
       </body>
