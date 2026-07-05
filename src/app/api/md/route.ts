@@ -184,7 +184,7 @@ function htmlToMarkdown(html: string): string {
   turndownService.addRule("absoluteLinks", {
     filter: "a",
     replacement: function (content, node) {
-      const href = (node as any).getAttribute("href") || "";
+      const href = (node as HTMLElement).getAttribute("href") || "";
       let absoluteHref = href;
       if (href.startsWith("/")) {
         absoluteHref = `https://intractify.com${href}`;
@@ -195,7 +195,7 @@ function htmlToMarkdown(html: string): string {
 
   // 4. Strip out unnecessary style, script, and graphics DOM wrappers
   ["script", "style", "svg", "iframe", "noscript", "head"].forEach((tag) => {
-    turndownService.remove(tag as any);
+    turndownService.remove(tag as TurndownService.Filter);
   });
 
   // 5. Convert HTML content to clean Markdown string
