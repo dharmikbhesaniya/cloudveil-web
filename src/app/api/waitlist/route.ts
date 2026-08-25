@@ -96,8 +96,10 @@ export async function POST(req: NextRequest) {
           { status: 409 }
         );
       }
+      // The raw Supabase message can disclose schema and constraint names.
+      console.error("Supabase waitlist insert error:", error);
       return NextResponse.json(
-        { error: error.message || "Failed to join waitlist. Please try again later." },
+        { error: "Failed to join waitlist. Please try again later." },
         { status: 500 }
       );
     }

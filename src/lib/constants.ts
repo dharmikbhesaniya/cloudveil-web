@@ -90,7 +90,7 @@ export const FAQ_DATA = [
   {
     question: "How does Intractify protect my privacy?",
     answer:
-      "Each session runs in its own isolated container with a fresh Chromium browser. The container has no persistent storage — when your session ends, the entire container is destroyed, including all cookies, history, cache, and downloaded files. Anti-fingerprinting protections are applied automatically.",
+      "Each session runs in its own isolated container with a fresh Chromium browser. The container has no persistent storage — when your session ends, the entire container is destroyed, including all cookies, history, cache, and downloaded files.",
   },
   {
     question: "What is the difference between Personal and Shared mode?",
@@ -100,7 +100,7 @@ export const FAQ_DATA = [
   {
     question: "Can websites detect that I am using Intractify?",
     answer:
-      "Intractify applies anti-fingerprinting protections including user-agent rotation, canvas fingerprint masking, WebGL spoofing, and font normalization. These measures make it difficult for websites to distinguish your Intractify session from a regular browser.",
+      "Because the browser runs on our infrastructure and not on your device, a site sees the session's characteristics rather than your machine's — your real IP, operating system, installed fonts and hardware are never exposed to it. Dedicated fingerprint normalization is on the roadmap and is not yet active; we will say so here when it ships.",
   },
   {
     question: "What happens when my session ends?",
@@ -135,7 +135,7 @@ export const FAQ_DATA = [
   {
     question: "What is browser fingerprinting and how does Intractify prevent it?",
     answer:
-      "Browser fingerprinting is a tracking technique that identifies you by combining attributes like your screen resolution, installed fonts, canvas rendering, WebGL output, and audio processing — creating a unique 'fingerprint' even without cookies. Intractify randomizes all of these per session: canvas, WebGL, audio, fonts, and timing are all spoofed fresh for each session, so each session presents a completely different identity to any website.",
+      "Browser fingerprinting is a tracking technique that identifies you by combining attributes like your screen resolution, installed fonts, canvas rendering, WebGL output, and audio processing — creating a unique 'fingerprint' even without cookies. Because Intractify runs the browser on our infrastructure, none of those attributes are read from your device: a site fingerprints the disposable session, not your machine, and that session is destroyed when you close it. Normalizing the session's own fingerprint is on the roadmap and is not yet active.",
   },
   {
     question: "Is Intractify available on mobile?",

@@ -8,10 +8,10 @@ const FEATURES = [
   {
     num: "i.",
     title: "Container isolation",
-    tech: "ECS task · own kernel namespace",
+    tech: "Dedicated container · isolated filesystem",
     body: (
       <>
-        Every browser runs in a dedicated ECS task — its own kernel namespace, its own filesystem,
+        Every browser runs in a dedicated container — its own filesystem,
         its own network. <i>No shared state between sessions</i>, no cross-tenant leakage by
         construction.
       </>

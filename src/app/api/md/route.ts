@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import TurndownService from "turndown";
 
+// Must match middleware.ts. Any path not in this set is refused outright.
+const MARKDOWN_PAGES = new Set([
+  "/",
+  "/privacy-policy",
+  "/terms-of-service",
+  "/refund-policy",
+  "/data-deletion",
+  "/contact",
+]);
+
 const BASE_URL = "https://intractify.com";
 
 const PAGE_MARKDOWN: Record<string, string> = {
@@ -17,24 +27,19 @@ Intractify is a SaaS privacy platform that provides fully isolated cloud browser
 ## How It Works
 
 1. Open ${BASE_URL}/app and click "Launch a browser"
-2. A fresh ECS task boots a stripped Chromium with randomized fingerprints
-3. The session streams to your viewport over WebRTC in under 5 seconds
+2. A fresh container boots a stripped Chromium on our infrastructure
+3. The session streams to your viewport in seconds
 4. Browse normally — the cloud browser is your screen, not your device
 5. End the session — the container is permanently destroyed
 
-## Pricing (INR, 2026)
+## Pricing
 
-| Plan | Price | Sessions | Duration | Concurrent |
-|------|-------|----------|----------|------------|
-| Free | ₹0/mo | 5 shared | 10 min | 1 |
-| Starter | ₹499/mo | 30 shared + 10 dedicated | 30 min | 1 |
-| Pro | ₹1,999/mo | 100 shared + 50 dedicated | 60 min | 3 |
-| Enterprise | Custom | Unlimited | Custom | 10+ |
+Intractify is pre-launch. There are no paid plans yet and no way to purchase —
+join the waitlist at the site above. Any tier or price quoted elsewhere is not current.
 
 ## Privacy Guarantees
 
-- Container isolation: each session has its own kernel namespace, filesystem, and network
-- Anti-fingerprinting: canvas, WebGL, audio, fonts, timing randomized per session
+- Container isolation: each session has its own filesystem and network namespace
 - Zero persistence: no persistent volume — ephemeral by architecture
 - No activity logging: URLs, passwords, screen content, input are never recorded
 - Auto-terminate: sessions end on idle, tab close, or user-set hard cap
@@ -216,8 +221,16 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const path = searchParams.get("path") ?? "/";
 
-  // Prevent routing request loops or file path injection
-  if (path.startsWith("/api") || path.includes(".")) {
+  // Strict allowlist. The previous check rejected any path containing a dot,
+  // which stopped dotted hostnames but not single-label ones — so
+  // `?path=//localhost:6379/` resolved through new URL() to a different host,
+  // was fetched server-side, and its body was returned to the caller. That is an
+  // SSRF; see docs/Tickets/issues/IS-007.
+  //
+  // An allowlist is used rather than a smarter parser because the set of valid
+  // paths is small, fixed, and already declared in middleware.ts. There is no
+  // input here that needs to be clever about.
+  if (!MARKDOWN_PAGES.has(path)) {
     return NextResponse.json({ error: "Invalid path target" }, { status: 400 });
   }
 

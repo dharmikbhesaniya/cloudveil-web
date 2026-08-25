@@ -38,7 +38,6 @@ export const metadata: Metadata = {
     "browser isolation service",
     "remote browser isolation",
     "private browsing cloud",
-    "anti-fingerprint browser",
     "cloud-based browser",
     "disposable browser",
     "Intractify",

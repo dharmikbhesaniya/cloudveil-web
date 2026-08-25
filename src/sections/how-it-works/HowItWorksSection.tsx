@@ -16,7 +16,7 @@ const steps = [
     icon: Cloud,
     title: "Container spins up",
     description:
-      "A fresh ECS task boots a stripped Chromium with randomized fingerprints. Streams over WebRTC to your viewport in under five seconds.",
+      "A fresh container boots a stripped Chromium on our infrastructure and streams to your viewport in seconds.",
   },
   {
     label: "BROWSE",

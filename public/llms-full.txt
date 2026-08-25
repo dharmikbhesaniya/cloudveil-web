@@ -23,9 +23,9 @@
 
 ### Session Lifecycle
 ```
-User clicks "Launch" → ECS task assigned from pre-warmed pool →
+User clicks "Launch" → container assigned from pre-warmed pool →
 Stripped Chromium boots in private kernel namespace →
-WebRTC stream to user viewport (< 5 seconds) →
+Pixel stream to user viewport →
 User browses (nothing stored) →
 Session ends (manual / idle / hard cap) →
 Container permanently destroyed, storage zeroed →
@@ -33,17 +33,14 @@ Container permanently destroyed, storage zeroed →
 ```
 
 ### Isolation Architecture
-- **Runtime**: AWS ECS task per session
+- **Runtime**: AWS container per session
 - **Isolation unit**: Own kernel namespace, own filesystem, own network stack — no cross-tenant shared state possible by construction
-- **Browser**: Stripped Chromium build with per-session fingerprint randomization
-- **Streaming**: WebRTC (viewport only — not screen recording, not VNC)
+- **Browser**: Stripped Chromium build in a disposable container
+- **Streaming**: pixel stream over WebSocket (viewport only — not screen recording)
 - **Exit IPs**: 14 regions, residential and datacenter options
 - **Boot time**: < 5 seconds via pre-warmed container pools
 
 ### Anti-Fingerprinting (per session)
-- Canvas rendering: randomized noise per session
-- WebGL renderer string: spoofed per session
-- Audio context: randomized fingerprint
 - Installed fonts: normalized per session
 - Screen resolution: masked
 - User-agent string: rotated per session
@@ -132,7 +129,7 @@ Container permanently destroyed, storage zeroed →
 |---|---|---|
 | Hides IP | Yes | Yes |
 | Browser runs on your device | Yes — vulnerable to fingerprinting | No — browser runs in cloud |
-| Fingerprint protection | No | Yes — randomized per session |
+| Fingerprint protection | No | Yes — not derived from your device |
 | History after session | In browser (incognito optional) | None — container destroyed |
 | Malware risk | Your device still at risk | Browser container is isolated |
 
@@ -140,7 +137,7 @@ Container permanently destroyed, storage zeroed →
 | | Incognito | Intractify |
 |---|---|---|
 | Runs locally | Yes | No |
-| Fingerprint visible to sites | Yes | No — randomized |
+| Your device's fingerprint visible to sites | Yes | No — the browser is not on your device |
 | History deleted after session | Yes | Never created |
 | IP hidden | No | Yes (via exit proxy) |
 
@@ -149,7 +146,7 @@ Container permanently destroyed, storage zeroed →
 |---|---|---|
 | Browser runs on your device | Yes | No |
 | Speed | Slow (relay routing) | Fast (< 5s boot, direct stream) |
-| Fingerprint protection | Partial | Full per-session randomization |
+| Your device exposed to page content | Yes | No |
 | Exit IPs | Tor exit nodes | 14 regions, residential or datacenter |
 
 ---
@@ -161,8 +158,8 @@ Container permanently destroyed, storage zeroed →
 - **Exit regions**: 14 (residential and datacenter)
 - **Bytes retained post-session**: 0
 - **Browser engine**: Stripped Chromium
-- **Container runtime**: AWS ECS
-- **Streaming protocol**: WebRTC
+- **Container runtime**: Kubernetes (GKE)
+- **Streaming protocol**: WebSocket
 - **Encryption in transit**: TLS 1.3
 - **Encryption at rest**: AES-256
 - **Auth provider**: Clerk
@@ -189,7 +186,7 @@ Container permanently destroyed, storage zeroed →
 
 **Ephemeral Browser**: A browser session with no persistent storage. All session data is destroyed when the session ends — by architectural design, not by a delete operation.
 
-**Anti-Fingerprinting**: Techniques that randomize browser-identifiable attributes (canvas, WebGL, audio, fonts, timing) per session to prevent cross-session tracking.
+**Anti-Fingerprinting**: Techniques that normalise or randomise browser-identifiable attributes to prevent cross-session tracking. Intractify does not yet apply these; because the browser runs on our infrastructure, a site sees the session rather than your device, but the session's own fingerprint is not currently altered.
 
 **Container Isolation**: Each session runs in its own OS container with a private kernel namespace, filesystem, and network — preventing any state leakage between sessions.
 
@@ -209,28 +206,27 @@ Container permanently destroyed, storage zeroed →
 A: No. Intractify never logs URLs visited, passwords typed, screen content, keyboard input, mouse movements, cookies, or any browsing activity. Only session metadata (start time, end time, duration) is retained for up to 90 days for billing purposes.
 
 **Q: What happens when a session ends?**
-A: The ECS container running your browser is permanently destroyed and its storage zeroed. Cookies, history, cache, downloads — all erased. A new session always starts completely fresh with a new container.
+A: The container running your browser is permanently destroyed and its storage zeroed. Cookies, history, cache, downloads — all erased. A new session always starts completely fresh with a new container.
 
 **Q: How is Intractify different from a VPN?**
 A: A VPN hides your IP but the browser still runs on your device — websites can still fingerprint you. Intractify runs the entire browser in the cloud. Your device is never involved in the browsing.
 
 **Q: How is Intractify different from Incognito mode?**
-A: Incognito mode runs locally on your device and only deletes history after the session. Your fingerprint is still visible to websites and your IP is not hidden. Intractify runs in an isolated cloud container with full fingerprint randomization.
+A: Incognito mode runs locally on your device and only deletes history after the session. Your fingerprint is still visible to websites and your IP is not hidden. Intractify runs the browser in an isolated cloud container, so the site never sees your device at all — your real IP, OS, fonts and hardware are never exposed to it.
 
 **Q: Can websites detect I'm using Intractify?**
-A: Intractify applies per-session anti-fingerprinting: user-agent rotation, canvas masking, WebGL spoofing, font normalization. These make it difficult for websites to distinguish an Intractify session from a regular browser.
 
 **Q: What is the minimum commitment?**
 A: Monthly billing, cancel anytime. 7-day refund window for new subscribers. The free plan requires no credit card.
 
 **Q: Does Intractify work on mobile?**
-A: Yes. Intractify runs in any modern web browser — desktop or mobile. Because the session runs in the cloud and streams via WebRTC, there is nothing to install.
+A: Yes. Intractify runs in any modern web browser — desktop or mobile. Because the session runs in the cloud and streams to your browser, there is nothing to install.
 
 **Q: How fast does a session start?**
 A: Typically 3–5 seconds. Average is 4.2 seconds from click to live browser. During peak usage a short queue may appear with an estimated wait time.
 
 **Q: What is browser fingerprinting?**
-A: Browser fingerprinting is a tracking technique that identifies users by combining browser attributes — screen resolution, fonts, canvas rendering, WebGL output, audio processing — without using cookies. Intractify randomizes all of these per session.
+A: Browser fingerprinting is a tracking technique that identifies users by combining browser attributes — screen resolution, fonts, canvas rendering, WebGL output, audio processing — without using cookies. Because the browser runs on our infrastructure, none of these are read from your device. Normalising the session's own fingerprint is on the roadmap and not yet active.
 
 **Q: Is Intractify safe for online banking?**
 A: Personal (dedicated) sessions provide an isolated container with dedicated resources (1 vCPU, 2 GB RAM) and full fingerprint masking — suitable for banking, email, and sensitive transactions.

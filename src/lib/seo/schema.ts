@@ -130,8 +130,8 @@ export const softwareApplicationSchema = {
   description:
     "Launch a fully isolated cloud browser in under 5 seconds. Container-level kernel isolation, anti-fingerprinting, zero-log architecture. Your device is only a viewer — the browser runs entirely in the cloud and is destroyed when your session ends.",
   featureList: [
-    "Container-isolated browser sessions (ECS task per session)",
-    "Anti-fingerprinting: canvas, WebGL, audio, font randomization",
+    "Container-isolated browser sessions (one container per session)",
+    "Your device is never exposed to page content",
     "Zero data retention — container destroyed on session end",
     "14 exit regions (residential and datacenter IPs)",
     "Sub-5-second boot via pre-warmed container pools",
@@ -187,7 +187,7 @@ export const howItWorksSchema = {
       "@type": "HowToStep",
       position: 2,
       name: "Provision — Container spins up",
-      text: "A fresh ECS task boots a stripped Chromium with randomized fingerprints in its own kernel namespace. The session streams over WebRTC to your viewport in under five seconds.",
+      text: "A fresh container boots a stripped Chromium with its own filesystem and network namespace. The session streams to your viewport in seconds.",
       url: `${BASE_URL}/#how-it-works`,
     },
     {
@@ -269,7 +269,7 @@ export const definedTermSetSchema = {
       name: "Anti-Fingerprinting",
       termCode: "anti-fingerprinting",
       description:
-        "Techniques that prevent websites from identifying a user by randomizing browser attributes — canvas rendering, WebGL output, audio context, installed fonts, and timing — so each session presents a unique, untrackable identity.",
+        "Techniques that prevent websites from identifying a user by normalizing or randomizing browser attributes such as canvas rendering, WebGL output, audio context and installed fonts. Intractify does not yet apply these to the session itself; its protection comes from the browser running on remote infrastructure, so your device's attributes are never read.",
       inDefinedTermSet: `${BASE_URL}/#glossary`,
     },
     {
