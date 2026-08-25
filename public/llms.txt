@@ -16,16 +16,16 @@ Intractify is built for privacy-conscious individuals, journalists, researchers,
 ## How It Works
 
 1. Open https://app.intractify.com and click "Launch a browser"
-2. A fresh ECS task boots a stripped Chromium with randomized fingerprints in a private kernel namespace
-3. The session streams to your viewport over WebRTC in under 5 seconds
+2. A fresh container boots a stripped Chromium with a clean profile in a private kernel namespace
+3. The session streams to your viewport to your browser in under 5 seconds
 4. Browse normally — the cloud browser is your screen, not your device
 5. End the session (manually, on idle, or at your hard cap) — the container is permanently destroyed
 6. Nothing survives: no cookies, no history, no passwords, no downloads, no logs
 
 ## Privacy Architecture
 
-- **Container isolation**: Each session runs in its own ECS task with its own kernel namespace, filesystem, and network — no shared state between sessions or tenants
-- **Anti-fingerprinting**: Canvas, WebGL, audio context, fonts, and timing are randomized per session — a different identity every time
+- **Container isolation**: Each session runs in its own container with its own kernel namespace, filesystem, and network — no shared state between sessions or tenants
+- **Anti-fingerprinting**: Canvas, WebGL, audio context, fonts, and timing are not derived from your device — a different identity every time
 - **Zero persistence**: No persistent volume — ephemeral by design, not by policy
 - **No activity logging**: URLs visited, passwords typed, screen content, keyboard input, mouse movements, and cookies are never recorded
 - **End-to-end proxy**: Your real IP never touches the public internet — only the gateway sees your origin, and it forgets
@@ -36,9 +36,9 @@ Intractify is built for privacy-conscious individuals, journalists, researchers,
 - Boot time: < 5 seconds (pre-warmed container pools + stripped Chromium image)
 - Exit regions: 14 (residential and datacenter IPs available)
 - Uptime SLA: 99.98% (90-day rolling)
-- Session streaming: WebRTC
-- Container runtime: ECS task per session, own kernel namespace
-- Browser engine: Stripped Chromium with per-session fingerprint randomization
+- Session streaming: pixel stream over WebSocket
+- Container runtime: container per session, own kernel namespace
+- Browser engine: Stripped Chromium in a disposable container
 - Session lifecycle: launched → running → idle → ended → ∅ (0 bytes retained)
 
 ## How Intractify Differs from VPNs and Incognito Mode
@@ -88,7 +88,7 @@ A: No. Intractify never logs URLs visited, passwords typed, screen content, keyb
 A: The container running your browser is permanently destroyed and its storage zeroed. Cookies, history, cache, downloads — all erased. A new session always starts completely fresh.
 
 **Q: Can websites detect I'm using Intractify?**
-A: Intractify applies anti-fingerprinting protections — user-agent rotation, canvas masking, WebGL spoofing, font normalization. These make it difficult for websites to distinguish an Intractify session from a regular browser.
+A: The browser runs on our infrastructure, not your device, so a site never reads your real IP, operating system, installed fonts or hardware — it sees a disposable session that is destroyed when you close it. Normalizing the session's own fingerprint is on the roadmap and is not yet active.
 
 **Q: Is there a free trial?**
 A: The free plan gives 5 shared sessions per month with no credit card required.

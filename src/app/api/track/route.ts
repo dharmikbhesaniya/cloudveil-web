@@ -1,5 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { checkRateLimit } from "@/lib/redis/rate-limit";
+import { createHash } from "crypto";
+
+/**
+ * Page-visit tracking stores a coarse, salted hash of the client IP rather than
+ * the address itself. An IP is personal data under GDPR, and the site's own
+ * privacy policy commits to not collecting this class of information — storing
+ * the raw value was indefensible for a privacy product.
+ *
+ * The hash is salted with a server-side secret so the table cannot be reversed
+ * by brute-forcing the (small) IPv4 space. If IP_HASH_SALT is unset the field is
+ * dropped entirely, which is the safe direction to fail.
+ */
+function hashIp(ip: string): string | null {
+  const salt = process.env.IP_HASH_SALT;
+  if (!salt || ip === "0.0.0.0") return null;
+  return createHash("sha256").update(`${salt}:${ip}`).digest("hex").slice(0, 32);
+}
 
 export async function POST(req: NextRequest) {
   if (!isSupabaseConfigured()) {
@@ -54,6 +72,14 @@ export async function POST(req: NextRequest) {
     "0.0.0.0";
   const userAgent = req.headers.get("user-agent") ?? "Unknown";
 
+  // 60 page views per IP per minute. This endpoint is public, unauthenticated
+  // and writes a database row per call — it was previously the only one of the
+  // three public routes with no limit at all.
+  const { allowed } = await checkRateLimit(ip, "track", 60, 60);
+  if (!allowed) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
+
   try {
     const { error: dbError } = await supabase.from("page_visits").insert([
       {
@@ -71,7 +97,7 @@ export async function POST(req: NextRequest) {
         gad_source: typeof gad_source === "string" ? gad_source.trim().substring(0, 1024) : null,
         referrer: typeof referrer === "string" ? referrer.trim().substring(0, 2048) : null,
         user_agent: userAgent.substring(0, 2048),
-        ip,
+        ip: hashIp(ip),
       },
     ]);
 

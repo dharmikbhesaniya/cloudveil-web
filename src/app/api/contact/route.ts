@@ -57,7 +57,7 @@ function validateBody(body: unknown): ValidContact | string {
   };
 }
 
-async function deliverContactMessage(contact: ValidContact & AttributionData, ip: string) {
+async function deliverContactMessage(contact: ValidContact & AttributionData) {
   const webhookUrl = process.env.CONTACT_WEBHOOK_URL;
 
   if (!webhookUrl) {
@@ -74,7 +74,10 @@ async function deliverContactMessage(contact: ValidContact & AttributionData, ip
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...contact,
-        ip,
+        // The submitter's IP is deliberately NOT forwarded. It is personal data,
+        // the published privacy policy does not disclose sending it to a third
+        // party, and the webhook operator has no need for it to route a support
+        // message. See docs/Tickets/issues/IS-007.
         source: "intractify-contact-form",
         receivedAt: new Date().toISOString(),
       }),
@@ -192,7 +195,7 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const delivered = await deliverContactMessage({ ...validated, ...trackingData }, ip);
+  const delivered = await deliverContactMessage({ ...validated, ...trackingData });
   
   // If both the database save and webhook delivery failed, report the error.
   // Otherwise, if database succeeded, we treat the overall request as successful.
