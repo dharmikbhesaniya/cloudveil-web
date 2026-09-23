@@ -18,11 +18,11 @@ const STEPS = [
       "Destroyed instantly on session close. Cookies and cache files exist only in the remote cloud memory, leaving 0 bytes on your physical drive.",
   },
   {
-    category: "FINGERPRINTING",
-    title: "Hardware Signature Leak",
-    vpn: "Exposed. Websites read your real OS version, installed fonts, screen resolution, and WebGL canvas hash to identify you without standard cookies.",
+    category: "DEVICE TRACKING",
+    title: "Device Profile Leak",
+    vpn: "Exposed. Websites read your real OS version, installed fonts, screen resolution, and canvas hash to identify you without standard cookies.",
     intractify:
-      "Normalized. You share an identical generic profile with thousands of other users. Your true hardware configuration never reaches target trackers.",
+      "Isolated in the cloud. The browser runs on our infrastructure, so a site only ever sees the disposable session — never your device's OS, fonts, or hardware — and the session is destroyed when you close it.",
   },
   {
     category: "DEVICE SECURITY",
@@ -33,10 +33,10 @@ const STEPS = [
   },
   {
     category: "IP & LOCATION LEAKS",
-    title: "WebRTC Network Exposure",
-    vpn: "Common vulnerability. WebRTC protocols bypass standard proxy rules, leaking your true home ISP IP address directly to target website servers.",
+    title: "IP & Network Exposure",
+    vpn: "Common vulnerability. Network interfaces can bypass VPN proxy rules, leaking your real home ISP IP address directly to target website servers.",
     intractify:
-      "Zero local connections. The target site only ever sees the cloud container's gateway IP. Your local interface is completely isolated.",
+      "Zero local connections. The target site only ever sees the cloud session's IP. Your local device never opens a connection on your behalf.",
   },
   {
     category: "SESSION LIFECYCLE",
@@ -129,7 +129,7 @@ function VisualMockup({
                     marginBottom: "6px",
                   }}
                 >
-                  ✕ FINGERPRINT SPECS
+                  ✕ DEVICE PROFILE
                 </div>
                 <div
                   style={{
@@ -231,7 +231,7 @@ function VisualMockup({
                     marginBottom: "6px",
                   }}
                 >
-                  ✕ WebRTC CONFIG
+                  ✕ NETWORK CONFIG
                 </div>
                 <div
                   style={{
@@ -254,7 +254,7 @@ function VisualMockup({
                     gap: "6px",
                   }}
                 >
-                  <div>WebRTC: Querying interface</div>
+                  <div>Local IP: Bypassing proxy</div>
                   <div>Leaked IP: 185.112.45.12</div>
                   <div>ISP: Target logs home routing</div>
                 </div>
@@ -383,7 +383,7 @@ function VisualMockup({
                     marginBottom: "6px",
                   }}
                 >
-                  ✓ NORMALIZED PROFILE
+                  ✓ CLOUD SESSION
                 </div>
                 <div
                   style={{
@@ -394,7 +394,7 @@ function VisualMockup({
                     marginBottom: "14px",
                   }}
                 >
-                  Generic Mask
+                  Remote Browser
                 </div>
                 <div
                   style={{
@@ -406,9 +406,9 @@ function VisualMockup({
                     gap: "6px",
                   }}
                 >
-                  <div>OS: Linux x86_64</div>
-                  <div>Browser: Chrome (Anonymized)</div>
-                  <div>Fonts: 12 Normalized</div>
+                  <div>IP: Cloud session egress</div>
+                  <div>OS: Cloud container</div>
+                  <div>Fonts: Container&apos;s, not yours</div>
                 </div>
               </div>
               <div
@@ -418,7 +418,7 @@ function VisualMockup({
                   color: "var(--muted-foreground)",
                 }}
               >
-                Identical to thousands of users
+                Your device never provides the profile
               </div>
             </>
           )}
@@ -459,7 +459,7 @@ function VisualMockup({
                 >
                   <div>Remote Pod: Executing scripts</div>
                   <div>Local device: Receiving pixels</div>
-                  <div>Isolation: 100% exploit-proof</div>
+                  <div>Isolation: Per-session container</div>
                 </div>
               </div>
               <div
@@ -485,7 +485,7 @@ function VisualMockup({
                     marginBottom: "6px",
                   }}
                 >
-                  ✓ PROXY CLOAK
+                  ✓ CLOUD EGRESS
                 </div>
                 <div
                   style={{
@@ -496,7 +496,7 @@ function VisualMockup({
                     marginBottom: "12px",
                   }}
                 >
-                  Isolated Gateway
+                  Cloud Session
                 </div>
                 <div
                   style={{
@@ -508,8 +508,8 @@ function VisualMockup({
                     gap: "6px",
                   }}
                 >
-                  <div>WebRTC: Blocked at gateway</div>
-                  <div>Spoofed IP: 10.200.0.8</div>
+                  <div>Egress: Cloud session IP</div>
+                  <div>Local IP: Not connected</div>
                   <div>Target sees: Cloud endpoint</div>
                 </div>
               </div>
@@ -520,7 +520,7 @@ function VisualMockup({
                   color: "var(--muted-foreground)",
                 }}
               >
-                Your local home IP never leaves
+                Your local network never carries the traffic
               </div>
             </>
           )}
@@ -645,19 +645,7 @@ export function ComparisonSection() {
             (STEPS.length - 1) * CARD_STACK_OFFSET +
             lastCardHeight;
           const pushDelta = Math.max(0, targetStackBottom - containerBottom);
-          console.log("DEBUG SCROLL:", {
-            containerBottom,
-            measuredHeadingHeight,
-            lastCardHeight,
-            targetStackBottom,
-            pushDelta,
-          });
           setScrollOffset(pushDelta);
-        } else {
-          console.log("DEBUG SCROLL: Missing refs", {
-            lastCard: !!lastCard,
-            headingEl: !!headingEl,
-          });
         }
       }
     };

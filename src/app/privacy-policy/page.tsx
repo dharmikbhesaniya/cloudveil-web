@@ -8,12 +8,12 @@ import { generateWebPageSchema } from "@/lib/seo/schema";
 export const metadata: Metadata = {
   title: "Privacy Policy — What Data Intractify Collects & Retains",
   description:
-    "Intractify never logs browsing activity. Session metadata kept 90 days for billing only. Full GDPR/CCPA compliance. Read how we protect your data and your rights.",
+    "Intractify never logs browsing activity. Marketing analytics use a first-party visitor ID and hashed IP. Pre-launch — no paid plans, no billing.",
   alternates: { canonical: "https://intractify.com/privacy-policy" },
   openGraph: {
     title: "Privacy Policy — What Data Intractify Collects & Retains",
     description:
-      "Intractify never logs browsing activity. Session metadata kept 90 days for billing only. Full GDPR/CCPA compliance.",
+      "Intractify never logs browsing activity. Marketing analytics use a first-party visitor ID and hashed IP. Pre-launch — no paid plans, no billing.",
     url: "https://intractify.com/privacy-policy",
     type: "website",
   },
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 const pageSchema = generateWebPageSchema({
   name: "Privacy Policy — What Data Intractify Collects & Retains",
   description:
-    "Intractify never logs browsing activity. Session metadata kept 90 days for billing only. Full GDPR/CCPA compliance.",
+    "Intractify never logs browsing activity. Marketing analytics use a first-party visitor ID and hashed IP. Pre-launch — no paid plans, no billing.",
   url: "https://intractify.com/privacy-policy",
   breadcrumb: [
     { name: "Home", url: "https://intractify.com" },
@@ -53,7 +53,7 @@ export default function PrivacyPolicyPage() {
             Privacy Policy
           </h1>
           <p className="mt-3 text-sm text-[var(--cv-ink-subtle)]">
-            Last updated: May 16, 2025
+            Last updated: September 23, 2026
           </p>
         </div>
 
@@ -118,26 +118,37 @@ export default function PrivacyPolicyPage() {
               </li>
               <li>
                 <strong>Session metadata:</strong> Session duration, session
-                count per billing period, and the selected browser type and
-                region. We do not store URLs visited, search queries, page
-                content, cookies, or any browsing activity.
+                count, and the selected browser type and region. We do not store
+                URLs visited, search queries, page content, cookies, or any
+                browsing activity.
               </li>
               <li>
-                <strong>Payment information:</strong> Subscription plan and
-                transaction status. We do not store card numbers or bank details
-                — all payment processing is handled by Cashfree, our PCI-DSS
-                compliant payment gateway.
+                <strong>Marketing analytics:</strong> When you visit our
+                marketing website, a first-party visitor ID and session ID are
+                generated and stored in your browser&apos;s local and session
+                storage. We also record the pages you visit, your referrer, UTM
+                parameters (utm_source, utm_medium, utm_campaign, and similar),
+                and Google click identifiers (gclid, gbraid, etc.) when present,
+                to understand how visitors find and use the site.
               </li>
               <li>
-                <strong>Usage data:</strong> Aggregate, anonymised usage
-                statistics (such as session volume trends) for service
-                improvement. This data is never linked to individual users.
+                <strong>Payment details:</strong> None. Intractify is
+                pre-launch: there are no paid plans, no subscriptions, and no
+                payment processing. If paid tiers are introduced, this section
+                will be updated.
               </li>
               <li>
-                <strong>Technical data:</strong> IP address (used only for rate
-                limiting and fraud prevention, discarded after the request is
-                processed), browser type, and operating system (from HTTP
-                headers, used for compatibility).
+                <strong>Usage data:</strong> Aggregate statistics compiled from
+                the data above (for example, session volume trends), used to
+                improve the service.
+              </li>
+              <li>
+                <strong>Technical data:</strong> A salted one-way hash of your
+                IP address (the raw address is never stored) and your
+                browser&apos;s user-agent string, recorded alongside the analytics
+                above for abuse prevention and to estimate unique visitors. The
+                raw IP is used transiently for rate limiting and is not
+                retained.
               </li>
             </ul>
             <p className="mt-3 text-sm font-medium leading-relaxed text-[var(--cv-ink)]">
@@ -196,15 +207,14 @@ export default function PrivacyPolicyPage() {
             </p>
             <ul className="ml-5 list-disc space-y-2 text-sm leading-relaxed">
               <li>Providing and maintaining the Intractify service</li>
+              <li>Managing active sessions and enforcing usage limits</li>
               <li>
-                Enforcing plan quotas (session count and duration limits)
+                Measuring how visitors find and use the marketing website
+                (analytics as described in Section 2)
               </li>
               <li>
-                Processing payments and managing subscription status via Cashfree
-              </li>
-              <li>
-                Sending transactional emails (account confirmation, billing
-                receipts, password reset) via Clerk
+                Sending transactional emails (account confirmation, password
+                reset) via Clerk, and waitlist updates if you join the waitlist
               </li>
               <li>Detecting and preventing fraud and abuse</li>
               <li>
@@ -239,21 +249,21 @@ export default function PrivacyPolicyPage() {
                 end with no recovery possible.
               </li>
               <li>
-                <strong>Session metadata (duration, count):</strong> Retained for
-                the current billing period for quota enforcement. Anonymised
-                after 90 days.
+                <strong>Session metadata (duration, count):</strong> Kept while
+                your account is active and deleted with your account.
               </li>
               <li>
                 <strong>Account information:</strong> Retained while your account
                 is active. Deleted within 30 days of account deletion request.
               </li>
               <li>
-                <strong>Payment transaction records:</strong> Retained for 7 years
-                as required by Indian financial regulations (Cashfree compliance).
+                <strong>Payment and billing records:</strong> None. Intractify
+                does not process payments, so no payment or billing records
+                exist.
               </li>
               <li>
-                <strong>Audit logs:</strong> Retained for 12 months for security
-                and compliance purposes, then automatically deleted.
+                <strong>Internal logs:</strong> Retained for 12 months for
+                security and debugging purposes, then automatically deleted.
               </li>
             </ul>
           </section>
@@ -278,9 +288,10 @@ export default function PrivacyPolicyPage() {
                 GDPR.
               </li>
               <li>
-                <strong>Cashfree (cashfree.com):</strong> Payment processing and
-                subscription management. PCI-DSS Level 1 certified. Processes
-                payment card data — Intractify never sees raw card numbers.
+                <strong>Supabase (supabase.com):</strong> PostgreSQL database
+                that stores marketing-website analytics (visitor ID, page views,
+                referrer, UTM data, hashed IP). Used in accordance with this
+                policy and never sold.
               </li>
               <li>
                 <strong>Cloud infrastructure providers (AWS, GCP, Azure):</strong>{" "}
@@ -368,24 +379,31 @@ export default function PrivacyPolicyPage() {
               8. Cookies
             </h2>
             <p className="mb-3 text-sm leading-relaxed">
-              The Intractify marketing website uses minimal cookies:
+              For analytics, the marketing website stores first-party
+              identifiers in your browser&apos;s local and session storage rather
+              than cookies:
             </p>
             <ul className="ml-5 list-disc space-y-2 text-sm leading-relaxed">
               <li>
-                <strong>Essential cookies:</strong> Required for session
-                authentication (set by Clerk) and security (CSRF protection).
-                Cannot be disabled without breaking the service.
+                <strong>Essential cookies:</strong> Set by Clerk on the
+                authenticated application for session management and security
+                (CSRF protection).
               </li>
               <li>
-                <strong>Preference cookies:</strong> Remember your display
-                preferences. Expire after 1 year.
+                <strong>Local storage (analytics):</strong> A first-party
+                visitor ID, a session ID, and attribution data (UTM parameters
+                and referrer) are stored by the marketing website under keys
+                prefixed &ldquo;intractify_&rdquo; in your browser&apos;s local and
+                session storage. This is used to recognise repeat visits and
+                measure marketing.
               </li>
             </ul>
             <p className="mt-3 text-sm leading-relaxed">
               We do not use advertising cookies, tracking pixels, or third-party
-              analytics that profile individual users. Aggregate page view
-              counts may be tracked using privacy-preserving analytics that do
-              not set cookies.
+              ad networks. You can clear these identifiers at any time by
+              deleting your browser&apos;s site data for intractify.com (for
+              example, via your browser&apos;s &ldquo;clear browsing data&rdquo;
+              settings); a new visitor ID will be generated on your next visit.
             </p>
           </section>
 
@@ -429,7 +447,7 @@ export default function PrivacyPolicyPage() {
             <p className="text-sm leading-relaxed">
               Intractify uses TLS 1.3 for all data in transit. Session streams are
               end-to-end encrypted. Data at rest (account information and
-              subscription records in our PostgreSQL database) is encrypted using
+              marketing analytics in our databases) is encrypted using
               AES-256. We conduct regular security reviews and follow responsible
               disclosure principles. To report a security vulnerability, email{" "}
               <a

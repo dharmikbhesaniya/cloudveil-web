@@ -5,23 +5,23 @@ import { StructuredData } from "@/lib/seo/structured-data";
 import { generateWebPageSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
-  title: "Refund & Cancellation Policy — 7-Day Window | Intractify",
+  title: "Refund Policy — Pre-Launch (No Payments Yet) | Intractify",
   description:
-    "Intractify offers a 7-day refund window for new subscribers. Cancel anytime. Processed via Cashfree in 5–7 business days. Annual plans: pro-rated refund within 3 months.",
+    "Intractify is pre-launch and does not accept payments, so there is nothing to refund yet. This page will be updated if paid plans are introduced.",
   alternates: { canonical: "https://intractify.com/refund-policy" },
   openGraph: {
-    title: "Refund & Cancellation Policy — 7-Day Window | Intractify",
+    title: "Refund Policy — Pre-Launch (No Payments Yet) | Intractify",
     description:
-      "7-day refund window for new subscribers. Cancel anytime. Annual plans: pro-rated refund within 3 months.",
+      "Intractify is pre-launch and does not accept payments, so there is nothing to refund yet.",
     url: "https://intractify.com/refund-policy",
     type: "website",
   },
 };
 
 const pageSchema = generateWebPageSchema({
-  name: "Refund & Cancellation Policy — 7-Day Window",
+  name: "Refund Policy — Pre-Launch (No Payments Yet)",
   description:
-    "Intractify offers a 7-day refund window for new subscribers. Cancel anytime. Processed via Cashfree in 5–7 business days.",
+    "Intractify is pre-launch and does not accept payments, so there is nothing to refund yet.",
   url: "https://intractify.com/refund-policy",
   breadcrumb: [
     { name: "Home", url: "https://intractify.com" },
@@ -49,10 +49,10 @@ export default function RefundPolicyPage() {
               fontStyle: "italic",
             }}
           >
-            Refund &amp; Cancellation Policy
+            Refund Policy
           </h1>
           <p className="mt-3 text-sm text-[var(--cv-ink-subtle)]">
-            Last updated: May 16, 2025
+            Last updated: September 23, 2026
           </p>
         </div>
 
@@ -64,11 +64,11 @@ export default function RefundPolicyPage() {
           }}
         >
           <p className="text-sm leading-relaxed text-[var(--cv-ink-muted)]">
-            <strong className="text-[var(--cv-ink)]">Summary:</strong> You may
-            cancel anytime and keep access until the end of your billing period.
-            New subscribers can request a full refund within 7 days if the
-            service has not been significantly used. Refunds are processed within
-            5–7 business days. For questions, email{" "}
+<strong className="text-[var(--cv-ink)]">Summary:</strong>{" "}
+              Intractify is in pre-launch. We do not accept payments, there are
+              no paid plans or subscriptions, and no charges are made — so there
+              is nothing to refund yet. If paid plans are introduced, refund
+              terms will be added to this page. For questions, email{" "}
             <a
               href="mailto:billing@intractify.com"
               className="text-[var(--cv-indigo)] hover:underline"
@@ -81,22 +81,20 @@ export default function RefundPolicyPage() {
 
         <div className="space-y-10 text-[var(--cv-ink-muted)]">
 
-          {/* 1. Digital Service */}
+          {/* 1. Pre-Launch Status */}
           <section aria-labelledby="refund-digital">
             <h2
               id="refund-digital"
               className="mb-3 text-xl font-semibold text-[var(--cv-ink)]"
             >
-              1. Nature of the Service
+              1. Pre-Launch Status
             </h2>
             <p className="text-sm leading-relaxed">
-              Intractify is a digital Software-as-a-Service (SaaS) product. No
-              physical goods are shipped. Upon successful payment, you receive
-              immediate access to the features of your chosen plan. All
-              transactions are processed by Cashfree Payments India Pvt. Ltd.
-              (&ldquo;Cashfree&rdquo;), our authorised payment gateway. By subscribing,
-              you acknowledge the digital nature of the product and agree to this
-              refund policy.
+              Intractify is a digital Software-as-a-Service (SaaS) product now in
+              pre-launch. No physical goods are shipped. During pre-launch we do
+              not accept payments: there are no paid plans, no subscriptions, and
+              no transactions. You will not be charged for using the service, and
+              no billing or tax records relating to you are created.
             </p>
           </section>
 
@@ -106,136 +104,84 @@ export default function RefundPolicyPage() {
               id="refund-cancellation"
               className="mb-3 text-xl font-semibold text-[var(--cv-ink)]"
             >
-              2. Subscription Cancellation
+              2. Cancellation
             </h2>
             <p className="text-sm leading-relaxed">
-              You may cancel your Intractify subscription at any time by visiting
-              the Billing section of your account dashboard and clicking
-              &ldquo;Cancel Subscription&rdquo;. Upon cancellation:
+              There are no subscriptions to cancel: Intractify does not accept
+              payments and no recurring charges exist. You may stop using the
+              service at any time and delete your account through our{" "}
+              <a
+                href="/data-deletion"
+                className="text-[var(--cv-indigo)] hover:underline"
+              >
+                Data Deletion page
+              </a>
+              . No fees or penalties apply.
             </p>
-            <ul className="ml-5 mt-3 list-disc space-y-2 text-sm leading-relaxed">
-              <li>
-                Your subscription will not renew at the end of the current
-                billing period.
-              </li>
-              <li>
-                You will retain full access to your plan features until the end
-                of the paid billing period.
-              </li>
-              <li>
-                No cancellation fees are charged for any plan.
-              </li>
-              <li>
-                Your account data will be retained for 30 days after cancellation
-                in case you wish to reactivate, then deleted in accordance with
-                our Privacy Policy.
-              </li>
-            </ul>
           </section>
 
-          {/* 3. Refund Eligibility */}
+          {/* 3. Refunds */}
           <section aria-labelledby="refund-eligibility">
             <h2
               id="refund-eligibility"
               className="mb-3 text-xl font-semibold text-[var(--cv-ink)]"
             >
-              3. Refund Eligibility
+              3. Refunds
             </h2>
-            <p className="mb-3 text-sm leading-relaxed">
-              We offer refunds under the following conditions:
+            <p className="text-sm leading-relaxed">
+              There is nothing to refund yet — no payments are accepted and no
+              charges are made to you. When paid plans are introduced, this
+              section will set out the refund eligibility rules for those plans,
+              and those details will be published on this page before any payment
+              is taken.
             </p>
-            <ul className="ml-5 list-disc space-y-3 text-sm leading-relaxed">
-              <li>
-                <strong>7-day refund window for new monthly subscribers:</strong>{" "}
-                If you subscribe to the Pro plan for the first time and request a
-                refund within 7 days of your initial payment, you are eligible
-                for a full refund, provided you have not used more than 3
-                sessions during that period. This is a one-time offer for first
-                subscriptions only.
-              </li>
-              <li>
-                <strong>Annual plan partial refunds:</strong> If you subscribe to
-                an annual plan and cancel within 3 months of your annual payment,
-                you may be eligible for a pro-rated refund for unused whole
-                months (calculated from the date of your cancellation request),
-                minus a 10% processing fee. After 3 months, annual plans are
-                non-refundable.
-              </li>
-              <li>
-                <strong>Service outages:</strong> If Intractify experiences a
-                verified service outage affecting your ability to use the service
-                for more than 24 continuous hours within a billing period, you
-                may request a pro-rated credit for the affected period.
-              </li>
-            </ul>
           </section>
 
-          {/* 4. No Refund Situations */}
+          {/* 4. Corrections and Errors */}
           <section aria-labelledby="refund-no-refund">
             <h2
               id="refund-no-refund"
               className="mb-3 text-xl font-semibold text-[var(--cv-ink)]"
             >
-              4. Non-Refundable Situations
+              4. Corrections and Errors
             </h2>
-            <p className="mb-3 text-sm leading-relaxed">
-              Refunds will not be issued in the following circumstances:
-            </p>
-            <ul className="ml-5 list-disc space-y-2 text-sm leading-relaxed">
-              <li>
-                Requests made after the 7-day refund window has expired for
-                monthly plans
-              </li>
-              <li>
-                Accounts that have been suspended for violation of our Acceptable
-                Use Policy
-              </li>
-              <li>
-                Free plan accounts (the Free tier has no associated charge)
-              </li>
-              <li>
-                Renewals — only the first billing period of a new subscription is
-                eligible for the 7-day refund; renewals are not eligible
-              </li>
-              <li>
-                Annual plans cancelled after 3 months of the subscription
-                start date
-              </li>
-              <li>
-                Enterprise plan subscriptions (Enterprise contracts are governed
-                by separate agreements with their own cancellation terms)
-              </li>
-            </ul>
-          </section>
-
-          {/* 5. How to Request */}
-          <section aria-labelledby="refund-how-to">
-            <h2
-              id="refund-how-to"
-              className="mb-3 text-xl font-semibold text-[var(--cv-ink)]"
-            >
-              5. How to Request a Refund
-            </h2>
-            <p className="mb-3 text-sm leading-relaxed">
-              To request a refund, email{" "}
+            <p className="text-sm leading-relaxed">
+              Because we do not accept payments during pre-launch, there are no
+              charges that could be disputed. If an erroneous charge nonetheless
+              appears on your account or your card statement, or if we make a
+              mistake that costs you money, contact us at{" "}
               <a
                 href="mailto:billing@intractify.com"
                 className="text-[var(--cv-indigo)] hover:underline"
               >
                 billing@intractify.com
               </a>{" "}
-              with:
+              and we will investigate promptly and correct the error, including
+              refunding any incorrect charge.
             </p>
-            <ul className="ml-5 list-disc space-y-2 text-sm leading-relaxed">
-              <li>Subject line: &ldquo;Refund Request — [Your Order ID]&rdquo;</li>
-              <li>Your registered email address</li>
-              <li>The Cashfree Order ID from your payment receipt</li>
-              <li>A brief reason for the refund request</li>
-            </ul>
-            <p className="mt-3 text-sm leading-relaxed">
-              We will acknowledge your request within 1 business day and process
-              eligible refunds within 5–7 business days. The refund will be
-              returned to the original payment method used at checkout.
+          </section>
+
+          {/* 5. When Payments Begin */}
+          <section aria-labelledby="refund-how-to">
+            <h2
+              id="refund-how-to"
+              className="mb-3 text-xl font-semibold text-[var(--cv-ink)]"
+            >
+              5. When Payments Begin
+            </h2>
+            <p className="text-sm leading-relaxed">
+              When Intractify launches paid plans, this page will be updated with
+              the refund policy for those plans, including how to request a
+              refund and how long processing takes. Before any paid launch, we
+              will notify existing users of the effective date and terms. The
+              same details will be available on request at{" "}
+              <a
+                href="mailto:billing@intractify.com"
+                className="text-[var(--cv-indigo)] hover:underline"
+              >
+                billing@intractify.com
+              </a>
+              .
             </p>
           </section>
 
@@ -248,12 +194,9 @@ export default function RefundPolicyPage() {
               6. Refund Processing Time
             </h2>
             <p className="text-sm leading-relaxed">
-              Once a refund is approved, Cashfree (our payment processor) will
-              process the refund within 5–7 business days. Depending on your
-              bank or card issuer, the credit may take an additional 3–5 business
-              days to appear on your statement. Total time from approval to
-              receipt: typically 7–14 business days. We will notify you by email
-              when the refund has been initiated.
+              No refunds are currently processed because no payments are accepted.
+              When paid plans are introduced, this section will describe how long
+              refunds take to be approved and credited back to you.
             </p>
           </section>
 
@@ -263,16 +206,13 @@ export default function RefundPolicyPage() {
               id="refund-processor"
               className="mb-3 text-xl font-semibold text-[var(--cv-ink)]"
             >
-              7. Payment Processor
+              7. Payment Processing
             </h2>
             <p className="text-sm leading-relaxed">
-              All payments for Intractify subscriptions are processed by Cashfree
-              Payments India Pvt. Ltd. (CIN: U74999KA2015PTC082912), a licensed
-              payment aggregator regulated by the Reserve Bank of India.
-              Intractify does not store payment card information. If you have a
-              dispute regarding a charge processed by Cashfree, you may also
-              contact your card issuer directly. For Cashfree-related payment
-              issues, you can reach Cashfree support at cashfree.com/contact.
+              Intractify does not currently use a payment processor: during
+              pre-launch there is nothing to pay for and no charges are made. If
+              a payment processor is engaged at launch, its name and details will
+              be published here and in our Privacy Policy.
             </p>
           </section>
 
@@ -285,7 +225,7 @@ export default function RefundPolicyPage() {
               8. Contact Us
             </h2>
             <p className="text-sm leading-relaxed">
-              For any billing or refund questions, contact us at{" "}
+              For any questions about this policy, contact us at{" "}
               <a
                 href="mailto:billing@intractify.com"
                 className="text-[var(--cv-indigo)] hover:underline"

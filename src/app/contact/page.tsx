@@ -8,13 +8,13 @@ import { generateWebPageSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
   title: "Contact | Intractify",
-  description: "Get in touch with the Intractify team for support, billing, or privacy inquiries.",
+  description: "Get in touch with the Intractify team for support, feedback, or privacy inquiries.",
   alternates: { canonical: "https://intractify.com/contact" },
 };
 
 const pageSchema = generateWebPageSchema({
   name: "Contact Intractify",
-  description: "Get in touch with the Intractify team for support, billing, or privacy inquiries.",
+  description: "Get in touch with the Intractify team for support, feedback, or privacy inquiries.",
   url: "https://intractify.com/contact",
   breadcrumb: [
     { name: "Home", url: "https://intractify.com" },
@@ -27,11 +27,6 @@ const CONTACT_METHODS = [
     label: "General Support",
     email: "support@intractify.com",
     description: "Account issues, technical problems, general questions",
-  },
-  {
-    label: "Billing",
-    email: "billing@intractify.com",
-    description: "Payment issues, refund requests, invoice queries",
   },
   {
     label: "Privacy",

@@ -8,79 +8,6 @@ export const PUBLIC_NAV = [
   { title: "FAQ", href: "#faq" },
 ];
 
-export const PLANS = [
-  {
-    id: "free",
-    name: "Free",
-    description: "Get started with basic private browsing.",
-    price: 0,
-    currency: "INR",
-    interval: "month",
-    popular: false,
-    features: [
-      "5 shared browser sessions per month",
-      "10-minute session limit",
-      "1 concurrent session",
-      "Basic privacy protections",
-      "Community support",
-    ],
-  },
-  {
-    id: "starter",
-    name: "Starter",
-    description: "Ideal for regular private browsing with dedicated resources.",
-    price: 499,
-    currency: "INR",
-    interval: "month",
-    popular: true,
-    features: [
-      "30 shared sessions per month",
-      "10 personal (dedicated) sessions",
-      "30-minute session limit",
-      "1 concurrent session",
-      "Full privacy protections",
-      "Priority support",
-    ],
-  },
-  {
-    id: "pro",
-    name: "Pro",
-    description: "For power users who need maximum privacy and flexibility.",
-    price: 1999,
-    currency: "INR",
-    interval: "month",
-    popular: false,
-    features: [
-      "100 shared sessions per month",
-      "50 personal (dedicated) sessions",
-      "60-minute session limit",
-      "3 concurrent sessions",
-      "Advanced fingerprint masking",
-      "Priority support",
-      "Session history export",
-    ],
-  },
-  {
-    id: "enterprise",
-    name: "Enterprise",
-    description: "Custom solutions for teams and organizations.",
-    price: -1,
-    currency: "INR",
-    interval: "month",
-    popular: false,
-    features: [
-      "Unlimited sessions",
-      "Custom session duration",
-      "10+ concurrent sessions",
-      "Dedicated infrastructure",
-      "SLA guarantee",
-      "Dedicated account manager",
-      "Custom integrations",
-      "Team management",
-    ],
-  },
-];
-
 export const FAQ_DATA = [
   {
     question: "What is Intractify?",
@@ -93,14 +20,14 @@ export const FAQ_DATA = [
       "Each session runs in its own isolated container with a fresh Chromium browser. The container has no persistent storage — when your session ends, the entire container is destroyed, including all cookies, history, cache, and downloaded files.",
   },
   {
-    question: "What is the difference between Personal and Shared mode?",
+    question: "Is there more than one container tier?",
     answer:
-      "Personal mode provides a dedicated container with guaranteed resources (1 vCPU, 2 GB RAM) — ideal for banking, email, and sensitive work. Shared mode uses lightweight containers on shared infrastructure — ideal for casual browsing and quick searches.",
+      "No. Today every session runs in its own dedicated container with the same isolation for every user. A lighter-weight shared tier is a possible future option, not something we offer yet.",
   },
   {
     question: "Can websites detect that I am using Intractify?",
     answer:
-      "Because the browser runs on our infrastructure and not on your device, a site sees the session's characteristics rather than your machine's — your real IP, operating system, installed fonts and hardware are never exposed to it. Dedicated fingerprint normalization is on the roadmap and is not yet active; we will say so here when it ships.",
+      "Because the browser runs on our infrastructure and not on your device, a site sees the session's characteristics rather than your machine's — your real IP, operating system, and installed fonts are never exposed to it. Altering the session's own profile is on the roadmap and is not yet active; we will say so here when it ships.",
   },
   {
     question: "What happens when my session ends?",
@@ -110,36 +37,36 @@ export const FAQ_DATA = [
   {
     question: "Is my browsing activity logged?",
     answer:
-      "Intractify logs only basic session metadata for billing: session start time, end time, and duration. We never log URLs visited, passwords typed, screen content, keyboard input, mouse movements, cookies, or any browsing activity.",
+      "Intractify logs only basic session metadata — session start time, end time, and duration — used to manage session lifecycle and concurrency. We never log URLs visited, passwords typed, screen content, keyboard input, mouse movements, cookies, or any browsing activity.",
   },
   {
     question: "How fast does a session start?",
     answer:
-      "A new browser session typically starts within 3 to 5 seconds. During peak usage, you may be placed in a short queue with an estimated wait time displayed on screen.",
+      "A new browser session is provisioned on demand. Actual start time varies — a container must boot and become ready before streaming begins, which can take anywhere from seconds to a few minutes.",
   },
   {
-    question: "Can I cancel my subscription?",
+    question: "Is Intractify free?",
     answer:
-      "Yes, you can cancel at any time from your billing settings. Your plan will remain active until the end of the current billing period. After that, your account reverts to the free plan.",
+      "Yes — we are pre-launch and do not charge for anything yet. There are no paid plans and no way to take payment. Join the waitlist on this page to be notified when access opens.",
   },
   {
     question: "What is your refund policy?",
     answer:
-      "We offer a 7-day refund window for new subscriptions. If you are not satisfied within 7 days of your first payment and have not used the service significantly, contact billing@intractify.com with your order ID for a full refund. Annual plans qualify for pro-rated refunds for unused months.",
+      "There is no billing yet, so no refund policy applies. We are pre-launch; if paid plans arrive later, any applicable policy will be published on our refund page at that time.",
   },
   {
     question: "How is Intractify different from a VPN or Incognito mode?",
     answer:
-      "A VPN hides your IP address but your browser still runs on your device — websites can still fingerprint you using canvas, WebGL, audio, and font rendering. Incognito mode runs locally too, just without saving history after the session. Intractify runs the entire browser in the cloud: your device is only a screen. No browser code runs on your machine, no fingerprint originates from your device, and nothing is stored anywhere when your session ends.",
+      "A VPN hides your IP address but the browser still runs on your device — websites can still identify you from device attributes like canvas and font rendering. Incognito mode runs locally too, just without saving history after the session. Intractify runs the entire browser in the cloud: your device is only a screen. No browser code runs on your machine, no device attributes are read, and nothing is stored anywhere when your session ends.",
   },
   {
-    question: "What is browser fingerprinting and how does Intractify prevent it?",
+    question: "How does Intractify stop websites from tracking my device?",
     answer:
-      "Browser fingerprinting is a tracking technique that identifies you by combining attributes like your screen resolution, installed fonts, canvas rendering, WebGL output, and audio processing — creating a unique 'fingerprint' even without cookies. Because Intractify runs the browser on our infrastructure, none of those attributes are read from your device: a site fingerprints the disposable session, not your machine, and that session is destroyed when you close it. Normalizing the session's own fingerprint is on the roadmap and is not yet active.",
+      "Trackers identify you from device attributes — screen resolution, installed fonts, canvas rendering, and audio processing — even without cookies. Because Intractify runs the browser on our infrastructure, none of those attributes are read from your device: a site only sees the disposable session, not your machine, and that session is destroyed when you close it. Altering the session's own profile is on the roadmap and is not yet active.",
   },
   {
     question: "Is Intractify available on mobile?",
     answer:
-      "Yes. Intractify runs in any modern web browser — desktop or mobile. Because the browser session runs in the cloud and streams to your screen via WebRTC, there is nothing to install. Open intractify.com on your phone, launch a session, and the cloud browser appears in your mobile browser window.",
+      "Yes. Intractify runs in any modern web browser — desktop or mobile. Because the browser session runs in the cloud and streams to your screen through a secure WebSocket, there is nothing to install. Open intractify.com on your phone, launch a session, and the cloud browser appears in your mobile browser window.",
   },
 ];
