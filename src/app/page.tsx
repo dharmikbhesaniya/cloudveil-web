@@ -25,12 +25,12 @@ import { FAQ_DATA } from "@/lib/constants";
 export const metadata: Metadata = {
   title: "Intractify — Isolated Cloud Browser | Browse Without a Trace",
   description:
-    "Launch a fully isolated cloud browser in under 5 seconds. Container-level isolation, zero fingerprint, zero logs — nothing survives your session. Free to start, no card required.",
+    "Launch fully isolated cloud browsers in the cloud. Container-level isolation, zero logs — nothing survives your session. Pre-launch, join the waitlist.",
   alternates: { canonical: "https://intractify.com" },
   openGraph: {
     title: "Intractify — Isolated Cloud Browser | Browse Without a Trace",
     description:
-      "Launch isolated cloud browser sessions with zero logs. Container destroyed when your session ends — your IP, fingerprint, and history stay invisible.",
+      "Launch isolated cloud browser sessions with zero logs. The container is destroyed when your session ends — your device and its data stay out of it.",
     url: "https://intractify.com",
     type: "website",
   },
@@ -60,7 +60,6 @@ export default function LandingPage() {
         <Stats />
         <PullQuote />
         <AudienceSection />
-        {/* <TrustLogos /> */}
         <PricingSection />
         <FAQSection />
         <CTASection />

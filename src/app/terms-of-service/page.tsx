@@ -7,12 +7,12 @@ import { generateWebPageSchema } from "@/lib/seo/schema";
 export const metadata: Metadata = {
   title: "Terms of Service — Intractify Usage Terms & Conditions",
   description:
-    "Intractify Terms of Service covering acceptable use, subscription billing, cancellation, liability limits, and governing law. Minimum age 16. Governed by Indian law.",
+    "Intractify Terms of Service covering acceptable use, pre-launch service status, liability limits, and governing law. Minimum age 16. Governed by Indian law.",
   alternates: { canonical: "https://intractify.com/terms-of-service" },
   openGraph: {
     title: "Terms of Service — Intractify Usage Terms & Conditions",
     description:
-      "Intractify Terms of Service covering acceptable use, subscription billing, cancellation, and governing law.",
+      "Intractify Terms of Service covering acceptable use, pre-launch service status, liability limits, and governing law.",
     url: "https://intractify.com/terms-of-service",
     type: "website",
   },
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 const pageSchema = generateWebPageSchema({
   name: "Terms of Service — Intractify Usage Terms & Conditions",
   description:
-    "Intractify Terms of Service covering acceptable use, subscription billing, cancellation, liability limits, and governing law.",
+    "Intractify Terms of Service covering acceptable use, pre-launch service status, liability limits, and governing law.",
   url: "https://intractify.com/terms-of-service",
   breadcrumb: [
     { name: "Home", url: "https://intractify.com" },
@@ -52,7 +52,7 @@ export default function TermsOfServicePage() {
             Terms of Service
           </h1>
           <p className="mt-3 text-sm text-[var(--cv-ink-subtle)]">
-            Last updated: May 16, 2025
+            Last updated: September 23, 2026
           </p>
         </div>
 
@@ -93,6 +93,11 @@ export default function TermsOfServicePage() {
               delivered. All features described on our website are provided as
               software capabilities accessible through your web browser or our
               mobile application.
+            </p>
+            <p className="mt-3 text-sm leading-relaxed">
+              Intractify is currently in pre-launch. The service is provided free
+              of charge, there are no paid plans, and we do not accept payments.
+              If we introduce paid plans, we will update these Terms first.
             </p>
           </section>
 
@@ -140,8 +145,8 @@ export default function TermsOfServicePage() {
               </li>
             </ul>
             <p className="mt-3 text-sm leading-relaxed">
-              Intractify reserves the right to suspend or terminate accounts that
-              violate this policy without refund.
+              Intractify reserves the right to suspend or terminate accounts
+              that violate this policy.
             </p>
           </section>
 
@@ -169,46 +174,23 @@ export default function TermsOfServicePage() {
             </p>
           </section>
 
-          {/* 5. Subscription and Payment */}
+          {/* 5. Pre-Launch Status */}
           <section aria-labelledby="tos-payment">
             <h2
               id="tos-payment"
               className="mb-3 text-xl font-semibold text-[var(--cv-ink)]"
             >
-              5. Subscription and Payment Terms
+              5. Pre-Launch Status and Future Payments
             </h2>
             <p className="mb-3 text-sm leading-relaxed">
-              Intractify offers Free, Pro, and Enterprise subscription plans.
-              Paid plans are billed in advance on a monthly or annual basis.
+              Intractify is in pre-launch. There are no paid plans, no
+              subscriptions, and no payment processing. You will not be charged
+              for using the service. If we introduce paid plans in the future, we
+              will update these Terms and our Refund Policy at least 30 days
+              before any charge applies, including the price, billing terms, and
+              applicable taxes, and you may choose whether to continue using the
+              service.
             </p>
-            <ul className="ml-5 list-disc space-y-2 text-sm leading-relaxed">
-              <li>
-                <strong>Payment processing:</strong> All payments are processed
-                by Cashfree Payments India Pvt. Ltd. (&ldquo;Cashfree&rdquo;), a
-                PCI-DSS compliant payment gateway. Intractify does not store your
-                payment card details.
-              </li>
-              <li>
-                <strong>Digital service nature:</strong> Intractify is a digital
-                SaaS product. Upon successful payment, you receive immediate
-                access to the purchased plan features. No physical goods are
-                shipped.
-              </li>
-              <li>
-                <strong>Auto-renewal:</strong> Subscriptions renew automatically
-                at the end of each billing period unless cancelled. You will
-                receive a reminder email before renewal.
-              </li>
-              <li>
-                <strong>Price changes:</strong> We will give you at least 30
-                days&apos; notice of any price increase before it takes effect.
-              </li>
-              <li>
-                <strong>Taxes:</strong> Prices are exclusive of applicable taxes
-                (including GST for Indian customers). Tax amounts will be shown
-                at checkout.
-              </li>
-            </ul>
           </section>
 
           {/* 6. Cancellation */}
@@ -220,18 +202,17 @@ export default function TermsOfServicePage() {
               6. Cancellation and Refunds
             </h2>
             <p className="text-sm leading-relaxed">
-              You may cancel your subscription at any time from the billing
-              dashboard. Upon cancellation, you will retain access to your plan
-              until the end of the current billing period. Refunds are governed
-              by our{" "}
+              There is nothing to cancel or refund today: Intractify does not
+              accept payments and no charges are made. You may stop using the
+              service or delete your account at any time. If paid plans are
+              introduced, cancellation and refund terms will be set out in our{" "}
               <a
                 href="/refund-policy"
                 className="text-[var(--cv-indigo)] hover:underline"
               >
-                Refund and Cancellation Policy
+                Refund Policy
               </a>
-              , which provides a 7-day refund window for new subscribers who have
-              not significantly used the service.
+              .
             </p>
           </section>
 
@@ -247,9 +228,9 @@ export default function TermsOfServicePage() {
               All rights, title, and interest in and to the Intractify platform,
               including its software, design, trademarks, and documentation, are
               owned by Intractify Technologies. You are granted a limited,
-              non-exclusive, non-transferable licence to use the service during
-              your subscription. You may not copy, modify, distribute, sell, or
-              sublicense the Intractify software.
+              non-exclusive, non-transferable licence to use the service while
+              you have an account with us. You may not copy, modify, distribute,
+              sell, or sublicense the Intractify software.
             </p>
           </section>
 
@@ -268,8 +249,10 @@ export default function TermsOfServicePage() {
               consequential, or punitive damages arising from your use of the
               service. Intractify&apos;s total cumulative liability to you for any
               claim arising from these terms or your use of the service shall not
-              exceed the amount you paid to Intractify in the 3 months preceding
-              the claim. Some jurisdictions do not allow the exclusion of certain
+              exceed the amount you have paid to Intractify in the 3 months
+              preceding the claim. Because the service is free during pre-launch
+              and no payments are accepted, this amount is nil unless you have a
+              separate written agreement with us. Some jurisdictions do not allow the exclusion of certain
               warranties or limitation of liability — in such cases, these
               exclusions apply to the fullest extent permitted by law.
             </p>
@@ -288,9 +271,7 @@ export default function TermsOfServicePage() {
               with the laws of India, without regard to its conflict of law
               provisions. You consent to the exclusive jurisdiction of the courts
               located in India for the resolution of any disputes arising under
-              these terms. This choice of law is necessary to comply with our
-              payment processing obligations through Cashfree Payments, which
-              operates under Indian financial regulations.
+              these terms.
             </p>
           </section>
 
@@ -331,7 +312,7 @@ export default function TermsOfServicePage() {
               changes by email at least 14 days in advance. Continued use of
               Intractify after the effective date constitutes acceptance of the
               updated terms. If you do not agree to the revised terms, you should
-              cancel your subscription before the changes take effect.
+              stop using the service before the changes take effect.
             </p>
           </section>
 

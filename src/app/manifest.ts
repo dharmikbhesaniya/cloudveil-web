@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Intractify — Private Cloud Browser",
     short_name: "Intractify",
     description:
-      "Launch a fully isolated cloud browser in under 5 seconds. Zero logs, zero fingerprint, zero trace.",
+      "Launch a fully isolated cloud browser. Container-level isolation, zero logs, zero trace.",
     start_url: "/?source=pwa",
     display: "standalone",
     background_color: "#F4EFE3",

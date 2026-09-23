@@ -1,127 +1,106 @@
 # Intractify — Private Cloud Browser Platform
 
-> Launch a fully isolated cloud browser in under 5 seconds. Container-level isolation, zero fingerprint, zero logs. Browser destroyed when your session ends. Free to start.
+> Launch a fully isolated cloud browser session. The browser runs in a per-session container in the cloud — your device is only a viewport. The container is destroyed when your session ends. Pre-launch: no pricing or billing yet.
 
 ## Full Reference
 
-For complete technical details, pricing tables, comparison tables, glossary, and full FAQ:
+For complete technical details, comparison, glossary, and full FAQ:
 - [Full reference (llms-full.txt)](https://intractify.com/llms-full.txt)
 
 ## What Is Intractify
 
-Intractify is a SaaS privacy platform that provides fully isolated cloud browser sessions. The browser runs entirely on secure cloud infrastructure — your device is only a viewer. No browsing data, history, cookies, or activity is ever stored. When your session ends, the container running the browser is permanently destroyed and its storage zeroed.
+Intractify is a pre-launch cloud-based privacy platform that provides isolated browser sessions. Each session runs in its own container on cloud infrastructure — your device is only a viewer. Nothing about the browsing itself is stored on your device, and when the session ends the container running the browser is destroyed.
 
-Intractify is built for privacy-conscious individuals, journalists, researchers, security professionals, and teams that need provably isolated browsing without installing anything.
+Intractify is built for privacy-conscious individuals, journalists, researchers, security professionals, and teams that want isolated browsing without installing anything.
 
 ## How It Works
 
-1. Open https://app.intractify.com and click "Launch a browser"
-2. A fresh container boots a stripped Chromium with a clean profile in a private kernel namespace
-3. The session streams to your viewport to your browser in under 5 seconds
+1. Open https://app.intractify.com and launch a session
+2. A fresh container boots a Chromium browser with a clean profile
+3. The session is streamed to your browser over a secure WebSocket (noVNC)
 4. Browse normally — the cloud browser is your screen, not your device
-5. End the session (manually, on idle, or at your hard cap) — the container is permanently destroyed
-6. Nothing survives: no cookies, no history, no passwords, no downloads, no logs
+5. End the session (manually, on idle, or at the max duration) — the container is destroyed
+6. Nothing survives the session on your device: no cookies, history, or downloads
 
 ## Privacy Architecture
 
-- **Container isolation**: Each session runs in its own container with its own kernel namespace, filesystem, and network — no shared state between sessions or tenants
-- **Anti-fingerprinting**: Canvas, WebGL, audio context, fonts, and timing are not derived from your device — a different identity every time
-- **Zero persistence**: No persistent volume — ephemeral by design, not by policy
-- **No activity logging**: URLs visited, passwords typed, screen content, keyboard input, mouse movements, and cookies are never recorded
-- **End-to-end proxy**: Your real IP never touches the public internet — only the gateway sees your origin, and it forgets
-- **Auto-terminate**: Sessions end on idle, on tab close, or at a user-set hard cap — no forgotten browser running overnight
+- **Per-session container isolation**: Each session runs in its own container with its own filesystem and network — no shared state between sessions or tenants
+- **Nothing on your device**: The browser never runs locally; your device receives only the streamed viewport, so sites cannot read your local hardware, IP, or fonts
+- **Ephemeral by design**: Containers are disposable by architecture, not by delete-on-exit policy
+- **No local traces**: No cookies, history, or downloads are written to your device
+- **Auto-terminate**: Sessions end on idle, on max duration, or at launch-time limits
 
 ## Technical Specifications
 
-- Boot time: < 5 seconds (pre-warmed container pools + stripped Chromium image)
-- Exit regions: 14 (residential and datacenter IPs available)
-- Uptime SLA: 99.98% (90-day rolling)
-- Session streaming: pixel stream over WebSocket
-- Container runtime: container per session, own kernel namespace
-- Browser engine: Stripped Chromium in a disposable container
-- Session lifecycle: launched → running → idle → ended → ∅ (0 bytes retained)
+- Container runtime: per-session container
+- Session streaming: pixel stream over WebSocket (noVNC)
+- Browser engine: Chromium in a disposable container
+- Session lifecycle: starting → active → ended (container destroyed)
+- Session start: cold start, provisioned on demand — it can take up to a few minutes
 
 ## How Intractify Differs from VPNs and Incognito Mode
 
-**vs. VPN**: A VPN hides your IP but the browser still runs on your device — websites can still fingerprint you via canvas, WebGL, audio, and fonts. Intractify runs the entire browser in the cloud. Your device never executes browser code.
+**vs. VPN**: A VPN hides your IP but the browser still runs on your device, which can still be fingerprinted. Intractify runs the entire browser in the cloud on a machine that is not yours.
 
-**vs. Incognito / Private mode**: Incognito mode runs locally on your device, only deletes history after the session. Your fingerprint is still visible to websites. Intractify's session runs in an isolated container in the cloud — your real device fingerprint is never involved.
+**vs. Incognito / Private mode**: Incognito mode runs locally and only clears history after the session. Intractify's session runs in an isolated cloud container — your device is not executing the browser.
 
-**vs. Tor Browser**: Tor routes traffic through relays but still runs the browser on your device. Intractify provides cloud-level isolation — nothing runs locally.
+**vs. Tor Browser**: Tor routes traffic through relays but still runs the browser on your device. Intractify runs the browser on cloud infrastructure instead.
 
-## Pricing (as of 2026)
+Note: Intractify does not claim to hide the fact that you are using a remote browser, and it does not alter the browser's own fingerprint.
 
-All prices in INR. Worldwide availability. No credit card required for free plan.
+## Status
 
-- **Free** — ₹0/month: 5 shared sessions/month, 10-minute limit, 1 concurrent session, basic privacy protections
-- **Starter** — ₹499/month: 30 shared + 10 personal dedicated sessions, 30-minute limit, 1 concurrent session, full privacy protections, priority support
-- **Pro** — ₹1,999/month: 100 shared + 50 personal sessions, 60-minute limit, 3 concurrent sessions, advanced fingerprint masking, session history export
-- **Enterprise** — Custom pricing: unlimited sessions, custom duration, 10+ concurrent sessions, dedicated infrastructure, SLA, dedicated account manager
-
-Personal (dedicated) sessions: 1 vCPU, 2 GB RAM — ideal for banking, email, and sensitive work.
-Shared sessions: lightweight containers on shared infrastructure — ideal for casual browsing.
+Intractify is **pre-launch**. There is no billing or pricing of any kind yet. Anyone can join the waitlist.
 
 ## Data Retention Policy
 
 - Browsing data (URLs, passwords, history, cookies): never stored
-- Session metadata for billing (start time, end time, duration): 90 days, then deleted
-- Account data: retained while active; deleted within 30 days of account deletion request
-- Financial transaction records: 7 years (India GST law compliance)
-- Audit logs: 12 months, then purged
+- Account data: retained while active; deleted on request
+- Session metadata: retained while active for session management
 
 ## Security & Compliance
 
 - TLS 1.3 in transit
-- AES-256 encryption at rest
 - GDPR compliant (EU users)
 - CCPA compliant (California users)
-- Google Play data safety compliant
 - Responsible disclosure: security@intractify.com
-- Third-party processors: Clerk (authentication), Cashfree (payments), AWS/GCP/Azure (infrastructure), Upstash (cache/queue)
+- Third-party processors: Clerk (authentication), Upstash (cache/queue)
 
 ## Common Questions Answered
 
 **Q: Does Intractify store my browsing history?**
-A: No. Intractify never logs URLs visited, passwords typed, screen content, keyboard input, or any browsing activity. Only session metadata (start, end, duration) is kept for billing purposes and deleted after 90 days.
+A: No. Intractify never logs the URLs visited, passwords typed, screen content, or keyboard input in a session.
 
 **Q: What happens when a session ends?**
-A: The container running your browser is permanently destroyed and its storage zeroed. Cookies, history, cache, downloads — all erased. A new session always starts completely fresh.
+A: The container running your browser is destroyed. A new session always starts fresh.
 
-**Q: Can websites detect I'm using Intractify?**
-A: The browser runs on our infrastructure, not your device, so a site never reads your real IP, operating system, installed fonts or hardware — it sees a disposable session that is destroyed when you close it. Normalizing the session's own fingerprint is on the roadmap and is not yet active.
+**Q: Can a website tell I'm using a remote browser?**
+A: The browser runs on our infrastructure, so a site cannot read your real IP, OS, fonts, or hardware. The session runs the default browser fingerprint of a cloud container; it is not masked, and this is not claimed.
 
-**Q: Is there a free trial?**
-A: The free plan gives 5 shared sessions per month with no credit card required.
-
-**Q: What is the MOQ / minimum commitment?**
-A: Monthly subscriptions, cancel anytime. 7-day refund window for new subscribers.
+**Q: Does Intractify have pricing?**
+A: Not yet. Intractify is pre-launch. Joining the waitlist requires no payment.
 
 **Q: What is browser isolation?**
-A: Browser isolation (also called remote browser isolation or RBI) runs the web browser in a remote container rather than on the user's local device. Only the visual output is streamed to the user's screen. This prevents malware, tracking, and fingerprinting from reaching the user's actual device.
+A: Browser isolation (also called remote browser isolation or RBI) runs the web browser in a remote container rather than on the user's local device. Only the visual output is streamed to the user's screen.
 
 ## Company Information
 
 - **Company name**: Intractify Technologies
 - **Founded**: 2025
-- **Headquarters**: Mumbai & Bengaluru, India
 - **Website**: https://intractify.com
 - **App**: https://app.intractify.com
-- **Status page**: https://status.intractify.com
 
 ## Contact
 
 - General support: support@intractify.com
-- Billing / refunds: billing@intractify.com
 - Privacy / GDPR / data requests: privacy@intractify.com
 - Security disclosures: security@intractify.com
 - Legal notices: legal@intractify.com
-- Enterprise inquiries: https://intractify.com/contact
 
 ## Pages
 
 - Home: https://intractify.com/
 - Privacy Policy: https://intractify.com/privacy-policy
 - Terms of Service: https://intractify.com/terms-of-service
-- Refund Policy: https://intractify.com/refund-policy
-- Contact: https://intractify.com/contact
 - Data Deletion: https://intractify.com/data-deletion
+- Contact: https://intractify.com/contact

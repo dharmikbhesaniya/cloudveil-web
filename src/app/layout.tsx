@@ -24,18 +24,17 @@ export const metadata: Metadata = {
     template: "%s | Intractify",
   },
   description:
-    "Launch a fully isolated cloud browser in under 5 seconds. Container-level isolation, zero fingerprint, zero logs — browser destroyed when your session ends. Free to start.",
+    "Launch a fully isolated cloud browser. Container-level isolation, zero logs — the browser is destroyed when your session ends. Pre-launch — join the waitlist.",
   metadataBase: new URL("https://intractify.com"),
   alternates: { canonical: "https://intractify.com" },
   keywords: [
     "cloud browser",
     "private browser",
     "isolated browser",
-    "browser fingerprint protection",
+    "browser isolation service",
     "ephemeral browser",
     "zero-log browsing",
     "anonymous browser cloud",
-    "browser isolation service",
     "remote browser isolation",
     "private browsing cloud",
     "cloud-based browser",
@@ -45,7 +44,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Intractify — Private Cloud Browser | Browse Without a Trace",
     description:
-      "Launch isolated cloud browser sessions with zero logs. Container destroyed when your session ends — your IP, fingerprint, and history stay invisible.",
+      "Launch isolated cloud browser sessions with zero logs. The container is destroyed when your session ends — your device and its data stay out of it.",
     url: "https://intractify.com",
     siteName: "Intractify",
     type: "website",
@@ -63,7 +62,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Intractify — Private Cloud Browser | Browse Without a Trace",
     description:
-      "Launch isolated cloud browser sessions with zero logs. No trace, no fingerprint, no leaks.",
+      "Launch isolated cloud browser sessions with zero logs. No trace, no local footprint, no leaks.",
     images: ["https://intractify.com/og-image.png"],
     site: "@intractify",
   },

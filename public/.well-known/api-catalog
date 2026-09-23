@@ -5,7 +5,7 @@
     {
       "id": "llms-compact",
       "title": "LLM Reference (Compact)",
-      "description": "Compact product reference for LLM crawlers — pricing, features, architecture, FAQ.",
+      "description": "Compact product reference for LLM crawlers — product, architecture, FAQ.",
       "url": "https://intractify.com/llms.txt",
       "type": "text/plain",
       "relation": "describedby"

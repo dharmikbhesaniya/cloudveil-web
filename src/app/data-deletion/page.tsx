@@ -94,14 +94,14 @@ export default function DataDeletionPage() {
                 account. This is the primary personal data we hold.
               </li>
               <li>
-                <strong>Subscription status:</strong> Your current plan (Free,
-                Pro, Enterprise) and billing history (for legally required
-                financial record-keeping).
+                <strong>Service status:</strong> Intractify is pre-launch and
+                free of charge — there are no subscriptions, no paid plans, and
+                no billing history.
               </li>
               <li>
-                <strong>Session count:</strong> A running count of sessions used
-                in the current billing period, used for quota enforcement. This
-                is a number only — it does not contain any browsing data.
+                <strong>Session count:</strong> A running count of your browser
+                sessions, used to enforce the concurrency limit. This is a
+                number only — it does not contain any browsing data.
               </li>
               <li>
                 <strong>What we do NOT store:</strong> Intractify does not store
@@ -288,11 +288,10 @@ export default function DataDeletionPage() {
             </p>
             <ul className="ml-5 list-disc space-y-2 text-sm leading-relaxed">
               <li>
-                <strong>Financial transaction records:</strong> Payment
-                transaction records (order IDs, amounts, dates) are legally
-                required to be retained for 7 years under Indian financial
-                regulations and Goods and Services Tax (GST) law. These records
-                do not contain browsing data or personal content.
+                <strong>Financial transaction records:</strong> None. Intractify
+                does not accept payments or process transactions in its current
+                pre-launch state, so there are no payment or tax records to
+                retain.
               </li>
               <li>
                 <strong>Fraud prevention records:</strong> If your account was

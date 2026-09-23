@@ -137,7 +137,7 @@ export function openGraphImage() {
                 maxWidth: 560,
               },
             },
-            "Launch an isolated session. Browse without local fingerprints. Leave nothing behind.",
+            "Launch an isolated session. Browse without a local trace. Leave nothing behind.",
           ),
         ),
         h(

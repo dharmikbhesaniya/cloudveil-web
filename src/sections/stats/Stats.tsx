@@ -3,10 +3,10 @@
 import { useRef, useEffect, useState } from "react";
 
 const STATS = [
-  { target: 4.2, decimals: 1, unit: "s", label: "Average boot", sub: "click to live browser" },
-  { target: 14, decimals: 0, unit: "", label: "Exit regions", sub: "residential & datacenter", navy: false },
+  { target: 1, decimals: 0, unit: "", label: "Container per session", sub: "fresh, isolated, never shared" },
+  { target: 5, decimals: 0, unit: "", label: "Concurrent sessions", sub: "maximum per user", navy: false },
   { target: 0, decimals: 0, unit: "", label: "Bytes retained", sub: "after a session ends", navy: true },
-  { target: 99.98, decimals: 2, unit: "%", label: "90-day uptime", sub: "availability SLA" },
+  { target: 1, decimals: 0, unit: "", label: "Cloud egress", sub: "traffic exits from the session, not your device" },
 ];
 
 const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
@@ -184,7 +184,7 @@ export function Stats() {
             transition: `opacity 1s ${EASE} 0.3s, transform 1s ${EASE} 0.3s`,
           }}
         >
-          Every session is its own room — kernel-isolated, fingerprint-scrambled, never logged, and
+          Every session is its own room — an isolated container, never logged, and
           demolished as you leave.{" "}
           <span style={{ color: "var(--muted-foreground)" }}>That is the entire product.</span>
         </p>

@@ -2,19 +2,6 @@
 
 import { useRef, useEffect, useState } from "react";
 
-const NAMES = [
-  { name: "Northwave", serif: true },
-  { name: "CIPHER LABS", serif: false },
-  { name: "Obscura", serif: true },
-  { name: "QUANTA", serif: false },
-  { name: "Raven OS", serif: true },
-  { name: "HALCYON", serif: false },
-  { name: "Meridian & Bow", serif: true },
-  { name: "PRIVATEER", serif: false },
-];
-
-const STRIP = [...NAMES, ...NAMES];
-
 const SIGNALS = [
   {
     label: "Zero data retention",
@@ -29,8 +16,8 @@ const SIGNALS = [
     body: "URLs, passwords, and screen content are never logged. The platform is blind to what you browse.",
   },
   {
-    label: "End-to-end proxy",
-    body: "Your device never connects directly to the internet. Only the gateway sees your origin, and it forgets.",
+    label: "No local egress",
+    body: "Your device never connects to the sites you visit. All browsing happens inside the cloud session, so nothing is read from or written to your machine.",
   },
 ];
 
@@ -68,7 +55,7 @@ export function TrustSignals() {
         overflow: "hidden",
       }}
     >
-      {/* Marquee strip */}
+      {/* Honesty strip */}
       <div style={{ padding: "40px 0" }}>
         <div
           style={{
@@ -78,44 +65,9 @@ export function TrustSignals() {
             letterSpacing: "0.22em",
             textTransform: "uppercase",
             color: "var(--muted-foreground)",
-            marginBottom: "24px",
           }}
         >
-          — Quietly trusted by
-        </div>
-
-        <div
-          className="marquee-wrap"
-          style={{ "--marquee-dur": "38s" } as React.CSSProperties}
-        >
-          <div className="marquee-track" style={{ gap: "64px" }}>
-            {STRIP.map(({ name, serif }, i) => (
-              <span
-                key={`${name}-${i}`}
-                style={{
-                  fontFamily: serif
-                    ? "var(--font-display, 'Instrument Serif', Georgia, serif)"
-                    : "var(--font-sans, ui-sans-serif, sans-serif)",
-                  fontStyle: serif ? "italic" : "normal",
-                  fontWeight: serif ? 400 : 600,
-                  fontSize: "24px",
-                  color: "var(--muted-foreground)",
-                  whiteSpace: "nowrap",
-                  letterSpacing: "-0.01em",
-                  transition: "color 0.3s",
-                  cursor: "default",
-                }}
-                onMouseEnter={(e) => {
-                  (e.target as HTMLElement).style.color = "var(--foreground)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.target as HTMLElement).style.color = "var(--muted-foreground)";
-                }}
-              >
-                {name}
-              </span>
-            ))}
-          </div>
+          — Built for privacy-first people and teams · pre-launch
         </div>
       </div>
 

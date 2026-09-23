@@ -1,5 +1,3 @@
-import { PLANS } from "@/lib/constants";
-
 const BASE_URL = "https://intractify.com";
 
 export const organizationSchema = {
@@ -17,7 +15,7 @@ export const organizationSchema = {
     height: 512,
   },
   description:
-    "Cloud-based privacy platform providing fully isolated browser sessions. Container-level isolation, zero fingerprint, zero logs — browser destroyed on session end.",
+    "Cloud-based privacy platform providing fully isolated browser sessions. Container-level isolation, zero logs — browser destroyed on session end.",
   foundingDate: "2025",
   address: [
     {
@@ -62,7 +60,7 @@ export const organizationSchema = {
   knowsAbout: [
     "Browser Isolation",
     "Cloud Browser Technology",
-    "Anti-Fingerprinting",
+    "Device Privacy",
     "Privacy Technology",
     "Ephemeral Computing",
     "Zero-Log Browsing",
@@ -126,32 +124,18 @@ export const softwareApplicationSchema = {
   applicationCategory: "SecurityApplication",
   applicationSubCategory: "PrivacyApplication",
   operatingSystem: "Web Browser",
-  browserRequirements: "Requires a modern web browser with WebRTC support",
+  browserRequirements: "Requires a modern web browser with WebSocket support",
   description:
-    "Launch a fully isolated cloud browser in under 5 seconds. Container-level kernel isolation, anti-fingerprinting, zero-log architecture. Your device is only a viewer — the browser runs entirely in the cloud and is destroyed when your session ends.",
+    "Launch a fully isolated cloud browser. Container-level isolation, zero-log architecture. Your device is only a viewer — the browser runs entirely in the cloud and is destroyed when your session ends.",
   featureList: [
     "Container-isolated browser sessions (one container per session)",
     "Your device is never exposed to page content",
     "Zero data retention — container destroyed on session end",
-    "14 exit regions (residential and datacenter IPs)",
-    "Sub-5-second boot via pre-warmed container pools",
+    "Traffic egresses from the cloud session — never from your device",
     "Automatic session termination on idle or tab close",
     "No activity logging — URLs, passwords, screen content never recorded",
-    "End-to-end proxy — real IP never touches public internet",
-    "99.98% uptime SLA",
+    "End-to-end proxied stream — only pixels reach your device",
   ],
-  softwareVersion: "1.0",
-  releaseNotes: `${BASE_URL}/`,
-  screenshot: `${BASE_URL}/og-image.png`,
-  offers: PLANS.filter((p) => p.price >= 0).map((plan) => ({
-    "@type": "Offer",
-    name: plan.name,
-    price: plan.price.toString(),
-    priceCurrency: "INR",
-    description: plan.description,
-    eligibleRegion: { "@type": "Place", name: "Worldwide" },
-    url: `${BASE_URL}/#pricing`,
-  })),
   provider: {
     "@id": `${BASE_URL}/#organization`,
   },
@@ -169,8 +153,7 @@ export const howItWorksSchema = {
   "@id": `${BASE_URL}/#howto`,
   name: "How to launch a private cloud browser with Intractify",
   description:
-    "Launch a fully isolated cloud browser session in under 5 seconds. Three steps — click, browse, vanish.",
-  totalTime: "PT5S",
+    "Launch a fully isolated cloud browser session. Three steps — click, browse, vanish.",
   tool: [
     { "@type": "HowToTool", name: "Web browser (any modern browser)" },
     { "@type": "HowToTool", name: "Intractify account" },
@@ -180,14 +163,14 @@ export const howItWorksSchema = {
       "@type": "HowToStep",
       position: 1,
       name: "Click — Launch a session",
-      text: "One click in your Intractify dashboard. Choose a region and a duration cap, or accept the defaults. No setup, no installs, no extensions required.",
+      text: "One click in your Intractify dashboard. Choose a duration cap, or accept the defaults. No setup, no installs, no extensions required.",
       url: `${BASE_URL}/#how-it-works`,
     },
     {
       "@type": "HowToStep",
       position: 2,
       name: "Provision — Container spins up",
-      text: "A fresh container boots a stripped Chromium with its own filesystem and network namespace. The session streams to your viewport in seconds.",
+      text: "A fresh container boots a Chromium browser with its own filesystem and network. The session streams to your viewport over a secure WebSocket.",
       url: `${BASE_URL}/#how-it-works`,
     },
     {
@@ -215,7 +198,7 @@ export const homePageSchema = {
   url: BASE_URL,
   name: "Intractify — Private Cloud Browser",
   description:
-    "Launch a fully isolated cloud browser in under 5 seconds. Container-level isolation, zero fingerprint, zero logs — browser destroyed when your session ends.",
+    "Launch a fully isolated cloud browser. Container-level isolation, zero logs — the browser is destroyed when your session ends.",
   isPartOf: { "@id": `${BASE_URL}/#website` },
   about: { "@id": `${BASE_URL}/#software` },
   primaryImageOfPage: {
@@ -251,7 +234,7 @@ export const definedTermSetSchema = {
       name: "Browser Isolation",
       termCode: "browser-isolation",
       description:
-        "A security technique that runs the web browser in a remote, isolated container rather than on the user's local device. Only the visual output is streamed to the user — malware, fingerprinting scripts, and trackers cannot reach the actual device.",
+        "A security technique that runs the web browser in a remote, isolated container rather than on the user's local device. Only the visual output is streamed to the user — malware, trackers, and scripts cannot reach the actual device.",
       inDefinedTermSet: `${BASE_URL}/#glossary`,
     },
     {
@@ -261,15 +244,6 @@ export const definedTermSetSchema = {
       termCode: "ephemeral-browser",
       description:
         "A browser session with no persistent storage. Cookies, history, cache, and downloads exist only for the duration of the session and are permanently destroyed when the session ends — by design, not by deletion.",
-      inDefinedTermSet: `${BASE_URL}/#glossary`,
-    },
-    {
-      "@type": "DefinedTerm",
-      "@id": `${BASE_URL}/#term-anti-fingerprinting`,
-      name: "Anti-Fingerprinting",
-      termCode: "anti-fingerprinting",
-      description:
-        "Techniques that prevent websites from identifying a user by normalizing or randomizing browser attributes such as canvas rendering, WebGL output, audio context and installed fonts. Intractify does not yet apply these to the session itself; its protection comes from the browser running on remote infrastructure, so your device's attributes are never read.",
       inDefinedTermSet: `${BASE_URL}/#glossary`,
     },
     {
@@ -287,7 +261,7 @@ export const definedTermSetSchema = {
       name: "Zero-Log Architecture",
       termCode: "zero-log",
       description:
-        "A system design where no record of user activity (URLs visited, passwords typed, screen content, keystrokes) is ever written to storage. Intractify logs only session metadata (start, end, duration) for billing — never browsing content.",
+        "A system design where no record of user activity (URLs visited, passwords typed, screen content, keystrokes) is ever written to storage. Intractify logs only session metadata (start, end, duration) — never browsing content.",
       inDefinedTermSet: `${BASE_URL}/#glossary`,
     },
     {

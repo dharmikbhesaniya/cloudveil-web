@@ -16,7 +16,7 @@ const BASE_URL = "https://intractify.com";
 const PAGE_MARKDOWN: Record<string, string> = {
   "/": `# Intractify — Private Cloud Browser Platform
 
-> Launch a fully isolated cloud browser in under 5 seconds. Container-level isolation, zero fingerprint, zero logs. Browser destroyed when your session ends. Free to start.
+> Launch a fully isolated cloud browser. Container-level isolation, zero logs. Browser destroyed when your session ends. Pre-launch — join the waitlist.
 
 Full reference: [llms.txt](${BASE_URL}/llms.txt) | [llms-full.txt](${BASE_URL}/llms-full.txt)
 
@@ -27,8 +27,8 @@ Intractify is a SaaS privacy platform that provides fully isolated cloud browser
 ## How It Works
 
 1. Open ${BASE_URL}/app and click "Launch a browser"
-2. A fresh container boots a stripped Chromium on our infrastructure
-3. The session streams to your viewport in seconds
+2. A fresh container boots a Chromium browser on our infrastructure
+3. The session streams to your viewport over a secure WebSocket
 4. Browse normally — the cloud browser is your screen, not your device
 5. End the session — the container is permanently destroyed
 
@@ -47,7 +47,6 @@ join the waitlist at the site above. Any tier or price quoted elsewhere is not c
 ## Contact
 
 - Support: support@intractify.com
-- Billing: billing@intractify.com
 - Privacy: privacy@intractify.com
 - Security: security@intractify.com
 
@@ -56,21 +55,22 @@ join the waitlist at the site above. Any tier or price quoted elsewhere is not c
 
   "/privacy-policy": `# Privacy Policy — Intractify
 
-**Last updated:** May 16, 2025
+**Last updated:** September 23, 2026
 **Canonical:** [${BASE_URL}/privacy-policy](${BASE_URL}/privacy-policy)
 
 ## What We Collect
 
 - Account profile (name, email) via Clerk authentication
-- Session metadata (start time, end time, duration) for billing — 90-day retention
-- Financial transaction records — 7-year retention (India GST)
+- Session metadata (start time, end time, duration), kept while your account is active
+- Marketing analytics on this website: a first-party visitor ID and session ID stored in your browser's local/session storage, plus pages visited, referrer, UTM parameters, and a salted hash of your IP (the raw IP is never stored)
 
 ## What We Never Collect
 
-- URLs visited, search queries, browsing history
+- URLs visited in sessions, search queries, browsing history
 - Passwords or form inputs
 - Screen content, keyboard/mouse input
-- Cookies, local storage, downloaded files
+- Downloaded files
+- Payment or billing records — Intractify is pre-launch and processes no payments
 
 ## Your Rights
 
@@ -81,39 +81,37 @@ GDPR (EU), CCPA (California), and Indian data protection rights apply. Contact p
 
   "/terms-of-service": `# Terms of Service — Intractify
 
-**Last updated:** May 16, 2025
+**Last updated:** September 23, 2026
 **Canonical:** [${BASE_URL}/terms-of-service](${BASE_URL}/terms-of-service)
 
 ## Key Terms
 
 - Governing law: India; jurisdiction: Gujarat courts
 - Minimum age: 16 (or 13 with COPPA parental consent)
-- Payment processor: Cashfree Payments India Pvt. Ltd.
-- Monthly billing, cancel anytime, 7-day refund window for new subscribers
+- Pre-launch status: no paid plans, no subscriptions, no payment processing — you will not be charged
+- If paid plans are introduced later, billing and refund terms will be updated on this page first
 
 [Refund Policy](${BASE_URL}/refund-policy) | [Privacy Policy](${BASE_URL}/privacy-policy)
 `,
 
-  "/refund-policy": `# Refund & Cancellation Policy — Intractify
+  "/refund-policy": `# Refund Policy — Intractify
 
-**Last updated:** May 16, 2025
+**Last updated:** September 23, 2026
 **Canonical:** [${BASE_URL}/refund-policy](${BASE_URL}/refund-policy)
 
 ## Summary
 
-Cancel anytime. New subscribers can request a full refund within 7 days if the service has not been significantly used (≤ 3 sessions). Refunds processed within 5–7 business days.
+Intractify is pre-launch. We do not accept payments, there are no paid plans or subscriptions, and no charges are made — so there is nothing to refund yet.
 
-## Eligibility
+## When Payments Begin
 
-- **Monthly — 7-day window:** First subscription only, ≤ 3 sessions used
-- **Annual — pro-rated within 3 months:** Unused whole months minus 10% fee
-- **Service outage >24h:** Pro-rated credit for affected period
+When paid plans are introduced, this page will be updated with the refund eligibility rules, how to request a refund, and processing times before any payment is taken.
 
-## Non-Refundable
+## Corrections and Errors
 
-Requests after 7-day window, suspended accounts, renewals, annual plans after 3 months, Enterprise contracts.
+If an erroneous charge ever appears, contact billing@intractify.com and we will investigate and correct it, including refunding any incorrect charge.
 
-Contact billing@intractify.com with subject "Refund Request — [Order ID]".
+Contact billing@intractify.com with questions about this policy.
 `,
 
   "/data-deletion": `# Data Deletion Request — Intractify
@@ -131,7 +129,7 @@ This page is the official data deletion URL for Intractify, compliant with GDPR 
 
 ## What Cannot Be Deleted
 
-- Financial transaction records (7-year legal retention — India GST)
+- Payment or billing records — none exist (pre-launch, no payments accepted)
 - Fraud prevention records (hashed identifiers, up to 2 years)
 
 ## How to Request
@@ -238,7 +236,7 @@ export async function GET(request: NextRequest) {
   let isDynamic = false;
 
   try {
-    const targetUrl = new URL(path, request.url).toString();
+    const targetUrl = new URL(path, BASE_URL).toString();
     const fetchResponse = await fetch(targetUrl, {
       headers: {
         "Accept": "text/html",

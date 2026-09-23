@@ -9,14 +9,14 @@ const steps = [
     icon: MousePointerClick,
     title: "Launch a session",
     description:
-      "One click in the dashboard. Choose a region and a duration cap, or accept the defaults. No setup, no installs.",
+      "One click in the dashboard. Choose a duration cap, or accept the defaults. No setup, no installs.",
   },
   {
     label: "PROVISION",
     icon: Cloud,
     title: "Container spins up",
     description:
-      "A fresh container boots a stripped Chromium on our infrastructure and streams to your viewport in seconds.",
+      "A fresh container boots a Chromium browser on our infrastructure and streams to your viewport over a secure WebSocket.",
   },
   {
     label: "BROWSE",

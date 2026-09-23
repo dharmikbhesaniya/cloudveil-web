@@ -19,13 +19,14 @@ const FEATURES = [
   },
   {
     num: "ii.",
-    title: "Anti-fingerprint",
-    tech: "canvas · WebGL · audio · fonts",
+    title: "Isolated from your device",
+    tech: "cloud container · no local footprint",
     body: (
       <>
-        Canvas, WebGL, audio, fonts and timing are randomised per session.{" "}
-        <i>The browser presents a different identity every time</i> — the same person never appears
-        twice.
+        Every session is a fresh browser running in a dedicated cloud container —
+        completely separate from your device. Websites see the session, not your
+        machine.{" "}
+        <i>Nothing runs, writes, or lingers on your computer.</i>
       </>
     ),
   },
@@ -42,24 +43,24 @@ const FEATURES = [
   },
   {
     num: "iv.",
-    title: "Sub-5s boot",
-    tech: "pre-warmed pools · stripped Chromium",
+    title: "Fresh container per session",
+    tech: "clean profile every launch",
     body: (
       <>
-        Pre-warmed task pools and a stripped Chromium image bring a fresh session live in under five
-        seconds. <i>No spinning, no warm-up screen.</i>
+        Each launch provisions a fresh container with a clean Chromium profile.{" "}
+        <i>No warm-up between visits, no leftover state.</i>
       </>
     ),
   },
   {
     num: "v.",
-    title: "Routed exit IPs",
-    tech: "14 regions · residential or datacenter",
+    title: "Cloud egress",
+    tech: "traffic exits from the session",
     body: (
       <>
-        Pick from rotating residential or datacenter exits in 14 regions.{" "}
-        <i>Your real address never touches the public internet</i> — only the gateway sees it, and
-        the gateway forgets.
+        Site traffic leaves from the cloud session&apos;s network — never from
+        your device&apos;s connection.{" "}
+        <i>Your local network never carries the page data.</i>
       </>
     ),
   },
