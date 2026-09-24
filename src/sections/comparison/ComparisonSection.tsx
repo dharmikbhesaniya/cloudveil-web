@@ -707,7 +707,6 @@ export function ComparisonSection() {
               style={{
                 fontFamily:
                   "var(--font-display, 'Instrument Serif', Georgia, serif)",
-                fontStyle: "italic",
                 fontWeight: 400,
               }}
             >
@@ -768,7 +767,6 @@ export function ComparisonSection() {
                 style={{
                   fontFamily:
                     "var(--font-display, 'Instrument Serif', Georgia, serif)",
-                  fontStyle: "italic",
                   fontWeight: 400,
                 }}
               >

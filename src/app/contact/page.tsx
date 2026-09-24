@@ -73,7 +73,6 @@ export default function ContactPage() {
           <h1
             style={{
               fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
-              fontStyle: "italic",
               fontWeight: 400,
               fontSize: "clamp(2rem, 5vw, 3.5rem)",
               letterSpacing: "-0.02em",

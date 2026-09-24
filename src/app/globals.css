@@ -117,12 +117,19 @@
 /* Typography utilities */
 .cv-serif, .cv-display {
   font-family: var(--font-display, "Instrument Serif", ui-serif, Georgia, serif);
-  font-style: italic;
   font-weight: 400;
   letter-spacing: -0.022em;
   line-height: 1.15;
   font-feature-settings: "kern" 1, "liga" 1, "dlig" 1;
   font-optical-sizing: auto;
+}
+
+/* Emphasis within body copy: the serif display family provides contrast
+   without resorting to italics or a faux-slanted slant. */
+.cv-em {
+  font-family: var(--font-display, "Instrument Serif", ui-serif, Georgia, serif);
+  font-style: normal;
+  font-weight: 400;
 }
 
 .cv-eyebrow {
@@ -292,7 +299,7 @@
 }
 
 /* serif-link */
-.serif-link { font-family: var(--font-display, "Instrument Serif", Georgia, serif); font-style: italic; font-size: 16px; color: var(--foreground); text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 2px; transition: border-color 0.25s; line-height: 1.4; }
+.serif-link { font-family: var(--font-display, "Instrument Serif", Georgia, serif); font-size: 16px; color: var(--foreground); text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 2px; transition: border-color 0.25s; line-height: 1.4; }
 .serif-link:hover { border-color: var(--foreground); }
 
 /* skeleton-line */
@@ -332,10 +339,10 @@
 }
 @media (max-width: 1024px) { .hero-two-col { grid-template-columns: 1fr !important; } }
 
-/* hero-serif-ital and pullquote gradient */
-.hero-serif-ital { font-family: var(--font-display, "Instrument Serif", ui-serif, Georgia, serif); font-style: italic; font-weight: 500; background: linear-gradient(135deg, oklch(0.95 0.04 320), oklch(0.78 0.18 290)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+/* hero-serif and pullquote gradient */
+.hero-serif { font-family: var(--font-display, "Instrument Serif", ui-serif, Georgia, serif); font-weight: 400; background: linear-gradient(135deg, oklch(0.95 0.04 320), oklch(0.78 0.18 290)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 .pullquote-grad { background: linear-gradient(135deg, oklch(0.92 0.08 280), oklch(0.68 0.22 320)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-.hero-serif-line { font-family: var(--font-display, "Instrument Serif", ui-serif, Georgia, serif); font-style: italic; font-weight: 500; color: oklch(0.82 0.06 280); -webkit-text-fill-color: oklch(0.82 0.06 280); }
+.hero-serif-line { font-family: var(--font-display, "Instrument Serif", ui-serif, Georgia, serif); font-weight: 400; color: oklch(0.82 0.06 280); -webkit-text-fill-color: oklch(0.82 0.06 280); }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-float, .animate-floaty, .animate-pulse-glow, .animate-pulse-dot, .animate-shimmer,
