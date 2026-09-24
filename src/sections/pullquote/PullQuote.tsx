@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import { MediaSlot } from "@/components/common/MediaSlot";
 
 const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 
@@ -72,7 +73,6 @@ export function PullQuote() {
           left: "50%",
           transform: "translateX(-50%)",
           fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
-          fontStyle: "italic",
           fontSize: "220px",
           lineHeight: 0.5,
           color: "#6F2530",
@@ -124,7 +124,6 @@ export function PullQuote() {
                       ? {
                           fontFamily:
                             "var(--font-display, 'Instrument Serif', Georgia, serif)",
-                          fontStyle: "italic",
                           fontWeight: 400,
                           padding: "0 0.08em",
                           margin: "0 -0.08em",
@@ -143,16 +142,31 @@ export function PullQuote() {
         <div
           style={{
             marginTop: "36px",
-            fontFamily: "var(--font-mono, monospace)",
-            fontSize: "11px",
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            color: "var(--muted-foreground)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "14px",
             opacity: attrVisible ? 1 : 0,
             transition: `opacity 1s ${EASE}`,
           }}
         >
-          — Dharmik Bhesaniya · founder &amp; head of platform
+          <MediaSlot
+            type="portrait"
+            circular
+            label="Founder portrait"
+            hint="160px duotone-inked portrait"
+          />
+          <div
+            style={{
+              fontFamily: "var(--font-mono, monospace)",
+              fontSize: "11px",
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: "var(--muted-foreground)",
+            }}
+          >
+            — Dharmik Bhesaniya · founder &amp; head of platform
+          </div>
         </div>
       </div>
     </section>

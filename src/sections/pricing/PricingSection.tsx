@@ -42,8 +42,48 @@ export function PricingSection() {
             padding: "32px 24px",
             boxShadow: "0 8px 32px oklch(0.1 0.01 265 / 6%)",
             position: "relative",
+            overflow: "hidden",
           }}
         >
+          {/* Privacy-policy line-art accent — trust seal, 5% opacity */}
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 120 120"
+            fill="none"
+            style={{
+              position: "absolute",
+              right: "-28px",
+              bottom: "-28px",
+              width: "160px",
+              height: "160px",
+              color: "var(--primary)",
+              opacity: 0.05,
+              pointerEvents: "none",
+            }}
+          >
+            <circle cx="60" cy="60" r="40" stroke="currentColor" strokeWidth="1.5" />
+            <circle
+              cx="60"
+              cy="60"
+              r="50"
+              stroke="currentColor"
+              strokeWidth="1"
+              strokeDasharray="4 6"
+            />
+            <path
+              d="M60 34l18 8v16c0 14-7 24-18 28-11-4-18-14-18-28V42l18-8z"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M51 61l7 7 12-13"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
           <div style={{ textAlign: "center", marginBottom: "28px" }}>
             <h3 style={{ fontSize: "20px", fontWeight: 600, color: "var(--foreground)", margin: "0 0 8px" }}>
               Join the Priority Waitlist

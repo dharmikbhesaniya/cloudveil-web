@@ -76,14 +76,14 @@ function useCounter(target: number, decimals: number, active: boolean) {
   return val;
 }
 
-const WORDS: Array<{ text: string; italic?: boolean; break?: boolean }> = [
+const WORDS: Array<{ text: string; serif?: boolean; break?: boolean }> = [
   { text: "Your" },
-  { text: "private", italic: true },
+  { text: "private", serif: true },
   { break: true, text: "" },
   { text: "space," },
   { text: "kept" },
   { break: true, text: "" },
-  { text: "elsewhere.", italic: true },
+  { text: "elsewhere.", serif: true },
 ];
 
 const META = [
@@ -244,7 +244,7 @@ export function Hero() {
               {WORDS.map((w, i) => {
                 if (w.break) return <br key={`br-${i}`} />;
                 const delay = wordDelay[wordIdx++] ?? 0.1;
-                if (w.italic) {
+                if (w.serif) {
                   return (
                     <span
                       key={i}
@@ -254,7 +254,6 @@ export function Hero() {
                         animationDelay: `${delay}s`,
                         fontFamily:
                           "var(--font-display, 'Instrument Serif', Georgia, serif)",
-                        fontStyle: "italic",
                         fontWeight: 400,
                         color: "var(--primary)",
                         position: "relative",
@@ -376,11 +375,63 @@ export function Hero() {
 
           {/* Right column: browser preview */}
           <div
-            className="preview-in hidden lg:block"
+            className="preview-in relative hidden lg:block"
             style={{ perspective: "1200px" }}
           >
+            {/* Ambient privacy schematic — radar rings, dashed container outline,
+                node graph. Pure currentColor stroke, indie: never product-facing. */}
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 560 460"
+              fill="none"
+              style={{
+                position: "absolute",
+                inset: "-60px -40px -40px",
+                width: "calc(100% + 80px)",
+                height: "calc(100% + 100px)",
+                color: "var(--primary)",
+                opacity: 0.07,
+                pointerEvents: "none",
+                zIndex: 0,
+              }}
+            >
+              <g stroke="currentColor" strokeWidth="1">
+                <circle cx="430" cy="120" r="70" />
+                <circle cx="430" cy="120" r="120" opacity="0.7" />
+                <circle cx="430" cy="120" r="170" opacity="0.45" />
+                <line x1="430" y1="46" x2="430" y2="194" opacity="0.5" />
+                <line x1="356" y1="120" x2="504" y2="120" opacity="0.5" />
+                <rect
+                  x="60"
+                  y="230"
+                  width="220"
+                  height="150"
+                  rx="10"
+                  strokeDasharray="6 8"
+                />
+                <line x1="60" y1="262" x2="280" y2="262" opacity="0.8" />
+                <circle cx="105" cy="290" r="6" />
+                <circle cx="170" cy="330" r="6" />
+                <circle cx="235" cy="290" r="6" />
+                <circle cx="170" cy="255" r="6" />
+                <line x1="105" y1="290" x2="170" y2="255" opacity="0.7" />
+                <line x1="170" y1="255" x2="235" y2="290" opacity="0.7" />
+                <line x1="235" y1="290" x2="170" y2="330" opacity="0.7" />
+                <line
+                  x1="170"
+                  y1="330"
+                  x2="105"
+                  y2="290"
+                  opacity="0.4"
+                  strokeDasharray="3 5"
+                />
+              </g>
+            </svg>
+
             <div
               style={{
+                position: "relative",
+                zIndex: 1,
                 background: "var(--cv-card-bg)",
                 border: "1px solid var(--border)",
                 borderRadius: "6px",
@@ -629,7 +680,6 @@ export function Hero() {
                           style={{
                             fontFamily:
                               "var(--font-display, 'Instrument Serif', Georgia, serif)",
-                            fontStyle: "italic",
                             fontSize: "20px",
                             color: "var(--foreground)",
                             textAlign: "center",
@@ -815,6 +865,46 @@ export function Hero() {
                 );
               })}
             </div>
+
+            {/* LIVE SESSION caption — real product surface, app dashboard. */}
+            <a
+              href="https://app.intractify.com"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                position: "relative",
+                zIndex: 1,
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                marginTop: "16px",
+                fontFamily: "var(--font-mono, monospace)",
+                fontSize: "10.5px",
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                color: "var(--muted-foreground)",
+                textDecoration: "none",
+                transition: "color 0.3s",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.color = "var(--primary)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.color = "var(--muted-foreground)")
+              }
+            >
+              <span
+                className="animate-pulse-dot"
+                style={{
+                  width: "6px",
+                  height: "6px",
+                  borderRadius: "50%",
+                  background: "#4B5C3A",
+                  flexShrink: 0,
+                }}
+              />
+              Live session — app.intractify.com
+            </a>
           </div>
         </div>
 
@@ -985,7 +1075,6 @@ export function Hero() {
                         className="animate-fade-up"
                         style={{
                           fontFamily: "var(--font-display, Georgia, serif)",
-                          fontStyle: "italic",
                           fontSize: "16px",
                           color: "var(--foreground)",
                           margin: 0,

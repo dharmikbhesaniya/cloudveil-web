@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 import { Hero } from "@/sections/hero/HeroSection";
+import { DemoVideoSection } from "@/sections/demo/DemoVideoSection";
 import { TrustSignals } from "@/sections/trust/TrustSignals";
 import { Features } from "@/sections/features/FeaturesSection";
 import { ComparisonSection } from "@/sections/comparison/ComparisonSection";
@@ -53,6 +54,7 @@ export default function LandingPage() {
       <Navbar />
       <main className="flex-1">
         <Hero />
+        <DemoVideoSection />
         <TrustSignals />
         <Features />
         <ComparisonSection />
