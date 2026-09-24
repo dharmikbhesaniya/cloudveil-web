@@ -99,8 +99,30 @@ export function TrustSignals() {
                 textTransform: "uppercase",
                 color: "var(--foreground)",
                 marginBottom: "10px",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
               }}
             >
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 16 16"
+                fill="none"
+                style={{ width: 15, height: 15, flexShrink: 0, opacity: 0.65 }}
+              >
+                <path
+                  d="M8 1.5l5 1.8v4.2c0 3-1.9 5.2-5 6.5-3.1-1.3-5-3.5-5-6.5V3.3l5-1.8z"
+                  stroke="var(--primary)"
+                  strokeWidth="1.1"
+                />
+                <path
+                  d="M5.6 8.2l1.6 1.6 3.2-3.4"
+                  stroke="var(--primary)"
+                  strokeWidth="1.1"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
               {label}
             </div>
             <p

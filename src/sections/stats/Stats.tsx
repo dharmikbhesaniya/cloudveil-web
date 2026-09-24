@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import { MediaSlot } from "@/components/common/MediaSlot";
 
 const STATS = [
   { target: 1, decimals: 0, unit: "", label: "Container per session", sub: "fresh, isolated, never shared" },
@@ -63,11 +64,10 @@ function StatItem({ stat }: { stat: (typeof STATS)[0] }) {
         transition: `opacity 1s ${EASE}, transform 1s ${EASE}`,
       }}
     >
-      {/* Big italic serif numeral */}
+      {/* Big serif numeral */}
       <div
         style={{
           fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
-          fontStyle: "italic",
           fontWeight: 400,
           fontSize: "84px",
           lineHeight: 0.9,
@@ -152,6 +152,15 @@ export function Stats() {
           — By the numbers, as of May 2026
         </div>
 
+        {/* Wide editorial photo — quiet visual break (asset pending) */}
+        <MediaSlot
+          type="image"
+          aspect="21/7"
+          label="Wide editorial photograph"
+          hint="muted duotone graded to palette · fog / empty-room motif · 21:9"
+          className="mb-12"
+        />
+
         {/* 4-col stat grid */}
         <div
           style={{
@@ -172,7 +181,6 @@ export function Stats() {
           ref={closerRef as React.RefObject<HTMLParagraphElement>}
           style={{
             fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
-            fontStyle: "italic",
             fontSize: "26px",
             lineHeight: 1.3,
             letterSpacing: "-0.02em",

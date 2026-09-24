@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import { MediaSlot } from "@/components/common/MediaSlot";
 
 const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 
@@ -37,11 +38,30 @@ export function CTASection() {
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(24px)",
         transition: `opacity 0.9s ${EASE}, transform 0.9s ${EASE}`,
+        position: "relative",
       }}
     >
+      {/* Full-width "dematerialize" wash — real photo/loop pending */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: "0 0 0 0",
+          pointerEvents: "none",
+          opacity: 0.35,
+        }}
+      >
+        <MediaSlot
+          type="wash"
+          aspect="21/8"
+          label="Dematerialize wash"
+          hint="looping 3s smoke/dusk clip or duotone photo · 5–8% opacity behind text"
+        />
+      </div>
+
       <div
         className="mx-auto max-w-7xl"
-        style={{ padding: "0 clamp(24px, 5vw, 40px)" }}
+        style={{ padding: "0 clamp(24px, 5vw, 40px)", position: "relative" }}
       >
         {/* Stamp */}
         <div
@@ -75,7 +95,6 @@ export function CTASection() {
           <span
             style={{
               fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
-              fontStyle: "italic",
               fontWeight: 400,
               color: "#6F2530",
             }}

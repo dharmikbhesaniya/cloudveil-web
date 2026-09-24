@@ -1,22 +1,27 @@
 "use client";
 
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import { Code2, Lock, Search, Wallet } from "lucide-react";
 
 const AUDIENCES = [
   {
     title: "Developers",
+    Icon: Code2,
     description: "Safely test unverified code, run isolated local environments, and debug without contaminating your primary machine.",
   },
   {
     title: "Security Teams",
+    Icon: Lock,
     description: "Investigate suspicious links and sandbox malware with zero risk to the corporate network.",
   },
   {
     title: "Journalists & Researchers",
+    Icon: Search,
     description: "Conduct sensitive OSINT investigations and communicate securely without leaving a digital footprint.",
   },
   {
     title: "Crypto Users",
+    Icon: Wallet,
     description: "Interact with Web3 dApps and wallets in an airtight environment, safe from browser extensions and keyloggers.",
   },
 ];
@@ -42,9 +47,9 @@ export function AudienceSection() {
         </div>
 
         <div ref={gridRef} className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {AUDIENCES.map((audience, i) => (
+          {AUDIENCES.map(({ Icon, title, description }, i) => (
             <div
-              key={audience.title}
+              key={title}
               className={`reveal-start ${gridRevealed ? "is-revealed" : ""}`}
               style={{
                 transitionDelay: `${i * 0.1}s`,
@@ -54,11 +59,27 @@ export function AudienceSection() {
                 borderRadius: "12px",
               }}
             >
+              <div
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "10px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: "16px",
+                  background: "var(--cv-bg-deep)",
+                  color: "var(--primary)",
+                  border: "1px solid var(--border)",
+                }}
+              >
+                <Icon style={{ width: 19, height: 19 }} strokeWidth={1.6} />
+              </div>
               <h3 style={{ fontSize: "16px", fontWeight: 600, margin: "0 0 12px", color: "var(--foreground)" }}>
-                {audience.title}
+                {title}
               </h3>
               <p style={{ fontSize: "13.5px", color: "var(--muted-foreground)", lineHeight: 1.6, margin: 0 }}>
-                {audience.description}
+                {description}
               </p>
             </div>
           ))}
