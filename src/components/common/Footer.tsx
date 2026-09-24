@@ -52,7 +52,6 @@ export function Footer() {
             <div
               style={{
                 fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
-                fontStyle: "italic",
                 fontSize: "36px",
                 lineHeight: 1,
                 color: "var(--foreground)",
@@ -63,7 +62,6 @@ export function Footer() {
             <p
               style={{
                 fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
-                fontStyle: "italic",
                 fontSize: "16px",
                 color: "var(--muted-foreground)",
                 margin: "14px 0 0",

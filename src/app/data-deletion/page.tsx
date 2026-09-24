@@ -46,8 +46,7 @@ export default function DataDeletionPage() {
           <h1
             className="text-4xl font-bold text-[var(--cv-ink)] sm:text-5xl"
             style={{
-              fontFamily: "var(--font-instrument-serif)",
-              fontStyle: "italic",
+              fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
             }}
           >
             Data Deletion Request

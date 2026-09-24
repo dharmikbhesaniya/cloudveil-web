@@ -35,7 +35,6 @@ export function Navbar() {
             <span
               style={{
                 fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
-                fontStyle: "italic",
                 fontSize: "26px",
                 letterSpacing: "-0.02em",
                 lineHeight: 1,

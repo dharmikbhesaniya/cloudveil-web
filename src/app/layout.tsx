@@ -14,7 +14,9 @@ const instrumentSerif = Instrument_Serif({
   variable: "--font-display",
   subsets: ["latin"],
   weight: ["400"],
-  style: ["normal", "italic"],
+  // Normal style only — emphasis is expressed through the serif family itself,
+  // not an italic slant, so the italic optical files are never fetched.
+  style: ["normal"],
   display: "swap",
 });
 
