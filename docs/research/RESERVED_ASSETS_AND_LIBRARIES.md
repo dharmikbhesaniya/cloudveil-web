@@ -24,16 +24,18 @@ raster/video.
 
 ## 2. Media/washes (they're all honest-or-empty today)
 
-### 2.1 Real session screen recordings — the two demo slots
+### 2.1 Real session screen recording — the demo slot
 
 | Slot | Component | Aspect | Spec |
 |---|---|---|---|
 | Hero-to-features proof | `DemoVideoSection.tsx` (`#demo`) | 16/9 | ~60 s muted screen recording: launch → browse → *end session* → container destroyed. Play on click. |
-| "Click → browse → vanished" strip | `HowItWorksSection.tsx` (media shelf) | 16/6.5 | ~8 s muted loop, poster frame, autoplay. |
 
-Both are currently `cv-paper-band` + glass `MediaSlot` placeholders. Recording
-recipe: real session on **our** infra, cap 1080p, no credentials or personal
-data visible, cut at exact "nothing survives" beat.
+The second slot (the 16/6.5 "Click → browse → vanished" strip in
+`HowItWorksSection.tsx`) was **removed 2026-09-25** at the user's request — the
+page now has exactly one video slot. What's listed above is the currently-live
+`cv-paper-band` + glass `MediaSlot` placeholder. Recording recipe: real session
+on **our** infra, cap 1080p, no credentials or personal data visible, cut at
+exact "nothing survives" beat.
 
 ### 2.2 CTA "dematerialize" wash
 
@@ -80,8 +82,8 @@ All motion honours `prefers-reduced-motion` (see the reduced-motion block in
 
 ## 5. Definition of done
 
-1. Two real recordings + poster frames land in `public/`.
-2. `MediaSlot` in `DemoVideoSection`/`HowItWorksSection` swapped to `<video>`.
+1. One real recording + poster frame lands in `public/`.
+2. `MediaSlot` in `DemoVideoSection` swapped to `<video>`.
 3. If we ever add Motion: gate it behind reduced-motion and lazy-load the
    module.
 4. Update this file + `SESSION_LOG` + `VISUAL_CONTENT_PLACEMENT_PLAN` in one

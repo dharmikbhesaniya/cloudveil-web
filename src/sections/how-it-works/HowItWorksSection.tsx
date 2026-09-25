@@ -2,7 +2,6 @@
 
 import { MousePointerClick, Cloud, Monitor, Trash2 } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
-import { MediaSlot } from "@/components/common/MediaSlot";
 
 const steps = [
   {
@@ -38,7 +37,6 @@ const steps = [
 export function HowItWorks() {
   const { ref: headerRef, isRevealed: headerRevealed } = useScrollReveal();
   const { ref: gridRef, isRevealed: gridRevealed } = useScrollReveal({ threshold: 0.1 });
-  const { ref: mediaRef, isRevealed: mediaRevealed } = useScrollReveal({ threshold: 0.05 });
 
   return (
     <section className="relative py-24" id="how-it-works">
@@ -138,22 +136,6 @@ export function HowItWorks() {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Full-width screen-recording strip — real asset pending */}
-        <div
-          ref={mediaRef}
-          className={`reveal-start mt-10 ${mediaRevealed ? "is-revealed" : ""}`}
-          style={{ maxWidth: "920px", marginInline: "auto" }}
-        >
-          <div className="cv-paper-band" style={{ padding: "10px" }}>
-            <MediaSlot
-              type="video"
-              aspect="16/6.5"
-              label="Click → browse → vanished"
-              hint="~8 s muted screen recording of a real launch · poster frame · autoplay loop"
-            />
-          </div>
         </div>
       </div>
     </section>
