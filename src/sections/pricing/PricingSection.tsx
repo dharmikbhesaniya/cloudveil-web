@@ -20,9 +20,9 @@ export function PricingSection() {
           ref={headerRef}
           className={`reveal-start mx-auto mb-16 max-w-2xl text-center ${headerRevealed ? "is-revealed" : ""}`}
         >
-          <span className="cv-eyebrow mb-4 block">Early Access</span>
+          <span className="cv-stamp mb-4 block">Early Access</span>
           <h2 className="font-bold">
-            Completely free at <span className="cv-display">launch</span>.
+            Completely free at <span className="cv-display cv-underline">launch</span>.
           </h2>
           <p className="text-muted-foreground mt-4 text-base sm:text-lg">
             We are building the ultimate privacy browser in the cloud. Join the private beta today — all features will be completely free for early adopters.
@@ -224,7 +224,7 @@ export function PricingSection() {
                   style={{
                     width: "100%",
                     padding: "10px 14px",
-                    borderRadius: "6px",
+                    borderRadius: "8px",
                     border: "1px solid var(--border)",
                     background: "var(--card)",
                     color: "var(--foreground)",
@@ -254,13 +254,14 @@ export function PricingSection() {
               <button
                 type="submit"
                 disabled={status === "submitting"}
+                className="btn-shimmer-wrap"
                 style={{
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   gap: "8px",
                   padding: "12px 18px",
-                  borderRadius: "6px",
+                  borderRadius: "var(--radius-action)",
                   fontSize: "13px",
                   fontWeight: 600,
                   cursor: status === "submitting" ? "not-allowed" : "pointer",

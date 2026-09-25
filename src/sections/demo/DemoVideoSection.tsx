@@ -64,6 +64,7 @@ export function DemoVideoSection() {
                 fontWeight: 400,
                 color: "var(--primary)",
               }}
+              className="cv-underline"
             >
               disappear
             </span>
@@ -89,12 +90,14 @@ export function DemoVideoSection() {
           className={`reveal-start ${videoRevealed ? "is-revealed" : ""}`}
           style={{ maxWidth: "1040px", marginInline: "auto" }}
         >
+          <div className="cv-paper-band" style={{ padding: "10px" }}>
           <MediaSlot
             type="video"
             aspect="16/9"
             label="Watch launch → browse → vanish"
             hint="~60 s muted screen recording of a real session · poster frame · play on click"
           />
+          </div>
           <div
             style={{
               marginTop: "12px",
@@ -119,6 +122,13 @@ export function DemoVideoSection() {
               }}
             />
             Real session · recorded on a live container
+            <span
+              className="cv-wave"
+              aria-hidden="true"
+              style={{ marginLeft: "10px", verticalAlign: "middle", color: "var(--primary)" }}
+            >
+              <span /><span /><span /><span /><span /><span /><span />
+            </span>
           </div>
         </div>
       </div>

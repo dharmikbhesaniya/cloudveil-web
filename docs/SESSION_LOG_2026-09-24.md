@@ -99,3 +99,140 @@
 - Await user's commit/go-ahead; then stage brand changes, push `develop`,
   open PR to `origin/develop`, and (if wanted) build+deploy to Vercel.
 - Produce real demo video + swap the glass slot (highest-conversion asset).
+
+## 9. Competitive R&D (same day, third request)
+- User asked for R&D on three reference sites — paper.design/blog/series-a
+  (paper-like bg fills, drawn/written components), indianic.com (two-font
+  styles, smooth non-sharp CTA shapes, content placement/spacing, scroll/hover
+  animations), wisprflow.ai (great scroll animations).
+- webfetch of all three; wrote two docs:
+  - `docs/research/COMPETITIVE_REFERENCE_RD.md` — full analysis: paper's
+    single-material sheet + mono/editorial type; IndiaNIC's sans+italic-serif
+    display duo, pill CTAs, mono stamps, numbered method tiles, molecule
+    cards, lift hovers; Wispr's transcript-demo-in-hero, sticky how-it-works,
+    word-scrub headers, comparison counters; cross-table + honesty guardrails.
+  - `docs/research/LANDING_IMPROVEMENT_PLAN.md` — adopt/pilot/skip plan:
+    unified ~10px CTA radius, mono stamp headers, serif-accent H2s, hover
+    lifts, CSS-only word-scrub headers with reduced-motion guard, sticky
+    HowItWorks (pilot), counters only-if-real (pilot). Rejected: logo walls,
+    fake testimonials, italic serif (IS lock), cinematic crossfades, 4th font.
+- Updated `docs/SESSION_LOG_2026-09-24.md` (this line) + README index.
+- Docs-only change; no lint/build needed, not committed.
+
+## 10. Theme & background R&D (same day, fourth request — 6 more sites)
+- User asked to analyse how the following place backgrounds by theme/service,
+  which backgrounds are **animated** vs **created images**, and to note
+  everything down:
+  general.legal · draftwise.com · rescript.ai · flowglad.com · openhands.dev ·
+  openseo.so.
+- Research method: webfetch of all six + raw homepage HTML pulled and token
+  scanned (CSS vars, `background-*`, `@keyframes`, background images).
+- Key CONFIRMED findings (from shipped HTML):
+  - **general.legal** — light paper (`--gl-paper`/`--gl-ink`); hero = office
+    photo `slat-wall-chair.webp` + top→bottom and bottom-left `rgba(8,8,7,…)`
+    scrims; black band via `linear-gradient(transparent,#000 24–76%,transparent)`;
+    staggered `animation-delay .09–.36s` hero reveal + infinite spinner
+    `_1b6o2se0`.
+  - **draftwise** — dark `#000`/`#112317`/`#24352a`; H1 gradient-text lime
+    `--h1:#c3fa5e` + indigo `#4d65ff` links; `grain-sm.png` on testimonial
+    cards; `keyframes sweep`; doubled-DOM logo marquee; literally ships
+    `placeholder-image.svg` for product mocks (honest placeholders).
+  - **rescript** — flagship pattern: dark canvas `#0a0a0a/#050505` + light
+    **paper product cards** (`--life-paper:#fafaf9`, ink `#0f0e0d`,
+    `linear-gradient(#fafaf9→#e9e6df)`); per-section grey washes (olive
+    `#44443b→#070707`, taupe `#595444→#0b0b0a`); animated soft-light orbs
+    `radial-gradient(120vw 80vh at 78vw 38/46/54vh,…)`; keyframes
+    `audioWavePulse` + `sourceTypingCursor`; **ASCII Capitol** image as hero
+    created-art bg; 4-stage scroll system.
+  - **flowglad** — light cream `#fbfaf4/#fefefb`, ink `#141312`;
+    **radial feather fades** between sections; warm blob
+    `#efe8cd→#c4bda4`; blue CTA `#005bbb→#038fd3`; SVG data-URI pattern bg;
+    automation colour-chips (green `#28b06e`, red `#e74228`, mauve `#513da9`).
+  - **openhands** — dark minimal; ASCII **`pixel-blast` embed** at
+    `--ascii-opacity:0.12–0.18` as hero texture (dither ramp `#181818…#d6d690`),
+    green `#1FBD53`.
+  - **openseo** — dark navy `#050810`/`#17181C`; hero = **CLI terminal mock**
+    (`›`, `✓`); 7-hue semantic colour-coding (green `#14BB69`, teal `#00e5cc`,
+    blue `#3186FF`, yellow `#F6C013`, orange `#D97757`, red `#FA4340`/`#991b1b`).
+- Wrote `docs/research/THEME_BACKGROUND_RD.md` (full notes + keyframes matrix +
+  "what survives our lock" section); added to README index + this log.
+- Docs-only change; not committed.
+
+## 11. Full-site implementation (same day, fifth request)
+- User: "update the entire website based on all the R&D; if I want a certain img
+  or animation library, note it down, but implement now and reserve the space."
+- Implemented **CSS-only, zero new deps**, from `LANDING_IMPROVEMENT_PLAN.md` +
+  `THEME_BACKGROUND_RD.md`:
+  - `globals.css`: added `--radius-action: 0.625rem` token; `.btn-ink` radius
+    moved to it (was 2px); new `.cv-stamp` mono section stamp; new
+    `.cv-underline` word-scrub (bottom-underline draws when parent
+    `.is-revealed`, or `.is-on` static); new `.cv-paper-band`/`-inner` media
+    frame; new `@keyframes wave-bars` + `.cv-wave` reserved live-mock bars;
+    `.cv-hover-card`/`.cv-card-icon` icon-inversion hover; reduced-motion
+    guards added for all of the above.
+  - `AudienceSection` — cv-eyebrow → `.cv-stamp`; "paranoid" serif accent gets
+    underline-scrub; cards refactored to reveal-wrapper + `hover-lift` inner
+    card with `cv-hover-card`/`cv-card-icon` hover.
+  - `HowItWorksSection` — stamp + "disposable" underline-scrub; step-card icon
+    hover gives same indigo inversion; media strip wrapped in `cv-paper-band`.
+  - `PricingSection` — stamp + "launch" underline-scrub; email input radius 8px;
+    submit button `var(--radius-action)` + `btn-shimmer-wrap` sweep.
+  - `FAQSection` — stamp + serif "answers" accent with `.is-on` underline
+    (static — no scroll hook here).
+  - `DemoVideoSection` — underline-scrub on "disappear"; slot wrapped in
+    `cv-paper-band`; reserved `.cv-wave` pulse bars added next to the LIVE
+    caption (audio-reactive intent).
+  - `FeaturesSection` — header wrapper now carries `.is-revealed`; "isolation"
+    serif accent gets underline-scrub.
+  - CTA/Stats/Trust/Comparison left as-is (already rich and honest).
+- Wrote `docs/research/RESERVED_ASSETS_AND_LIBRARIES.md` ("the letter") — the
+  reservation manifest: animation-lib verdict (none; Motion only if we ever do
+  sticky HowItWorks), the two demo `<video>` slot specs + poster frames, CTA
+  wash spec, what never ships (fake logos/testimonials/screenshots), every code
+  reservation made, and the definition of done. README index + this log updated.
+- Ran `npm run lint` + `npm run build` — both green. **Not committed.**
+
+## 12. Hero revert: remove the "how to use" animation (same day, sixth request)
+- User: the hero's right-side preview is now explaining **how** it works
+  (BOOT→STREAM→ACTIVE→DESTROYED step snapshots) — but the demo video directly
+  under it explains that same story. Restore the previous **why** preview.
+- Reverted the right column to the pre-`3cc2a6f` version: boot lines →
+  Shield + "Isolated · session running" + skeleton shimmer. Removed the
+  `STEPS` tab strip, `scanPhase`/`activeStep`/`goToStep` state, the
+  STREAM/ACTIVE/DESTROYED states, and dead injected keyframes. Kept the ambient
+  privacy-schematic SVG + LIVE SESSION caption (polish pass). Italic removed
+  per brand lock (serif normal).
+- Applied to both desktop body and mobile preview.
+- lint + build green. Also fixed a pre-existing `react-hooks/exhaustive-deps`
+  warning by capturing `timeoutsRef.current` before cleanup. **Not committed.**
+
+## 13. Hero right side = main branch exactly (same day, seventh request)
+- User: "see the main branch what it has on that last commit in hero section for
+  right side — I want exactly the same thing." Referenced branch `main`
+  (b3dc16a); its hero carries the **privacy-story** preview this repo used to
+  have — the answer to **why** use Intractify — which §12 had replaced with a
+  static Shield + skeleton.
+- Ported `main`'s hero right-side content into `develop`'s `HeroSection.tsx`,
+  keeping everything else develop-specific (honest left column, ambient
+  privacy-schematic SVG, LIVE SESSION caption):
+  - Added `getClientSpecs()` (UA → OS/browser, small hash deriv, derived mock
+    IP), `FingerprintSVG`, and the 5-step `STEPS` array (BOOT/SCAN/ALERT/
+    PURGE/SECURE).
+  - Restored `scanPhase` (`idle→scanning→exposed→obfuscating→isolated`),
+    `activeStep`, `goToStep`, and the sequenced effect (boot 500/900/1300ms,
+    scanning @1700ms, exposed @3200ms, obfuscating @5000ms, isolated @6500ms;
+    reduced-motion → isolated immediately). Live visitor IP fetched from
+    `https://api.ipify.org?format=json` (fallback to derived mock).
+  - Re-injected the scoped `@keyframes` style (`scan-sweep`, `pulse-red`,
+    `progress-fill`) for the desktop body only.
+  - Desktop body now renders mains's states (fingerprint-scan sweep /
+    REAL exposed IP-OS-BROWSER-HASH / purge terminal + progress bar /
+    Shield + "Isolated · session active" + spoofed/masked spec rows), with the
+    new mono footer label `us-east-1`.
+  - Desktop + mobile **step-snapshot tab strips** restored (BOOT/SCAN/ALERT/
+    PURGE/SECURE, active = dark border + full opacity).
+  - Mobile preview body: same four scan states, smaller sizing, terminal
+    purged lines per main. Isolated text kept serif **normal** (main used
+    `fontStyle: italic`; only the normal optical file is loaded — no faux
+    slant) — the one deliberate deviation, flagged to user.
+- `npm run lint` + `npm run build` — both green. **Not committed.**

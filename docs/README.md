@@ -32,6 +32,19 @@
 - `solved/Intractify_Second_Verdict_Originality_Review.md` — originality review.
 
 ## Concepts & Research
+- `research/COMPETITIVE_REFERENCE_RD.md` — deep R&D on paper.design/blog/series-a,
+  indianic.com, wisprflow.ai: paper/background fills, two-font systems, CTA
+  shaping, content spacing, hover/scroll motion, cross-site synthesis (2026-09-25).
+- `research/THEME_BACKGROUND_RD.md` — DB-style notes on general.legal, draftwise,
+  rescript, flowglad, openhands, openseo: theme/colour tokens, how backgrounds
+  are placed per section, which backgrounds are animated vs created images,
+  per-site `@keyframes` + cross-site matrix (raw homepage HTML token-scan
+  CONFIRMED, 2026-09-25).
+- `research/LANDING_IMPROVEMENT_PLAN.md` — the companion plan: what we adopt /
+  pilot / skip, with gating to-do list + explicit rejections.
+- `research/RESERVED_ASSETS_AND_LIBRARIES.md` — "the letter": reserved media /
+  video / library slots we implemented in code (2026-09-25), the zero-dependency
+  verdict, and definition of done for when real recordings/portraits land.
 - `uniq implementation idea/` — deep-research reports, immersive-experience
   ideas, landing-page concepts, thumb-stopping notes.
 - `heroSectionSpotlight/implementation_plan.md` — "Cleanroom Air Shower"

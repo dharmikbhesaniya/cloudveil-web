@@ -11,8 +11,11 @@ export function FAQSection() {
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-12 text-center">
-          <span className="cv-eyebrow mb-4 block">FAQ</span>
-          <h2 className="font-bold">Honest answers.</h2>
+          <span className="cv-stamp mb-4 block">FAQ</span>
+          <h2 className="font-bold">
+            Honest{" "}
+            <span className="cv-display cv-underline is-on">answers</span>.
+          </h2>
           <p className="text-muted-foreground mt-4 text-base sm:text-lg">
             Common questions about the platform, privacy, and how sessions work.
           </p>
