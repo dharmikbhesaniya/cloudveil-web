@@ -37,9 +37,9 @@ export function AudienceSection() {
           ref={headerRef}
           className={`reveal-start mx-auto mb-16 max-w-2xl text-center ${headerRevealed ? "is-revealed" : ""}`}
         >
-          <span className="cv-eyebrow mb-4 block">Who is it for?</span>
+          <span className="cv-stamp mb-4 block">Who is it for?</span>
           <h2 className="font-bold">
-            Built for the <span className="cv-display">paranoid</span>.
+            Built for the <span className="cv-display cv-underline">paranoid</span>.
           </h2>
           <p className="text-muted-foreground mt-4 text-base sm:text-lg">
             Whether you are protecting corporate secrets, personal wealth, or simply value your right to absolute privacy.
@@ -50,37 +50,42 @@ export function AudienceSection() {
           {AUDIENCES.map(({ Icon, title, description }, i) => (
             <div
               key={title}
-              className={`reveal-start ${gridRevealed ? "is-revealed" : ""}`}
-              style={{
-                transitionDelay: `${i * 0.1}s`,
-                padding: "24px",
-                background: "var(--cv-card-bg)",
-                border: "1px solid var(--border)",
-                borderRadius: "12px",
-              }}
+              className={`reveal-start flex ${gridRevealed ? "is-revealed" : ""}`}
+              style={{ transitionDelay: `${i * 0.1}s` }}
             >
               <div
+                className="cv-hover-card hover-lift flex flex-1 flex-col"
                 style={{
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "10px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: "16px",
-                  background: "var(--cv-bg-deep)",
-                  color: "var(--primary)",
+                  padding: "24px",
+                  background: "var(--cv-card-bg)",
                   border: "1px solid var(--border)",
+                  borderRadius: "12px",
                 }}
               >
-                <Icon style={{ width: 19, height: 19 }} strokeWidth={1.6} />
+                <div
+                  className="cv-card-icon"
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    borderRadius: "10px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: "16px",
+                    background: "var(--cv-bg-deep)",
+                    color: "var(--primary)",
+                    border: "1px solid var(--border)",
+                  }}
+                >
+                  <Icon style={{ width: 19, height: 19 }} strokeWidth={1.6} />
+                </div>
+                <h3 style={{ fontSize: "16px", fontWeight: 600, margin: "0 0 12px", color: "var(--foreground)" }}>
+                  {title}
+                </h3>
+                <p style={{ fontSize: "13.5px", color: "var(--muted-foreground)", lineHeight: 1.6, margin: 0 }}>
+                  {description}
+                </p>
               </div>
-              <h3 style={{ fontSize: "16px", fontWeight: 600, margin: "0 0 12px", color: "var(--foreground)" }}>
-                {title}
-              </h3>
-              <p style={{ fontSize: "13.5px", color: "var(--muted-foreground)", lineHeight: 1.6, margin: 0 }}>
-                {description}
-              </p>
             </div>
           ))}
         </div>

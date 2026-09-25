@@ -56,9 +56,9 @@ export function HowItWorks() {
           ref={headerRef}
           className={`reveal-start mx-auto mb-20 max-w-2xl text-center ${headerRevealed ? "is-revealed" : ""}`}
         >
-          <span className="cv-eyebrow mb-4 block">How it works</span>
+          <span className="cv-stamp mb-4 block">How it works</span>
           <h2 className="font-bold">
-            Three steps. One <span className="cv-display">disposable</span> browser.
+            Three steps. One <span className="cv-display cv-underline">disposable</span> browser.
           </h2>
           <p className="text-muted-foreground mt-4 text-base sm:text-lg">
             Click. We provision. You browse. Everything in between is the platform&apos;s problem,
@@ -102,7 +102,7 @@ export function HowItWorks() {
 
               {/* Card */}
               <div
-                className="hover-lift flex flex-1 cursor-default flex-col overflow-hidden rounded-2xl border transition-all duration-200"
+                className="cv-hover-card hover-lift flex flex-1 cursor-default flex-col overflow-hidden rounded-2xl border transition-all duration-200"
                 style={{
                   background: "var(--cv-card-bg)",
                   borderColor: "var(--border)",
@@ -110,7 +110,7 @@ export function HowItWorks() {
               >
                 <div className="p-6">
                   <div
-                    className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border"
+                    className="cv-card-icon mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border"
                     style={{
                       borderColor: "var(--border)",
                       color: "var(--primary)",
@@ -146,12 +146,14 @@ export function HowItWorks() {
           className={`reveal-start mt-10 ${mediaRevealed ? "is-revealed" : ""}`}
           style={{ maxWidth: "920px", marginInline: "auto" }}
         >
-          <MediaSlot
-            type="video"
-            aspect="16/6.5"
-            label="Click → browse → vanished"
-            hint="~8 s muted screen recording of a real launch · poster frame · autoplay loop"
-          />
+          <div className="cv-paper-band" style={{ padding: "10px" }}>
+            <MediaSlot
+              type="video"
+              aspect="16/6.5"
+              label="Click → browse → vanished"
+              hint="~8 s muted screen recording of a real launch · poster frame · autoplay loop"
+            />
+          </div>
         </div>
       </div>
     </section>

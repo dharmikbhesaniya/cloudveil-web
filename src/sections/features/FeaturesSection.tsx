@@ -431,7 +431,7 @@ export function Features() {
         </div>
 
         {/* Section heading */}
-        <div ref={headerRef}>
+        <div ref={headerRef} className={headerVisible ? "is-revealed" : ""}>
           <h2
             style={{
               fontFamily: "var(--font-sans, ui-sans-serif, sans-serif)",
@@ -449,6 +449,7 @@ export function Features() {
           >
             Six layers of{" "}
             <span
+              className="cv-underline"
               style={{
                 fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
                 fontWeight: 400,
