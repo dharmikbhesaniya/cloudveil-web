@@ -34,6 +34,21 @@ export const metadata: Metadata = {
       "Launch isolated cloud browser sessions with zero logs. The container is destroyed when your session ends — your device and its data stay out of it.",
     url: "https://intractify.com",
     type: "website",
+    images: [
+      {
+        url: "https://intractify.com/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Intractify — Private Cloud Browser. Browse Freely. Leave Nothing.",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Intractify — Isolated Cloud Browser | Browse Without a Trace",
+    description:
+      "Launch isolated cloud browser sessions with zero logs. No trace, no local footprint, no leaks.",
+    images: ["https://intractify.com/og-image.png"],
   },
 };
 
