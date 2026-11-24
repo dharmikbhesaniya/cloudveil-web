@@ -60,6 +60,18 @@ export function Footer() {
             >
               Intractify
             </div>
+            <div
+              style={{
+                fontFamily: "var(--font-mono, monospace)",
+                fontSize: "11px",
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                color: "var(--muted-foreground)",
+                marginTop: "6px",
+              }}
+            >
+              An Annkor product
+            </div>
             <p
               style={{
                 fontFamily: "var(--font-display, 'Instrument Serif', Georgia, serif)",
@@ -210,7 +222,7 @@ export function Footer() {
             gap: "8px",
           }}
         >
-          <span>© Intractify Systems Inc. {new Date().getFullYear()} · All quietly reserved.</span>
+          <span>© {new Date().getFullYear()} Annkor. All rights reserved.</span>
           <span>
             <Link href="/contact" style={{ color: "inherit", textDecoration: "none" }}>
               Contact
